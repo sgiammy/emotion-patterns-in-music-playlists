@@ -122,10 +122,61 @@ Some of the biggest challenges in ED:
 \end{itemize}
 \end{frame}
 
-%---------------------------------------------------------
+% Feature selection
+\begin{frame}{ED: Feature Selection}
+Which textual features are we interested in?
+\begin{itemize}
+\item Terms presence and frequency
+\item Adjective
+\item Opinion Words and Phrases
+\item Negation expressions
+\end{itemize}
+\end{frame}
 
+% Feature selection methods
+\begin{frame}{ED: Feature Selection Methods}
+\begin{itemize}
+\item Strings
+\begin{itemize}
+\item Phrases representing emotional patterns
+\end{itemize}
+\item Bag of Words (BoW)
+\begin{itemize}
+\item Sort of keywords list
+\item Make the classification process simpler
+\end{itemize}
+\end{itemize}
+\end{frame}
 
-%---------------------------------------------------------
+% Classification Levels I
+\begin{frame}{Classification Levels (I)}
+Three possible classification levels:
+\begin{itemize}
+\item Document Level 
+\begin{itemize}
+\item The whole document is the classification unit
+\end{itemize}
+\item Sentence Level
+\begin{itemize}
+\item Sentences are the basic classification units
+\end{itemize}
+\item Aspect Level
+\begin{itemize}
+\item Classify sentiments with respect to entities and their aspects
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+% Classification Levels II
+\begin{frame}{Classification Levels (II)}
+\textbf{Document level} classification suits our problem
+\begin{itemize}
+\item We will analyze lyrics
+\item Lyrics are (usually) small documents focused on a single topic
+\item We can treat lyrics as our classification unit
+\end{itemize}
+\end{frame}
+
 %References
 
 \section{References}
