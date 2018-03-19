@@ -1,0 +1,7 @@
+Slides/*.log
+Slides/*.aux
+Slides/*.nav
+Slides/*.out
+Slides/*.snm
+Slides/*.toc
+Slides/*.gz
