@@ -205,7 +205,57 @@ Three possible classification levels:
 \end{itemize}
 \end{frame}
 
+% Mood Labeling
+
+\section{Mood Labeling}
+
+\begin{frame}{How many sentiments?}
+Human can have an enormous range of different sentiments and moods
+\begin{itemize}
+\item Anger
+\item Sadness
+\item Happiness
+\item Surprise
+\item Fear
+\item Disgust
+\item ...
+Which of them may be releated to lyrics?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{How to label them?}
+We may label lyrics to be exactly releated to one mood/sentiment
+\begin{itemize}
+\item Is it accurate?
+\item Is it possible that one song express more sentiments?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{The "sliders" approach}
+Assigning a value to each possible sentiment may be more flexible
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{./images/emotion_labeling_sliders}
+\end{figure}
+Do we really need this level of flexibility in our application?
+\end{frame}
+
+% State of the art
+
 \section{State of the art}
+
+% Conclusion
+
+\section{Conclusion}
+
+\begin{frame}{What we learnt}
+\begin{itemize}
+\item 
+\item Defining the number of moods we want to consider is not an easy task but probably we don't
+	need many of them because our analysis domain is restricted to songs
+\item The "sliders" approach is too general. Songs are usually linked with a single sentiment
+\end{itemize}
+\end{frame}
 
 %References
 
