@@ -18,6 +18,7 @@
 \setbeamercolor{structure}{fg=UBCblue} % itemize, enumerate, etc
 \setbeamercolor{section in toc}{fg=UBCblue} % TOC sections
 \setbeamercolor{block title}{bg=UBCgrey!50,fg=black}
+\setbeamercolor{block title example}{bg=UBCgrey!50,fg=black}
 
 %------------------------------------------------------------
 %This block of code defines the information to appear in the
@@ -33,9 +34,9 @@
 \institute[EURECOM] % (optional)
 {
  \inst{1}
- Data Science Department, EURECOM, T\'el\'ecom ParisTech, France\\
+ MSc student in Data Science Department, EURECOM, T\'el\'ecom ParisTech, France\\
   \inst{2}%
- Department of Control and Computer Engineering, Politecnico di Torino, Italy
+ MSc student in Department of Control and Computer Engineering, Politecnico di Torino, Italy
 }
 
 
@@ -114,13 +115,8 @@ Emotion detection is the process of identifying human emotions.
 \begin{block}{Remark}
 Emotion Detection (ED) is a SA task.
 \end{block}
-SA: detects positive or negative feeling from text.\\
-ED: detects various emotions.\\
-As a SA task, ED can be implemented using:
-\begin{itemize}
-\item ML approach
-\item Lexicon-based approach
-\end{itemize}
+SA  $\rightarrow$ detects positive or negative feeling from text.\\
+ED  $\rightarrow$ detects various emotions.\\
 \end{frame}
 
 %Emotion Detection: Why
@@ -149,7 +145,81 @@ Unravel emotion patterns in the playlists
 \end{itemize}
 \end{frame}
 
+\section{Main methods}
+%Methods for Emotion Detection
+\begin{frame}{Methods for Emotion Detection}
+Methods used for text based emotion detection are: 
+\begin{enumerate}
+\item Keyword Spotting
+\item Lexical Affinity
+\item Learning-based 
+\item Hybrid
+\end{enumerate}
+\end{frame}
+
+%Keyword Spotting method
+\begin{frame}{1. Keyword spotting method}
+\begin{columns}
+\column{0.5\textwidth}
+Finding occurrences of keywords from a given set. These words are classified into categories such as disgusted, sad, happy, angry, etc. 
+\column{0.5\textwidth}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.45]{./images/keyword_spotting}
+	\caption{Keywork Spotting Technique}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%Lexical Affinity method
+\begin{frame}{2. Lexical Affinity method}
+Is an extension of keyword spotting technique: apart from picking up emotional keywords it assigns  probabilistic `affinity' for a particular emotion to arbitrary words.\\
+Disadvantages: 
+\begin{itemize}
+\item assigned probabilities are biased toward corpus-specific genre of texts
+\item it misses out emotion content that resides deeper than the word-level
+\end{itemize}
+\begin{example}
+``I avoided an accident"\\
+``I met my girlfriend by accident"
+\end{example}
+\end{frame}
+
+%Learning-based Method
+\begin{frame}{3. Learning-based methods}
+\begin{block}{Remark}
+FROM determine emotions TO classify the input texts into different emotions
+\end{block}
+Learning based methods try to detect emotions based on a previously trained classifier, which apply various theories of machine learning such as SVM.
+\end{frame}
+
+%Limitations
+\begin{frame}{Limitations}
+\begin{columns}
+\column{0.5\textwidth}
+Major limitations:
+\begin{itemize}
+\item Ambiguity in keyword definition
+\item Incapability of recognizing sentences without keywords
+\item Lack of linguistic information
+\item Difficulties in determining emotion indicators
+\end{itemize}
+\column{0.5\textwidth}
+\begin{example}
+``I passed my qualify exam today"\\
+``Hooray! I passed my qualify exam today"
+\end{example}
+\begin{example}
+``He laughed at me"\\
+``I laughed at him"
+\end{example}
+\end{columns}
+\end{frame}
+
+
+
 \section{The task}
+
 % Feature selection
 \begin{frame}{Feature Selection}
 Which textual features are we interested in?
@@ -161,7 +231,8 @@ Which textual features are we interested in?
 \end{itemize}
 \end{frame}
 
-% Feature selection methods
+% Feature selection methods (Davvero utile?)
+\iffalse
 \begin{frame}{Feature Selection Methods}
 \begin{itemize}
 \item Strings
@@ -175,6 +246,7 @@ Which textual features are we interested in?
 \end{itemize}
 \end{itemize}
 \end{frame}
+\fi
 
 % Classification Levels I
 \begin{frame}{Classification Levels (I)}
@@ -205,10 +277,8 @@ Three possible classification levels:
 \end{itemize}
 \end{frame}
 
-% Mood Labeling
 
-\section{Mood Labeling}
-
+%How many sentiments
 \begin{frame}{How many sentiments?}
 Human can have an enormous range of different sentiments and moods
 \begin{itemize}
@@ -219,23 +289,25 @@ Human can have an enormous range of different sentiments and moods
 \item Fear
 \item Disgust
 \item ...
-Which of them may be releated to lyrics?
+Which of them may be related to lyrics?
 \end{itemize}
 \end{frame}
 
+%How to label them?
 \begin{frame}{How to label them?}
-We may label lyrics to be exactly releated to one mood/sentiment
+We may label lyrics to be exactly related to one mood/sentiment.
 \begin{itemize}
 \item Is it accurate?
-\item Is it possible that one song express more sentiments?
+\item Is it possible that one song express more sentiments? $\rightarrow$ Sliders approach
 \end{itemize}
 \end{frame}
 
-\begin{frame}{The "sliders" approach}
-Assigning a value to each possible sentiment may be more flexible
+%The sliders approach
+\begin{frame}{The ``sliders" approach}
+Assigning a value to each possible sentiment may be more flexible.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{./images/emotion_labeling_sliders}
+	\includegraphics[scale=0.35]{./images/emotion_labeling_sliders}
 \end{figure}
 Do we really need this level of flexibility in our application?
 \end{frame}
@@ -270,6 +342,9 @@ Do we really need this level of flexibility in our application?
 \bibitem[Survey 2014]{p2} Walaa Medhat, Ahmed Hassan, and Hoda Korashy (2014)
 \newblock Sentiment Analysis Algorithms and Applications: A Survey.
 \newblock \emph{Ain Shams Engineering Journal}
+
+\bibitem[Ed from text]{p3} Shiv Naresh Shivhare1 and Prof. Saritha Khethawat (2012)
+\newblock Emotion Detection From Text
 
 \end{thebibliography}
 
