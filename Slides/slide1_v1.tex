@@ -220,6 +220,58 @@ Major limitations:
 
 \section{Emotion Classification}
 
+%How many sentiments
+\begin{frame}{How many sentiments?}
+Human can have an enormous range of different sentiments and moods
+\begin{itemize}
+\item Anger
+\item Sadness
+\item Happiness
+\item Surprise
+\item Fear
+\item Disgust
+\item ...
+Which of them may be related to lyrics?
+\end{itemize}
+\end{frame}
+
+%How to label them?
+\begin{frame}{How to label them?}
+We may label lyrics to be exactly related to one mood/sentiment.
+\begin{itemize}
+\item Is it accurate?
+\item Is it possible that one song express more sentiments? $\rightarrow$ Sliders approach
+\end{itemize}
+\end{frame}
+
+%The sliders approach
+\begin{frame}{The ``sliders" approach}
+Assigning a value to each possible sentiment may be more flexible.
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{./images/emotion_labeling_sliders}
+	\caption{Sliders for emotion labelin}
+\end{figure}
+Do we really need this level of flexibility in our application?
+\end{frame}
+
+\begin{frame}{Emotion Dimensions}
+\begin{columns}
+\column{0.5\textwidth}
+Current systems tends to classify emotions according to two dimensions
+\begin{itemize}
+\item Arousal
+\item Valence
+\end{itemize}
+\column{0.5\textwidth}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.3]{./images/emotion-dimensions}
+	\caption{Emotion Classification Scheme}
+\end{figure}
+\end{columns}
+\end{frame}
+
 % Feature selection
 \begin{frame}{Feature Selection}
 Which textual features are we interested in?
@@ -277,56 +329,6 @@ Three possible classification levels:
 \end{itemize}
 \end{frame}
 
-
-%How many sentiments
-\begin{frame}{How many sentiments?}
-Human can have an enormous range of different sentiments and moods
-\begin{itemize}
-\item Anger
-\item Sadness
-\item Happiness
-\item Surprise
-\item Fear
-\item Disgust
-\item ...
-Which of them may be related to lyrics?
-\end{itemize}
-\end{frame}
-
-%How to label them?
-\begin{frame}{How to label them?}
-We may label lyrics to be exactly related to one mood/sentiment.
-\begin{itemize}
-\item Is it accurate?
-\item Is it possible that one song express more sentiments? $\rightarrow$ Sliders approach
-\end{itemize}
-\end{frame}
-
-%The sliders approach
-\begin{frame}{The ``sliders" approach}
-Assigning a value to each possible sentiment may be more flexible.
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.35]{./images/emotion_labeling_sliders}
-\end{figure}
-Do we really need this level of flexibility in our application?
-\end{frame}
-
-\begin{frame}{Emotion Dimensions}
-\begin{columns}
-\column{0.5\textwidth}
-Current systems tends to classify emotions according to two dimensions
-\begin{itemize}
-\item Arousal
-\item Valence
-\end{itemize}
-\column{0.5\textwidth}
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.3]{./images/emotion-dimensions}
-\end{figure}
-\end{columns}
-\end{frame}
 
 % Conclusion
 
