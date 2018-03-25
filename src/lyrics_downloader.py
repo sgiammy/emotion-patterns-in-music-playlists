@@ -62,6 +62,7 @@ def download_lyric(song):
   try:
     lyric = lyricwikia.get_lyrics(song[1], song[2])
     filename = '_'.join([song[3], song[1], song[2]])
+    filename = filename.replace('/', '-') # The '/' should never appear
     with open(os.path.join(args.output, filename), 'w') as sfile:
       sfile.write(lyric)
       return True
