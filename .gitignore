@@ -5,3 +5,5 @@ Slides/*.out
 Slides/*.snm
 Slides/*.toc
 Slides/*.gz
+src/*.log
+src/test/
