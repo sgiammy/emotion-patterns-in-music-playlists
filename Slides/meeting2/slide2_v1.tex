@@ -1,0 +1,109 @@
+\documentclass[xcolor=dvipsnames]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[super]{nth} % for 1st, 2nd, etc...
+\setbeamertemplate{caption}[numbered] %for figures numbering
+
+\usetheme{CambridgeUS}
+
+\definecolor{UBCblue}{rgb}{0.04706, 0.13725, 0.26667} % UBC Blue (primary)
+\definecolor{UBCgrey}{rgb}{0, 0.46, 0.7} % UBC Grey (secondary)
+
+\setbeamercolor{title}{bg=UBCblue,fg=white}
+\setbeamercolor{frametitle}{bg=UBCblue, fg=white}
+\setbeamercolor{palette primary}{bg=UBCblue,fg=white} %basso a destra
+\setbeamercolor{palette secondary}{fg=UBCblue} %basso al centro
+\setbeamercolor{palette tertiary}{bg=UBCgrey,fg=white} %basso e alto a sx 
+
+\setbeamercolor{structure}{fg=UBCblue} % itemize, enumerate, etc
+\setbeamercolor{section in toc}{fg=UBCblue} % TOC sections
+\setbeamercolor{block title}{bg=UBCgrey!50,fg=black}
+\setbeamercolor{block title example}{bg=UBCgrey!50,fg=black}
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[Emotion Patterns in Music Playlists] %optional
+{Emotion Patterns in Music Playlists}
+
+%\subtitle{\nth{1} meeting}
+
+\author[Sara, Mario] % (optional)
+{Sara Giammusso\inst{1}\inst{2} \and Mario Guerriero \inst{1}\inst{2}}
+
+\institute[EURECOM] % (optional)
+{
+ \inst{1}
+ MSc student in Data Science Department, EURECOM, T\'el\'ecom ParisTech, France\\
+  \inst{2}%
+ MSc student in Department of Control and Computer Engineering, Politecnico di Torino, Italy
+}
+
+
+\date[2018 March 27] % (optional)
+{Second Project meeting}
+
+
+%End of title page configuration block
+%-----------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the 
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+
+%Demo 
+\section{Demo}
+\begin{frame}{Demo}
+
+\end{frame}
+
+
+%References
+
+\section{References}
+\begin{frame}{References}
+\setbeamertemplate{bibliography item}[triangle]
+ \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be nserted manually as below
+\bibitem[Microsoft, 2015]{p1} Microsoft Developer Blog (2015)
+\newblock Emotion detection and recognition from text using Deep Learning
+\newblock \href{https://www.microsoft.com/developerblog/2015/11/29/emotion-detection-and-recognition-from-text-using-deep-learning/}{link}
+
+\bibitem[Survey 2014]{p2} Walaa Medhat, Ahmed Hassan, and Hoda Korashy (2014)
+\newblock Sentiment Analysis Algorithms and Applications: A Survey.
+\newblock \emph{Ain Shams Engineering Journal}
+
+\bibitem[Ed from text]{p3} Shiv Naresh Shivhare1 and Prof. Saritha Khethawat (2012)
+\newblock Emotion Detection From Text
+
+\end{thebibliography}
+
+\end{frame}
+%---------------------------------------------------------
+
+\end{document}
