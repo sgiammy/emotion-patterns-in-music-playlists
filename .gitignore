@@ -7,3 +7,10 @@ Slides/*.toc
 Slides/*.gz
 src/*.log
 src/test/
+Slides/meeting*/*.log
+Slides/meeting*/*.aux
+Slides/meeting*/*.nav
+Slides/meeting*/*.out
+Slides/meeting*/*.snm
+Slides/meeting*/*.toc
+Slides/meeting*/*.gz
