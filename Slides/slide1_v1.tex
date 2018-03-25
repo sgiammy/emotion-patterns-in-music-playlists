@@ -126,7 +126,7 @@ Emotion detection has useful applications, such as:
 \begin{itemize}
 \item Measure citizens happiness
 \item Pervasive computing
-\item Understanding the consumer
+\item Understanding customers
 \end{itemize}
 \begin{block}{Our goal}
 Unravel emotion patterns in the playlists
@@ -218,14 +218,66 @@ Major limitations:
 
 
 
-\section{The task}
+\section{Emotion Classification}
+
+%How many sentiments
+\begin{frame}{How many sentiments?}
+Human can have an enormous range of different sentiments and moods
+\begin{itemize}
+\item Anger
+\item Sadness
+\item Happiness
+\item Surprise
+\item Fear
+\item Disgust
+\item ...
+Which of them may be related to lyrics?
+\end{itemize}
+\end{frame}
+
+%How to label them?
+\begin{frame}{How to label them?}
+We may label lyrics to be exactly related to one mood/sentiment.
+\begin{itemize}
+\item Is it accurate?
+\item Is it possible that one song express more sentiments? $\rightarrow$ Sliders approach
+\end{itemize}
+\end{frame}
+
+%The sliders approach
+\begin{frame}{The ``sliders" approach}
+Assigning a value to each possible sentiment may be more flexible.
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.35]{./images/emotion_labeling_sliders}
+	\caption{Sliders for emotion labelin}
+\end{figure}
+Do we really need this level of flexibility in our application?
+\end{frame}
+
+\begin{frame}{Emotion Dimensions}
+\begin{columns}
+\column{0.5\textwidth}
+Current systems tends to classify emotions according to two dimensions
+\begin{itemize}
+\item Arousal
+\item Valence
+\end{itemize}
+\column{0.5\textwidth}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.3]{./images/emotion-dimensions}
+	\caption{Emotion Classification Scheme}
+\end{figure}
+\end{columns}
+\end{frame}
 
 % Feature selection
 \begin{frame}{Feature Selection}
 Which textual features are we interested in?
 \begin{itemize}
 \item Terms presence and frequency
-\item Adjective
+\item Adjectives
 \item Opinion Words and Phrases
 \item Negation expressions
 \end{itemize}
@@ -278,54 +330,29 @@ Three possible classification levels:
 \end{frame}
 
 
-%How many sentiments
-\begin{frame}{How many sentiments?}
-Human can have an enormous range of different sentiments and moods
-\begin{itemize}
-\item Anger
-\item Sadness
-\item Happiness
-\item Surprise
-\item Fear
-\item Disgust
-\item ...
-Which of them may be related to lyrics?
-\end{itemize}
-\end{frame}
-
-%How to label them?
-\begin{frame}{How to label them?}
-We may label lyrics to be exactly related to one mood/sentiment.
-\begin{itemize}
-\item Is it accurate?
-\item Is it possible that one song express more sentiments? $\rightarrow$ Sliders approach
-\end{itemize}
-\end{frame}
-
-%The sliders approach
-\begin{frame}{The ``sliders" approach}
-Assigning a value to each possible sentiment may be more flexible.
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.35]{./images/emotion_labeling_sliders}
-\end{figure}
-Do we really need this level of flexibility in our application?
-\end{frame}
-
-% State of the art
-
-\section{State of the art}
-
 % Conclusion
 
 \section{Conclusion}
 
+\begin{frame}{Datasets}
+There are very few datasets which could suits our case
+\begin{itemize}
+\item MoodyLyrics is the most relevant example of that\footnote{Look at the references for the releated article}
+\begin{itemize}
+\item It uses only 4 emotions (Happy, Sad, Angry and Relaxed)
+\item Is it enough?
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
 \begin{frame}{What we learnt}
 \begin{itemize}
-\item 
 \item Defining the number of moods we want to consider is not an easy task but probably we don't
 	need many of them because our analysis domain is restricted to songs
 \item The "sliders" approach is too general. Songs are usually linked with a single sentiment
+\item We should not overcomplicate our emotion range
+\item Using already annotated lyrics datasets could he helpful
 \end{itemize}
 \end{frame}
 
@@ -345,6 +372,22 @@ Do we really need this level of flexibility in our application?
 
 \bibitem[Ed from text]{p3} Shiv Naresh Shivhare1 and Prof. Saritha Khethawat (2012)
 \newblock Emotion Detection From Text
+
+\end{thebibliography}
+
+\end{frame}
+
+\begin{frame}{References}
+\setbeamertemplate{bibliography item}[triangle]
+ \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be nserted manually as below
+
+\bibitem{p4}Hu, Xiao and Downie, J. Stephen and Ehmann, Andreas F. (2009)
+\newblock Lyric Text Mining in Music Mood Classification.
+\newblock \emph{Society for Music Information Retrieval}
+
+\bibitem{p5}Çano, Erion and Morisio, Maurizio  (2017)
+\newblock  MoodyLyrics: A Sentiment Annotated Lyrics Dataset.
+\newblock \emph{International Conference on Intelligent Systems, Metaheuristics \& Swarm Intelligence, Hong Kong, March, 2017}
 
 \end{thebibliography}
 
