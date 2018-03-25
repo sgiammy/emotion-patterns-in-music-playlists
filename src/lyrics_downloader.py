@@ -56,6 +56,7 @@ except OSError:
 def err(msg):
   with open(os.path.join('.', LOG_FILE), 'a') as log:
     log.write(msg)
+    log.write('\n')
 
 def download_lyric(song):
   try:
