@@ -136,6 +136,7 @@ Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (I).
 \begin{columns}
 \column{0.7\textwidth}
 \begin{figure}
+<<<<<<< HEAD
 	\includegraphics[scale=0.3,left]{./images/sentiment}
 	%\caption{Overall Sentiment}
 \end{figure}
@@ -145,11 +146,26 @@ Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (I).
 \end{figure}
 \begin{figure}
 	\includegraphics[scale=0.3,left]{./images/categories}
+=======
+	\includegraphics[scale=0.3]{./images/sentiment}
+	%\caption{Overall Sentiment}
+\end{figure}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/emotion}
+	%\caption{Overall Emotion}
+\end{figure}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/categories}
+>>>>>>> 241ce3232107ee04b51b12a189755578a529a254
 	%\caption{Hierarchical categories}
 \end{figure}
 \column{0.3\textwidth}
 \begin{figure}
+<<<<<<< HEAD
 	\includegraphics[scale=0.25,left]{./images/keywords}
+=======
+	\includegraphics[scale=0.25]{./images/keywords}
+>>>>>>> 241ce3232107ee04b51b12a189755578a529a254
 	%\caption{Keywords detection}
 \end{figure}
 \end{columns}
@@ -185,6 +201,7 @@ It uses both:
 \item and the \textbf{sentence level}: to identify specific areas of your content where tones are the strongest.
 \end{itemize}
 The results obtained with \textbf{Oasis - Wonderwall} are identical to the ones obtained from \textbf{IBM Watson: NLU}
+<<<<<<< HEAD
 
 \end{frame}
 
@@ -212,6 +229,47 @@ Qemotion detects the main emotion of the speech and will define the correspondin
 \end{itemize}
 \end{frame}
 
+=======
+
+\end{frame}
+
+%ParallelDots APIs: Demo
+\begin{frame}{3) ParallelDots APIs: Demo}
+Their \textbf{Emotion Analysis classifier} is trained on their proprietary dataset and tells whether the underlying emotion behind a message is: \textbf{Happy, Sad, Angry, Fearful, Excited, Funny or Sarcastic}.\cite{p4}
+\\The result obtained analyzing \textbf{Oasis - Wonderwall} lyrics is showed in the following figure. 
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/pd_wonderwall}
+	\caption{Output for Oasis - Wonderwall}
+\end{figure}
+\end{frame}
+
+%QEmotion
+\begin{frame}{4) Qemotion}
+Qemotion detects the main emotion of the speech and will define the corresponding emotion in terms of \textbf{temperature} (literally temperature) \cite{p5}.
+\begin{itemize}
+\item From 31$^\circ$C to 40$^\circ$C $\rightarrow$ Happiness
+\item From 21$^\circ$C to 30$^\circ$C $\rightarrow$ Surprise
+\item From 11$^\circ$C to 20$^\circ$C $\rightarrow$ Calm
+\item From 6$^\circ$C to 10$^\circ$C $\rightarrow$ Fear
+\item From -5$^\circ$C to 5$^\circ$C $\rightarrow$ Sadness and Disappointment
+\item From -14$^\circ$C to -6$^\circ$C $\rightarrow$ Anger
+\item From -20$^\circ$C to -15$^\circ$C $\rightarrow$ Disgust
+\end{itemize}
+\end{frame}
+
+%Lyrics Downloader Script 1
+\section{Lyrics Downloader Script}
+\begin{frame}{lyrics\_downloader.py (1)}
+
+We wrote a Python script for downloading lyrics. We used:
+\begin{itemize}
+\item MoodyLyrics to get songs information (artist, title and emotion)
+\item LyricWikia to download the lyrics
+\end{itemize}
+
+\end{frame}
+
+>>>>>>> 241ce3232107ee04b51b12a189755578a529a254
 %Lyrics Downloader Script 1
 \section{Lyrics Downloader Script}
 \begin{frame}{lyrics\_downloader.py (1)}
