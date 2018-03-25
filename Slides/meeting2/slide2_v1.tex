@@ -77,9 +77,148 @@
 \end{frame}
 %---------------------------------------------------------
 
-%Demo 
-\section{Demo}
-\begin{frame}{Demo}
+\section{Introduction}
+%Intoduction
+\begin{frame}{Introduction}
+\begin{block}{Previously On Sara\&Mario Project}
+In the previous meeting we analyzed the state-of-the-art of Emotion Detection.\\
+\end{block}
+Next steps:
+\begin{itemize}
+\item Analyze existent emotion classifiers
+\item Statistics and details about MoodyLyrics
+\item Natural language processors (nlptoolkit, scipy, spaCy) and embedders (word2vect, fasttext)
+\item Start workin!
+\end{itemize}
+\end{frame}
+
+%Existent emotion classifier
+\section{Existent emotion classifiers}
+
+\begin{frame}{Emotion classifiers analysis}
+The emotion classifiers APIs we analyzed are: 
+\begin{enumerate}
+\item IBM Watson NLU
+\item IBM Watson Tone Analyzer
+\item ParallelDots AI
+\item Qemotion
+\end{enumerate}
+\end{frame}
+
+% IBM Watson: NLU (I)
+\begin{frame}{1) IBM Watson: Natural Language Understanding (I)}
+Watson is a \textbf{question answering computer} system capable of answering questions posed in \textbf{natural language}, developed by IBM.\cite{p2}
+\begin{block}{Cool story}
+In 2011, the Watson computer system competed on Jeopardy! against legendary champions Brad Rutter and Ken Jennings winning the first place prize of \$1 million \cite{p2}
+\end{block}
+\end{frame}
+
+% IBM Watson: NLU (II)
+\begin{frame}{1) IBM Watson: Natural Language Understanding (II)}
+\textbf{Natural Language Understanding} is a collection of \textbf{APIs} that allows to:\cite{p1}\\
+\begin{itemize}
+\item Recognize the \textbf{overall sentiment}, in a scale from negative to positive [-1,1];
+\item Detect the \textbf{emotion percentage} between: joy, anger, disgust, sadness, fear;
+\item Determine \textbf{keywords} ranked by relevance;
+\item Extract \textbf{entities}: people, companies, organizations, cities and other information;
+\item Classify content into a \textbf{hierarchical categories};
+\item Identify \textbf{general concepts} that may not be directly referenced in the text;
+\item Distinguish the \textbf{semantic roles} parsing sentences into subject, action and object.
+\end{itemize}
+\end{frame}
+
+%\setbeamerfont{caption}{series=\normalfont,size=\fontsize{4}{6}} 
+% IBM Watson NLU: DEMO (I)
+\begin{frame}{1) IBM Watson NLU: Demo (I)}
+Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (I).
+\begin{columns}
+\column{0.7\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/sentiment}
+	%\caption{Overall Sentiment}
+\end{figure}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/emotion}
+	%\caption{Overall Emotion}
+\end{figure}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/categories}
+	%\caption{Hierarchical categories}
+\end{figure}
+\column{0.3\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.25]{./images/keywords}
+	%\caption{Keywords detection}
+\end{figure}
+\end{columns}
+\end{frame}
+
+% IBM Watson NLU: DEMO (II)
+\begin{frame}{1) IBM Watson NLU: Demo (II)}
+Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (II).
+\begin{columns}
+\column{0.5\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/concept}
+\end{figure}
+\column{0.5\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/entities}
+\end{figure}
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/roles}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%IBM Watson: Tone Analyzer
+\begin{frame}{2) IBM Watson: Tone Analyzer}
+It uses linguistic analysis to detect joy, fear, sadness, anger, analytical , confident and tentative tones found in text. \cite{p3}
+\begin{block}{Possible sources}
+Tweets, Online Review, Email message, your own text.
+\end{block}
+It uses both:
+\begin{itemize}
+\item \textbf{the document level}: to get a sense of the overall tone 
+\item and the \textbf{sentence level}: to identify specific areas of your content where tones are the strongest.
+\end{itemize}
+The results obtained with \textbf{Oasis - Wonderwall} are identical to the ones obtained from \textbf{IBM Watson: NLU}
+
+\end{frame}
+
+%ParallelDots APIs: Demo
+\begin{frame}{3) ParallelDots APIs: Demo}
+Their \textbf{Emotion Analysis classifier} is trained on their proprietary dataset and tells whether the underlying emotion behind a message is: \textbf{Happy, Sad, Angry, Fearful, Excited, Funny or Sarcastic}.\cite{p4}
+\\The result obtained analyzing \textbf{Oasis - Wonderwall} lyrics is showed in the following figure. 
+\begin{figure}
+	\includegraphics[scale=0.3]{./images/pd_wonderwall}
+	\caption{Output for Oasis - Wonderwall}
+\end{figure}
+\end{frame}
+
+%QEmotion
+\begin{frame}{4) Qemotion}
+Qemotion detects the main emotion of the speech and will define the corresponding emotion in terms of \textbf{temperature} (literally temperature) \cite{p5}.
+\begin{itemize}
+\item From 31$^\circ$C to 40$^\circ$C $\rightarrow$ Happiness
+\item From 21$^\circ$C to 30$^\circ$C $\rightarrow$ Surprise
+\item From 11$^\circ$C to 20$^\circ$C $\rightarrow$ Calm
+\item From 6$^\circ$C to 10$^\circ$C $\rightarrow$ Fear
+\item From -5$^\circ$C to 5$^\circ$C $\rightarrow$ Sadness and Disappointment
+\item From -14$^\circ$C to -6$^\circ$C $\rightarrow$ Anger
+\item From -20$^\circ$C to -15$^\circ$C $\rightarrow$ Disgust
+\end{itemize}
+\end{frame}
+
+%Lyrics Downloader Script 1
+\section{Lyrics Downloader Script}
+\begin{frame}{lyrics\_downloader.py (1)}
+
+We wrote a Python script for downloading lyrics. We used:
+\begin{itemize}
+\item MoodyLyrics to get songs information (artist, title and emotion)
+\item LyricWikia to download the lyrics
+\end{itemize}
 
 \end{frame}
 
