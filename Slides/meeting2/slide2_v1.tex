@@ -1,3 +1,8 @@
+%%% TO DO
+%  scrivere qualcosa per quanto riguarda le stats su moody lyrics
+%  cercare altri dataset
+%  trovare come esattamente viene fatto il word embedding 
+
 \documentclass[xcolor=dvipsnames]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -82,16 +87,19 @@
 \section{Introduction}
 %Intoduction
 \begin{frame}{Introduction}
-\begin{block}{Previously On Sara\&Mario Project}
-In the previous meeting we analyzed the state-of-the-art of Emotion Detection.\\
+\begin{block}{Previously On Sara\&Mario Project...}
+In the previous meeting we analyzed the \textbf{state-of-the-art} of text-based Emotion Detection.\\
 \end{block}
 Next steps:
 \begin{itemize}
-\item Analyze existent emotion classifiers
-\item Statistics and details about MoodyLyrics
-\item Natural language processors (nlptoolkit, scipy, spaCy) and embedders (word2vect, fasttext)
-\item Start workin!
+\item Analyze \textbf{existent} emotion classifiers
+\item Research text corpus with \textbf{labeled} emotions
+\item Natural language \textbf{processors} and \textbf{embedders}
+\item Statistics and \textbf{details} about MoodyLyrics
 \end{itemize}
+
+
+
 \end{frame}
 
 %Existent emotion classifier
@@ -111,7 +119,7 @@ The emotion classifiers APIs we analyzed are:
 \begin{frame}{1) IBM Watson: Natural Language Understanding (I)}
 Watson is a \textbf{question answering computer} system capable of answering questions posed in \textbf{natural language}, developed by IBM.\cite{p2}
 \begin{block}{Cool story}
-In 2011, the Watson computer system competed on Jeopardy! against legendary champions Brad Rutter and Ken Jennings winning the first place prize of \$1 million \cite{p2}
+In 2011, the Watson computer system competed on Jeopardy! against legendary champions Brad Rutter and Ken Jennings winning the first place prize of \$1 million \cite{p2}.
 \end{block}
 \end{frame}
 
@@ -136,7 +144,6 @@ Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (I).
 \begin{columns}
 \column{0.7\textwidth}
 \begin{figure}
-<<<<<<< HEAD
 	\includegraphics[scale=0.3,left]{./images/sentiment}
 	%\caption{Overall Sentiment}
 \end{figure}
@@ -146,27 +153,10 @@ Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (I).
 \end{figure}
 \begin{figure}
 	\includegraphics[scale=0.3,left]{./images/categories}
-=======
-	\includegraphics[scale=0.3]{./images/sentiment}
-	%\caption{Overall Sentiment}
-\end{figure}
-\begin{figure}
-	\includegraphics[scale=0.3]{./images/emotion}
-	%\caption{Overall Emotion}
-\end{figure}
-\begin{figure}
-	\includegraphics[scale=0.3]{./images/categories}
->>>>>>> 241ce3232107ee04b51b12a189755578a529a254
-	%\caption{Hierarchical categories}
 \end{figure}
 \column{0.3\textwidth}
 \begin{figure}
-<<<<<<< HEAD
 	\includegraphics[scale=0.25,left]{./images/keywords}
-=======
-	\includegraphics[scale=0.25]{./images/keywords}
->>>>>>> 241ce3232107ee04b51b12a189755578a529a254
-	%\caption{Keywords detection}
 \end{figure}
 \end{columns}
 \end{frame}
@@ -191,7 +181,7 @@ Results obtained analyzing \textbf{Oasis - Wonderwall} lyrics (II).
 
 %IBM Watson: Tone Analyzer
 \begin{frame}{2) IBM Watson: Tone Analyzer}
-It uses linguistic analysis to detect joy, fear, sadness, anger, analytical , confident and tentative tones found in text. \cite{p3}
+It uses linguistic analysis to detect joy, fear, sadness, anger, analytical, confident and tentative tones found in text. \cite{p3}
 \begin{block}{Possible sources}
 Tweets, Online Review, Email message, your own text.
 \end{block}
@@ -201,8 +191,6 @@ It uses both:
 \item and the \textbf{sentence level}: to identify specific areas of your content where tones are the strongest.
 \end{itemize}
 The results obtained with \textbf{Oasis - Wonderwall} are identical to the ones obtained from \textbf{IBM Watson: NLU}
-<<<<<<< HEAD
-
 \end{frame}
 
 %ParallelDots APIs: Demo
@@ -229,47 +217,119 @@ Qemotion detects the main emotion of the speech and will define the correspondin
 \end{itemize}
 \end{frame}
 
-=======
-
+% Note about plans
+\begin{frame}{Note about plans}
+\begin{block}{Note}
+None of these APIs is free, however they offer a limited number of free API calls
+\end{block}
 \end{frame}
 
-%ParallelDots APIs: Demo
-\begin{frame}{3) ParallelDots APIs: Demo}
-Their \textbf{Emotion Analysis classifier} is trained on their proprietary dataset and tells whether the underlying emotion behind a message is: \textbf{Happy, Sad, Angry, Fearful, Excited, Funny or Sarcastic}.\cite{p4}
-\\The result obtained analyzing \textbf{Oasis - Wonderwall} lyrics is showed in the following figure. 
-\begin{figure}
-	\includegraphics[scale=0.3]{./images/pd_wonderwall}
-	\caption{Output for Oasis - Wonderwall}
-\end{figure}
+% NLP libraries
+\section{NLP libraries}
+
+% NLP libraries
+\begin{frame}{NLP libraries}
+The main NLP libraries are:
+\begin{enumerate}
+\item NLTK
+\item TextBlob
+\item Stanford's CoreNLP
+\item SpaCy
+\end{enumerate}
 \end{frame}
 
-%QEmotion
-\begin{frame}{4) Qemotion}
-Qemotion detects the main emotion of the speech and will define the corresponding emotion in terms of \textbf{temperature} (literally temperature) \cite{p5}.
+%1) NLTK: Natural Language Toolkit
+\begin{frame}{1) NLTK: Natural Language Toolkit}
+Recommend only as an \textbf{education and research} tool.\\
+Pros:
 \begin{itemize}
-\item From 31$^\circ$C to 40$^\circ$C $\rightarrow$ Happiness
-\item From 21$^\circ$C to 30$^\circ$C $\rightarrow$ Surprise
-\item From 11$^\circ$C to 20$^\circ$C $\rightarrow$ Calm
-\item From 6$^\circ$C to 10$^\circ$C $\rightarrow$ Fear
-\item From -5$^\circ$C to 5$^\circ$C $\rightarrow$ Sadness and Disappointment
-\item From -14$^\circ$C to -6$^\circ$C $\rightarrow$ Anger
-\item From -20$^\circ$C to -15$^\circ$C $\rightarrow$ Disgust
+\item its \textbf{modularized} structure makes it excellent for learning and exploring NLP concepts;
+\item over 50 corpora and lexicons, 9 stemmers, and dozens of algorithms to choose from (also a con);
+\end{itemize}
+Cons:
+\begin{itemize}
+\item \textbf{Heavy} and it has a \textbf{steep} learning curve;
+\item \textbf{slow} and not production-ready.
+\end{itemize}
+See also \textbf{NTLK Book} \cite{p6}.
+\end{frame}
+
+%2) TextBlob
+\begin{frame}{2) TextBlob}
+Built on top of NLTK.\\
+Pros:
+\begin{itemize}
+\item More intuitive;
+\item Gentle learning curve.
+\end{itemize}
+See also \textbf{``NLP Basics with TextBlob"} \cite{p7}.
+\end{frame}
+
+%3) Stanford's CoreNLP
+\begin{frame}{3) Stanford's CoreNLP}
+Java library with Python wrappers.\\
+Pros: 
+\begin{itemize}
+\item fast;
+\item support for several major languages.
 \end{itemize}
 \end{frame}
 
-%Lyrics Downloader Script 1
-\section{Lyrics Downloader Script}
-\begin{frame}{lyrics\_downloader.py (1)}
-
-We wrote a Python script for downloading lyrics. We used:
+% 4) SpaCy
+\begin{frame}{4) SpaCy}
+It's a new NLP library  designed to be \textbf{fast}, streamlined, and production-ready.\\
+Pros:
 \begin{itemize}
-\item MoodyLyrics to get songs information (artist, title and emotion)
-\item LyricWikia to download the lyrics
+\item \textbf{minimal}: it doesn't flood you with a lot of options
+\item its philosophy is to only present \textbf{one algorithm} (the best one) for each purpose.
 \end{itemize}
-
+Cons:
+\begin{itemize}
+\item it's \textbf{new}, so its support community is not as large as some other libraries
+\item it currently only supports English.
+\end{itemize}
+See also \textbf{``Intro to NLP with SpaCy"} \cite{p8}. 
 \end{frame}
 
->>>>>>> 241ce3232107ee04b51b12a189755578a529a254
+% Word Embeddings
+\begin{frame}{Word Embeddings}
+Word embeddings are a set of feature learning techniques which map \textbf{words} or phrases from the vocabulary to vectors of \textbf{real numbers}. \\
+These techniques map \textbf{sparse} word vectors into \textbf{continuous} space based on the surrounding context.\\
+\begin{Example}
+If `\textbf{``salt"} and \textbf{``seasoning"} appear within the same context, the model will indicate that ``salt" is conceptually closer to ``seasoning," than, say, ``chair." 
+\end{Example}
+There are 2 main Embedding libraries:
+\begin{enumerate}
+\item Word2Vec
+\item FastText
+\end{enumerate}
+\end{frame}
+
+% Word2Vec VS FastText (I)
+\begin{frame}{Word2Vec VS FastText (I)}
+\begin{block}{Main difference}
+\textbf{Word2vec} treats each word in corpus like an \textbf{atomic entity} and generates a vector for each word.\\
+\textbf{FastText} treats each as \textbf{composed} of character ngrams, so the vector for a word is made of the sum fo this character n grams.
+\end{block}
+\begin{Example}
+ The word vector ``apple" is a sum of the vectors of the n-grams ``ap", ``app", ``appl", ``apple", ``ppl", ``pple", ``pple", ``ple", ``le" (assuming hyperparameters for smallest ngram[minn] is 3 and largest ngram[maxn] is 6).
+\end{Example}
+\end{frame}
+% Word2Vec VS FastText (II)
+\begin{frame}{Word2Vec VS FastText (II)}
+This difference manifests as follows:
+\begin{enumerate}
+\item \textbf{Rare words}: even if words are rare their character n grams are still shared with other words - hence the embeddings with FastText can still be good.
+\item \textbf{Out of vocabulary words}: FastText can construct the vector for a word from its character n grams even if word doesn't appear in training corpus.
+\item \textbf{Hyperparameters choice}: FastText requires to choose the the minimum and maximum n-gram sizes, and this directly impacts:
+	\begin{itemize}
+	\item computation time
+	\item memory requirements
+	\end{itemize}
+
+\end{enumerate}
+\end{frame}
+
 %Lyrics Downloader Script 1
 \section{Lyrics Downloader Script}
 \begin{frame}{lyrics\_downloader.py (1)}
@@ -300,19 +360,28 @@ Our script produces in output:
 \setbeamertemplate{bibliography item}[text]
  \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be nserted manually as below
 \bibitem{p1} IBM Watson: Natural Language Understanding APIs
-\newblock \url{https://www.ibm.com/watson/services/natural-language-understanding/}
+\footnotesize \url{https://www.ibm.com/watson/services/natural-language-understanding/}
 
 \bibitem{p2} IBM Watson - Wikipedia
-\newblock \url{https://en.wikipedia.org/wiki/Watson_(computer)}
+\footnotesize \url{https://en.wikipedia.org/wiki/Watson_(computer)}
 
 \bibitem{p3} IBM Watson: Tone Analyzer
-\newblock \url{https://en.wikipedia.org/wiki/Watson_(computer)}
+\footnotesize\url{https://en.wikipedia.org/wiki/Watson_(computer)}
 
 \bibitem{p4} ParallelDots APIs
-\newblock \url{https://tone-analyzer-demo.ng.bluemix.net/}
+\footnotesize \url{https://tone-analyzer-demo.ng.bluemix.net/}
 
 \bibitem{p5} Qemotion
-\newblock \url{http://www.qemotion.com/demo.php}
+\footnotesize \url{http://www.qemotion.com/demo.php}
+
+\bibitem{p6} NTLK Book
+\footnotesize \url{http://www.nltk.org/book/}
+
+\bibitem{p7} Natural Language Basics with TextBlob
+\footnotesize\url{http://rwet.decontextualize.com/book/textblob/}
+
+\bibitem{p8} Intro to NLP with SpaCy
+\footnotesize\url{https://nicschrading.com/project/Intro-to-NLP-with-spaCy/}
 
 \end{thebibliography}
 
