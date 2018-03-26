@@ -330,6 +330,35 @@ This difference manifests as follows:
 \end{enumerate}
 \end{frame}
 
+% Datasets 
+\section{Datasets}
+\begin{frame}{Something more on MoodyLyrics \cite{p9}}
+\begin{itemize}
+\item 2595 songs annotated with 4 different emotions (happy, angry, sad, relaxed)
+\item Manually annotated through Amazon Mechanical Turk
+\end{itemize}
+\end{frame}
+
+\begin{frame}{EmoInt \cite{p10}}
+\begin{itemize}
+\item Manually annoted tweets
+\item Classified according to the intensities of anger, fear, joy and sadness
+\item Many entries miss the intensity level
+\item Maybe too influenced by hashtags?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{EmoBank \cite{p11}}
+
+\begin{itemize}
+\item 10k manually annotated (again) sentences
+\item Also based on valence-arousal scheme
+\item  Each sentence was annotated according to both the emotion which is expressed by the writer, and the emotion which is perceived by the readers
+\end{itemize}
+
+\end{frame}
+
+
 %Lyrics Downloader Script 1
 \section{Lyrics Downloader Script}
 \begin{frame}{lyrics\_downloader.py (1)}
@@ -349,14 +378,40 @@ Our script produces in output:
 \begin{itemize}
 \item A folder containing lyrics in files named: \textit{EMOTION\_ARTIST\_TITLE-OF-SONG}
 \item A log file in which we keep track of the errors we found
+\item 56 MoodyLyrics entries where "mispelled" from a LyricWikia point of view
 \end{itemize}
 
+\end{frame}
+
+%Conclusions
+\section{Conclusion}
+
+\begin{frame}{spaCy is pretty cool}
+Among all the libraries we checked spaCy seems to be the best one
+\begin{itemize}
+\item POS (Part-Of-Speech) tagging
+\item Lemmatizer
+\item Tokenizer
+\item Some already available word vectors
+\item Document-wise similarity measure
+\item Multiple language support (why not)
+\item BONUS: it should be the fastest (according to its creators!)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{What's next?}
+\begin{itemize}
+\item Should we compute symilarities based on the whole lyrics or based on single words/sentences?
+\item Grouping words is not easy. Maybe one Bag of Words per emotion?
+\item Could BoW + Clustering be a good approach?
+\item The best datasets seem to be the proprietary ones. Any suggestion?
+\end{itemize}
 \end{frame}
 
 %References
 
 \section{References}
-\begin{frame}{References}
+\begin{frame}[allowframebreaks]{References}
 \setbeamertemplate{bibliography item}[text]
  \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be nserted manually as below
 \bibitem{p1} IBM Watson: Natural Language Understanding APIs
@@ -383,9 +438,18 @@ Our script produces in output:
 \bibitem{p8} Intro to NLP with SpaCy
 \footnotesize\url{https://nicschrading.com/project/Intro-to-NLP-with-spaCy/}
 
+\bibitem{p9} MoodyLyrics: A Sentiment Annotated Lyrics Dataset
+
+\bibitem{p10} Shared Task on Emotion Intensity (EmoInt)
+\footnotesize\url{http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html}
+
+\bibitem{p11} EmoBank
+\footnotesize\url{https://github.com/JULIELab/EmoBank}
+
 \end{thebibliography}
 
 \end{frame}
+
 %---------------------------------------------------------
 
 \end{document}
