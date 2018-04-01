@@ -14,3 +14,8 @@ Slides/meeting*/*.out
 Slides/meeting*/*.snm
 Slides/meeting*/*.toc
 Slides/meeting*/*.gz
+src/models/
+src/*.pyc
+src/utils/*.pyc
+src/classifier/*.pyc
+src/ml_lyrics/
