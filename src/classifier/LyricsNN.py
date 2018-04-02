@@ -117,7 +117,7 @@ class LyricsNN:
       logging.warning('Model file already exists')
       return
     # Create the model's file
-    with open(target_path, 'w') as model_file:
+    with open(target_path, 'wb') as model_file:
       pickle.dump(self.target_dict, model_file)
       logging.info('Model successfully persisted ({})'.format(target_path))
 
@@ -125,7 +125,7 @@ class LyricsNN:
     """
     Load serialized model object
     """
-    with open(target_path, 'w') as model_file:
+    with open(target_path, 'rb') as model_file:
       self.target_dict = pickle.load(model_file)
 
   def score(self, testDf):

@@ -18,4 +18,5 @@ src/models/
 src/*.pyc
 src/utils/*.pyc
 src/classifier/*.pyc
+src/classifier/__pycache__/
 src/ml_lyrics/
