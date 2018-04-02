@@ -1,24 +1,30 @@
-"""Load vectors for a language trained using fastText
-https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md
-Compatible with: spaCy v2.0.0+
-"""
-import plac
 import numpy
 
 import spacy
 from spacy.language import Language
 
 import sys
+import glob
+import os
+import pickle
+
+import logging
 
 class LyricsNN:
   def __init__(self):
-    
-    pass
+    # Basic init stuff
+    self.labels = ['happy', 'sad', 'relaxed', 'angry']
+    self.target_dict = None
 
   def build_lang(self, vec_path):
-    # Let's use some pretrained model for now
+    """
+    Build (or read if it was already built) the language vector model
+    used to classify our lyrics
+    """
+    
+    # Let's use some pretrained simple model
     self.nlp = spacy.load('en_core_web_md')
-
+    logging.info('Language model successfully loaded')
     """
     with open(vec_path, 'rb') as file_:
        header = file_.readline()
@@ -32,17 +38,61 @@ class LyricsNN:
            nlp.vocab.set_vector(word, vector)  # add the vectors to the vocab
     """
 
-  def build_model(self, target_dict):
+  def train(self, df):
+    """
+    Same as the below build model function but uses a dataframe instead
+    of paths to lyrics
+    """
+    self.target_dict = dict()
+    self.labels = df.Emotion.unique()
+
+    # Read files corresponding to each available emotion
+    for emotion in self.labels:
+      subDf = df[df.Emotion == emotion]
+      # Compute sum of each lyrics document vector norm
+      count, value = 0, 0
+      for index, row in subDf.iterrows():
+        lyric = row['Lyric_Path']
+        emotion = row['Emotion']
+        with open(lyric, 'r') as lyric_file:
+          doc = self.nlp(lyric_file.read()) 
+          value += doc.vector_norm
+          count += 1
+      # Add field to the target dictionary
+      self.target_dict[emotion] = value/count
+
+    logging.info('Model successfully trained: {}'.format(self.target_dict))
+
+  def build_model(self, training_path):
     """
     Build our model which is a dictionary where the key is the target label
     and the value is the vector value associated to that target
     """
-    pass
+    self.target_dict = dict()
+
+    # Read files corresponding to each available emotion
+    for emotion in self.labels:
+      path = os.path.join(training_path, '{}_*'.format(emotion))
+      # Compute sum of each lyrics document vector norm
+      count, value = 0, 0
+      for lyric in glob.glob(path):
+        with open(lyric, 'r') as lyric_file:
+          doc = self.nlp(lyric_file.read()) 
+          value += doc.vector_norm
+          count += 1
+      # Add field to the target dictionary
+      self.target_dict[emotion] = value/count
+
+    logging.info('Model successfully built from filesystem: {}'.format(self.target_dict))
 
   def predict(self, path_to_lyric):
+    """
+    Predict the emotion for the given lyric.
+    @path_to_lyric should be a valid path to a lyric
+    """
     with open(path_to_lyric, 'r') as l:
       # Build doc object
-      doc = nlp(l.read()
+      doc = self.nlp(l.read())
       # Obtain vector's norm
       value = doc.vector_norm
       # Return the predicted class
@@ -53,23 +103,41 @@ class LyricsNN:
         if dist < min_dist:
           label = target
           min_dist = dist
+      logging.info('Prediction for {}: {}'.format(path_to_lyric, label))
       return label
 
-@plac.annotations(
-    vectors_loc=("Path to pre-trained vector model", "positional", None, str))
-def main(vectors_loc, lang=None):
-    if lang is None:
-        nlp = Language()
-    else:
-        # create empty language class – this is required if you're planning to
-        # save the model to disk and load it back later (models always need a
-        # "lang" setting). Use 'xx' for blank multi-language class.
-        nlp = spacy.blank(lang)
-       # test the vectors and similarity
-    text = 'class colspan'
-    doc = nlp(text)
-    print(text, doc[0].similarity(doc[1]))
+  def persist_target_model(self, target_path):
+    """
+    Persiste the built target model in a file
+    """
+    if self.target_dict is None:
+      logging.warning('Target model does not exist yet')
+      return
+    if os.path.exists(target_path):
+      logging.warning('Model file already exists')
+      return
+    # Create the model's file
+    with open(target_path, 'w') as model_file:
+      pickle.dump(self.target_dict, model_file)
+      logging.info('Model successfully persisted ({})'.format(target_path))
 
+  def load_model(self, target_path):
+    """
+    Load serialized model object
+    """
+    with open(target_path, 'w') as model_file:
+      self.target_dict = pickle.load(model_file)
 
-if __name__ == '__main__':
-    plac.call(main)
+  def score(self, testDf):
+    """
+    Used to check model's performances. Return an accuracy value
+    """
+    count, correct = 0, 0
+    for index, row in testDf.iterrows():
+      lyric = row['Lyric_Path']
+      emotion = row['Emotion']
+      label = self.predict(lyric)
+      if label == emotion:
+        correct += 1
+      count += 1
+    return correct / count
