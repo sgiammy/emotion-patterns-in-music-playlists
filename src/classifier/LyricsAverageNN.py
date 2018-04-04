@@ -10,11 +10,11 @@ import pickle
 
 import logging
 
-class LyricsNN:
+class LyricsAverageNN:
   def __init__(self):
     # Basic init stuff
     self.labels = ['happy', 'sad', 'relaxed', 'angry']
-    self.target_model = list()
+    self.target_dict = None
 
   def build_lang(self, vec_path):
     """
@@ -43,19 +43,28 @@ class LyricsNN:
     Same as the below build model function but uses a dataframe instead
     of paths to lyrics
     """
-    self.target_model = list()
+    self.target_dict = dict()
     self.labels = df.Emotion.unique()
 
     # Read files corresponding to each available emotion
-    for index, row in df.iterrows():
-      lyric = row['Lyric_Path']
-      emotion = row['Emotion']
-      with open(lyric, 'r') as lyric_file: 
-        doc = self.nlp(lyric_file.read())
-        doc = self._preprocess(doc)
-        self.target_model.append((doc.vector_norm, emotion))
+    for emotion in self.labels:
+      subDf = df[df.Emotion == emotion]
+      # Compute sum of each lyrics document vector norm
+      count, value = 0, 0
+      for index, row in subDf.iterrows():
+        lyric = row['Lyric_Path']
+        emotion = row['Emotion']
+        with open(lyric, 'r') as lyric_file: 
+          doc = self.nlp(lyric_file.read())
+          doc = self._preprocess(doc)
+          self._preprocess(doc)
+          value += doc.vector_norm
+          print(emotion, doc.vector_norm)
+          count += 1
+      # Add field to the target dictionary
+      self.target_dict[emotion] = value/count
 
-    logging.info('Model successfully trained')
+    logging.info('Model successfully trained: {}'.format(self.target_dict))
 
   def _preprocess(self, doc):
     """
@@ -65,7 +74,6 @@ class LyricsNN:
     tks = list(filter(lambda tk: not tk.is_stop, doc))
     return spacy.tokens.Doc(self.nlp.vocab, words=[tk.text for tk in tks])
 
-  ## TODO, need to update this one
   def build_model(self, training_path):
     """
     Build our model which is a dictionary where the key is the target label
@@ -99,9 +107,13 @@ class LyricsNN:
       # Obtain vector's norm
       value = doc.vector_norm
       # Return the predicted class
-      self.target_model.sort(key=lambda x: abs(x[0]-value))
-      #print(self_target_model)
-      label = self.target_model[0][1]
+      min_dist = float(sys.maxsize)
+      label = None
+      for target in self.target_dict:
+        dist = abs(self.target_dict[target] - value)
+        if dist < min_dist:
+          label = target
+          min_dist = dist
       logging.info('Prediction for {}: {}'.format(path_to_lyric, label))
       return label
 
@@ -109,7 +121,7 @@ class LyricsNN:
     """
     Persiste the built target model in a file
     """
-    if self.target_model is None:
+    if self.target_dict is None:
       logging.warning('Target model does not exist yet')
       return
     if os.path.exists(target_path):
@@ -117,7 +129,7 @@ class LyricsNN:
       return
     # Create the model's file
     with open(target_path, 'wb') as model_file:
-      pickle.dump(self.target_model, model_file)
+      pickle.dump(self.target_dict, model_file)
       logging.info('Model successfully persisted ({})'.format(target_path))
 
   def load_model(self, target_path):
@@ -125,7 +137,7 @@ class LyricsNN:
     Load serialized model object
     """
     with open(target_path, 'rb') as model_file:
-      self.target_model = pickle.load(model_file)
+      self.target_dict = pickle.load(model_file)
 
   def score(self, testDf):
     """
