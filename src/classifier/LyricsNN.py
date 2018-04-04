@@ -8,6 +8,8 @@ import glob
 import os
 import pickle
 
+from collections import Counter
+
 import logging
 
 class LyricsNN:
@@ -88,7 +90,7 @@ class LyricsNN:
 
     logging.info('Model successfully built from filesystem: {}'.format(self.target_dict))
 
-  def predict(self, path_to_lyric):
+  def predict(self, path_to_lyric, k=5):
     """
     Predict the emotion for the given lyric.
     @path_to_lyric should be a valid path to a lyric
@@ -100,8 +102,8 @@ class LyricsNN:
       value = doc.vector_norm
       # Return the predicted class
       self.target_model.sort(key=lambda x: abs(x[0]-value))
-      #print(self_target_model)
-      label = self.target_model[0][1]
+      labels = [pair[1] for pair in self.target_model[:k]]
+      label = Counter(labels).most_common()[0][0]
       logging.info('Prediction for {}: {}'.format(path_to_lyric, label))
       return label
 
