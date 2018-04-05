@@ -10,7 +10,7 @@ import pickle
 
 import logging
 
-class LyricsAverageNN:
+class LyricsKMeans:
   def __init__(self):
     # Basic init stuff
     self.labels = ['happy', 'sad', 'relaxed', 'angry']

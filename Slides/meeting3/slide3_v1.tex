@@ -94,7 +94,7 @@ Next steps:
 \end{frame}
 
 %Model Description
-\section{LyricsAverageNN: Model Description}
+\section{LyricsKMeans: Model Description}
 
 \begin{frame}{The Idea}
 \begin{itemize}
@@ -125,7 +125,7 @@ Next steps:
 \end{frame}
 
 %Model Evaluation
-\section{LyricsAverageNN: Model Evaluation}
+\section{LyricsKMeans: Model Evaluation}
 
 \begin{frame}{1-fold validation}
 We used the simplest validation technique: 1-fold validation
@@ -136,12 +136,18 @@ We used the simplest validation technique: 1-fold validation
 \end{frame}
 
 \begin{frame}{Accuracy}
+\begin{columns}
+\column{0.5\textwidth}
 \begin{itemize}
-\item Not very impressive :-(
+\item Not very impressive
 \item Around 28\% accuracy
 \end{itemize}
+\column{0.5\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.25,left]{./images/not-effective.jpg}
+\end{figure}
+\end{columns}
 \end{frame}
-
 
 %Model Description
 \section{LyricsNN: Model Description}
@@ -178,13 +184,21 @@ We used the same validation technique we used for the previous model
 \end{frame}
 
 \begin{frame}{Accuracy}
+\begin{columns}
+\column{0.5\textwidth}
 \begin{itemize}
-\item Not very impressive :-(
+\item Not very impressive
 \item 33\% accuracy (k=1)
 \item 30\% accuracy (k=3)
 \item 29\% accuracy (k=5)
 \end{itemize}
+\column{0.5\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.25,left]{./images/not-effective.jpg}
+\end{figure}
+\end{columns}
 \end{frame}
+
 
 %Conclusions
 \section{Conclusion}
