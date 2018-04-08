@@ -1,4 +1,6 @@
 from classifier.LyricsNN import LyricsNN
+from classifier.LyricsKMeans import LyricsKMeans
+from classifier.LyricsSVM import LyricsSVM
 import os
 
 from utils.datasets import *
@@ -14,7 +16,7 @@ trainDf, testDf = split_train_validation(dataset)
 # Define path where we will persist the model
 model_path = os.path.join(os.getcwd(), 'emotion-model')
 
-clf = LyricsNN()
+clf = LyricsSVM()
 
 clf.build_lang(os.path.abspath('./models/wiki-news-300d-1M.vec'))
 
