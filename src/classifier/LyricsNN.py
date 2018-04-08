@@ -25,20 +25,21 @@ class LyricsNN:
     """
     
     # Let's use some pretrained simple model
-    self.nlp = spacy.load('en_core_web_md')
-    logging.info('Language model successfully loaded')
-    """
+    #self.nlp = spacy.load('en_core_web_md')
+    #logging.info('Language model successfully loaded')
+
+    self.nlp = Language()
     with open(vec_path, 'rb') as file_:
        header = file_.readline()
        nr_row, nr_dim = header.split()
-       nlp.vocab.reset_vectors(width=int(nr_dim))
+       self.nlp.vocab.reset_vectors(width=int(nr_dim))
        for line in file_:
            line = line.rstrip().decode('utf8')
            pieces = line.rsplit(' ', int(nr_dim))
            word = pieces[0]
            vector = numpy.asarray([float(v) for v in pieces[1:]], dtype='f')
-           nlp.vocab.set_vector(word, vector)  # add the vectors to the vocab
-    """
+           self.nlp.vocab.set_vector(word, vector)  # add the vectors to the vocab
+    logging.info('Language model successfully loaded')
 
   def train(self, df):
     """

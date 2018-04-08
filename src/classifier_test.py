@@ -16,7 +16,7 @@ model_path = os.path.join(os.getcwd(), 'emotion-model')
 
 clf = LyricsNN()
 
-clf.build_lang(None)
+clf.build_lang(os.path.abspath('./models/wiki-news-300d-1M.vec'))
 
 #if os.path.exists(model_path):
   # If we have already built the model just read it
