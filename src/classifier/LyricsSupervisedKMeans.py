@@ -170,20 +170,3 @@ class LyricsSupervisedKMeans:
         correct += 1
       count += 1
     return correct / count
-
-    def crossvalidate(self, trainingDf, k=10):
-        """
-        Performs k-folds cross validation and returns
-        the obtained accuracy value
-        """
-        df = shuffle(trainingDf)
-        folds = list()
-        if len(df) > k:
-        fold_size = len(df) // k # integer division in python3
-        # Build array of folds
-        i,j = 0,fold_size     
-        while i < len(df):
-            folds.append(df[i:j])
-            i += fold_size
-            j += fold_size
-        
