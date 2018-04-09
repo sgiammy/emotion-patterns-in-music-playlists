@@ -1,5 +1,7 @@
 import numpy
 
+from sklearn.utils import shuffle
+
 import spacy
 from spacy.language import Language
 
@@ -10,11 +12,19 @@ import pickle
 
 import logging
 
-class LyricsKMeans:
+class LyricsSupervisedKMeans:
   def __init__(self):
     # Basic init stuff
     self.labels = ['happy', 'sad', 'relaxed', 'angry']
     self.target_dict = None
+
+  def set_lang(self, lang):
+    """
+    Just a setter function which should be used when we already
+    have a language model and we don't want to waste additional
+    time by building a new one
+    """
+    self.nlp = lang
 
   def build_lang(self, vec_path):
     """
@@ -38,14 +48,22 @@ class LyricsKMeans:
            nlp.vocab.set_vector(word, vector)  # add the vectors to the vocab
     """
 
-  def train(self, df):
+  def train(self, X_train, y):
     """
     Same as the below build model function but uses a dataframe instead
     of paths to lyrics
     """
-    self.target_dict = dict()
-    self.labels = df.Emotion.unique()
+    self.target_dict = dict(list(zip(range(len(self.labels)), [0 for x in range(len(self.labels))])))
+    
+    for (x,y) in zip(X_train, y):
+      self.target_dict[y] += x
 
+    for k in self.target_dict.keys():
+      self.target_dict[k] /= len(X_train)
+
+    logging.info('Model successfully trained: {}'.format(self.target_dict))
+    
+    """
     # Read files corresponding to each available emotion
     for emotion in self.labels:
       subDf = df[df.Emotion == emotion]
@@ -59,12 +77,12 @@ class LyricsKMeans:
           doc = self._preprocess(doc)
           self._preprocess(doc)
           value += doc.vector_norm
-          print(emotion, doc.vector_norm)
           count += 1
       # Add field to the target dictionary
       self.target_dict[emotion] = value/count
 
     logging.info('Model successfully trained: {}'.format(self.target_dict))
+    """  
 
   def _preprocess(self, doc):
     """
@@ -152,3 +170,20 @@ class LyricsKMeans:
         correct += 1
       count += 1
     return correct / count
+
+    def crossvalidate(self, trainingDf, k=10):
+        """
+        Performs k-folds cross validation and returns
+        the obtained accuracy value
+        """
+        df = shuffle(trainingDf)
+        folds = list()
+        if len(df) > k:
+        fold_size = len(df) // k # integer division in python3
+        # Build array of folds
+        i,j = 0,fold_size     
+        while i < len(df):
+            folds.append(df[i:j])
+            i += fold_size
+            j += fold_size
+        

@@ -17,6 +17,9 @@ Slides/meeting*/*.gz
 src/models/
 src/*.pyc
 src/utils/*.pyc
+src/utils/__pycache__/
 src/classifier/*.pyc
 src/classifier/__pycache__/
 src/ml_lyrics/
+src/*.swp
+src/.ipynb_checkpoints/
