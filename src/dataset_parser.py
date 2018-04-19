@@ -240,7 +240,7 @@ if __name__ == '__main__':
     if os.path.lexists(fname):
       with io.open(fname, 'r', encoding='utf-8', errors='replace') as f:
         content = f.read()
-        lyric_doc = nlp(f.read())
+        lyric_doc = nlp(content)
         title_doc = nlp(row['Song'])
         
         lyric = preprocess(content)#lyric_doc.text)
@@ -259,7 +259,8 @@ if __name__ == '__main__':
           freq['ADJ'], freq['ADP'], freq['ADV'], freq['AUX'], freq['CONJ'], 
           freq['CCONJ'], freq['DET'], freq['INTJ'], freq['NOUN'], freq['NUM'],
           freq['PART'], freq['PRON'], freq['PROPN'], freq['PUNCT'], freq['SCONJ'],
-          freq['SYM'], freq['VERB'], freq['X'], freq['SPACE']
+          freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
+          row['Emotion']
         )
         
         rows.append(elem)
