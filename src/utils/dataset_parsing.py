@@ -14,7 +14,7 @@ parser = WiktionaryParser()
 def preprocess(doc):
   # Delete text between parentheses
   prep = doc
-  re.sub("([\(\[])(.*?)([\)\]])", "", prep)
+  prep = re.sub("([\(\[])(.*?)([\)\]])", "", prep)
   # Split by line
   prep = prep.split('\n')
   # Delete empty lines
@@ -57,7 +57,7 @@ def feature_extraction(lines, title):
     
     for i in range(len(doc)):
       # Echoisms
-      if i < len(doc) - 1:
+      if i < len(doc) - 2 and doc[i].pos_ != 'PUNCT' and doc[i].pos_ != 'X' and doc[i].pos_ != 'SPACE':
         d['echoisms'] += doc[i].text.lower() == doc[i+1].text.lower()
       tk = doc[i]     
       # Count echoisms inside words e.g. yeeeeeeah
@@ -73,29 +73,29 @@ def feature_extraction(lines, title):
       # Verb frequencies
       token = doc[i]
       if token.pos_ == 'VERB' and token.tag_ != 'MD': 
-        verbs_no += 1
         if 'present' in spacy.explain(token.tag_):
           verbfreq['present'] += 1
+          verbs_no += 1
         elif 'past' in spacy.explain(token.tag_):
-          verbfreq['past'] += 1 
-      elif token.pos_ == 'VERB' and token.tag_ == 'MD' and token.text.lower() == 'will':
+          verbfreq['past'] += 1
+          verbs_no += 1
+      elif token.pos_ == 'VERB' and token.tag_ == 'MD' and token.text.lower() == 'will' or token.text.lower() == '\'ll':
         if i < len(doc) - 1:
           i += 1
           next_token = doc[i]
-          if next_token is not None and next_token.text == 'VB':
-            verbs_no += 1
+          if next_token is not None and next_token.tag_ == 'VB':
+            verbs_no += 1 # We can not avoid range function to generate again the same, this is a workaround
             verbfreq['future'] += 1
       # Tag frequency
-      if doc[i].pos_ in tags:
+      if doc[i].pos_ in tags and doc[i].text != 'will' and doc[i].text != '\'ll':
         freq[doc[i].pos_] += 1
       # Title in lyrics
       if doc[i].text == title:
         d['is_title_in_lyrics'] = True
   
   for key in verbfreq:
-    if freq['VERB'] > 0:
-        verbfreq[key] /= freq['VERB']
-
+    if verbs_no > 0:
+        verbfreq[key] /= verbs_no
  
   for key in freq:
     freq[key] /= wc
@@ -104,7 +104,9 @@ def feature_extraction(lines, title):
   if verbs_no > 0:
     for key, value in freq.items():
       freq[key] = value/verbs_no
+  
   d['echoisms'] /= wc
+  
   return d
 
 def get_line_count(tokens):

@@ -19,8 +19,10 @@ emoint_ml_mapping = {
 emoint_columns = ['ID', 'TWEET', 'EMOTION', 'INTENSITY']
 
 def tweet_preprocess(tweet):
-    # Remove hashtags and tags
-    t = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ", tweet).split())
+    # Remoags
+    t = re.sub('\#[a-zA-Z0-9]+', '', tweet)
+    # Replace tags like: @GaryHold -> GaryHold
+    t = t.replace('@', '')
     # Remove emojis
     emoji_pattern = re.compile("["
             u"\U0001F600-\U0001F64F"  # emoticons
@@ -28,7 +30,8 @@ def tweet_preprocess(tweet):
             u"\U0001F680-\U0001F6FF"  # transport & map symbols
             u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
             "]+", flags=re.UNICODE)
-    return emoji_pattern.sub(r'', t)
+    t = emoji_pattern.sub(r'', t)
+    return t.rstrip()
 
 if __name__ == '__main__':
     emoint = None
@@ -95,4 +98,5 @@ if __name__ == '__main__':
     df.to_csv(output_path, index=False)
     
     sys.stdout.flush()
+    print()
     print('Done! Saved into', output_path)
