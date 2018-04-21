@@ -92,7 +92,10 @@ def feature_extraction(lines, title):
       if doc[i].text == title:
         d['is_title_in_lyrics'] = True
   
-  
+  for key in verbfreq:
+    if freq['VERB'] > 0:
+        verbfreq[key] /= freq['VERB']
+
  
   for key in freq:
     freq[key] /= wc
@@ -105,7 +108,7 @@ def feature_extraction(lines, title):
   return d
 
 def get_line_count(tokens):
-  return len(tokens) + 1
+  return len(tokens)
 
 def get_word_count(tokens):
   count = 0

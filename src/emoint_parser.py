@@ -19,7 +19,16 @@ emoint_ml_mapping = {
 emoint_columns = ['ID', 'TWEET', 'EMOTION', 'INTENSITY']
 
 def tweet_preprocess(tweet):
-    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ", tweet).split())
+    # Remove hashtags and tags
+    t = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ", tweet).split())
+    # Remove emojis
+    emoji_pattern = re.compile("["
+            u"\U0001F600-\U0001F64F"  # emoticons
+            u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+            u"\U0001F680-\U0001F6FF"  # transport & map symbols
+            u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+            "]+", flags=re.UNICODE)
+    return emoji_pattern.sub(r'', t)
 
 if __name__ == '__main__':
     emoint = None
@@ -57,7 +66,7 @@ if __name__ == '__main__':
             features['line_count'], features['word_count'],#get_line_count(lyric), get_word_count(lyric),
             #get_slang_counts(lyric),
             features['echoisms'], features['selfish'],#get_echoisms(lyric), get_selfish_degree(lyric),
-            count_duplicate_lines(content), features['is_title_in_lyrics'],# (row['Song'], lyric),
+            count_duplicate_lines(content.split('\n')), features['is_title_in_lyrics'],# (row['Song'], lyric),
             features['rhymes'],#get_rhymes(lyric),
             features['verb_tenses']['present'], features['verb_tenses']['past'], features['verb_tenses']['future'], #verb_freq['present'], verb_freq['past'], verb_freq['future'],
             freq['ADJ'], freq['ADP'], freq['ADV'], freq['AUX'], freq['CONJ'], 
