@@ -60,6 +60,7 @@ def feature_extraction(lines, title):
       if i < len(doc) - 2 and doc[i].pos_ != 'PUNCT' and doc[i].pos_ != 'X' and doc[i].pos_ != 'SPACE':
         d['echoisms'] += doc[i].text.lower() == doc[i+1].text.lower()
       tk = doc[i]     
+      print(wc, tk.text, tk.pos_, tk.tag_, spacy.explain(tk.tag_))
       # Count echoisms inside words e.g. yeeeeeeah
       for j in range(len(tk.text) - 1):
         if tk.text[j] == tk.text[j+1] and tk.text in vowels:
@@ -87,23 +88,22 @@ def feature_extraction(lines, title):
             verbs_no += 1 # We can not avoid range function to generate again the same, this is a workaround
             verbfreq['future'] += 1
       # Tag frequency
-      if doc[i].pos_ in tags and doc[i].text != 'will' and doc[i].text != '\'ll':
+      if token.pos_ in tags:
         freq[doc[i].pos_] += 1
       # Title in lyrics
-      if doc[i].text == title:
+      if token.text == title:
         d['is_title_in_lyrics'] = True
   
   for key in verbfreq:
     if verbs_no > 0:
         verbfreq[key] /= verbs_no
+
+  for tag in tags:
+    freq[tag] /= wc
  
-  for key in freq:
-    freq[key] /= wc
-  
+  d['rhymes'] = get_rhymes(lines)
+
   d['selfish'] = i_count / pronouns_count if pronouns_count > 0 else 0
-  if verbs_no > 0:
-    for key, value in freq.items():
-      freq[key] = value/verbs_no
   
   d['echoisms'] /= wc
   
@@ -129,7 +129,7 @@ def get_rhymes(lines):
     next_line_words = lines[i+1].split()
     if next_line_words is not None and len(next_line_words) > 0 and  next_line_words[-1] in rhymes:
       count += 1 
-  return count / get_line_count(lines) 
+  return count / len(lines) 
 
 def get_slang_counts(tokens):
   slang_counter = 0

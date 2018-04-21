@@ -78,7 +78,6 @@ if __name__ == '__main__':
             freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
             row['EMOTION']
         )
-        
         rows.append(elem)
         count += 1
         progress(count, total, '{}/{}'.format(count, total))
