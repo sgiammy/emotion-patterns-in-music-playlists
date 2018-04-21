@@ -60,7 +60,6 @@ def feature_extraction(lines, title):
       if i < len(doc) - 2 and doc[i].pos_ != 'PUNCT' and doc[i].pos_ != 'X' and doc[i].pos_ != 'SPACE':
         d['echoisms'] += doc[i].text.lower() == doc[i+1].text.lower()
       tk = doc[i]     
-      print(wc, tk.text, tk.pos_, tk.tag_, spacy.explain(tk.tag_))
       # Count echoisms inside words e.g. yeeeeeeah
       for j in range(len(tk.text) - 1):
         if tk.text[j] == tk.text[j+1] and tk.text in vowels:
