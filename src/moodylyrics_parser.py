@@ -1,5 +1,7 @@
 from utils.dataset_parsing import *
 
+import utils.sentiment_analysis as sa
+
 if __name__ == '__main__':
   import pandas as pd
   import numpy as np
@@ -27,6 +29,9 @@ if __name__ == '__main__':
         features = feature_extraction(lyric, row['Song'])
 
         freq = features['frequencies'] 
+
+        sentiment = sa.analyse(content)
+
         elem = (
           row['Artist'], row['Song'],
           lyric_doc.vector, title_doc.vector,
@@ -40,6 +45,8 @@ if __name__ == '__main__':
           freq['CCONJ'], freq['DET'], freq['INTJ'], freq['NOUN'], freq['NUM'],
           freq['PART'], freq['PRON'], freq['PROPN'], freq['PUNCT'], freq['SCONJ'],
           freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
+          # Sentiment analysis stuff
+          sentiment['probability']['pos'], sentiment['probability']['neutral'], sentiment['probability']['neg'],
           row['Emotion']
         )
         
@@ -47,7 +54,19 @@ if __name__ == '__main__':
         count += 1
         progress(count, total, '{}/{}'.format(count, total))
   df = pd.DataFrame(rows)
-
+  df.columns = ['ID', 'ARTIST', 'SONG_TITLE', 'LYRICS_VECTOR', 'TITLE_VECTOR', 
+        'LINE_COUNT', 'WORD_COUNT', 'ECHOISMS', 'SELFISH_DEGREE', 
+        'DUPLICATE_LINES', 'IS_TITLE_IN_LYRICS', 'RHYMES', 'VERB_PRESENT', 
+        'VERB_PAST', 'VERB_FUTURE', 'ADJ_FREQUENCIES', 'CONJUCTION_FREQUENCIES', 
+        'ADV_FREQUENCIES', 'AUX_FREQUENCIES', 'CONJ_FREQUENCIES', 'CCONJ_FREQUENCIES', 
+        'DETERMINER_FREQUENCIES', 'INTERJECTION_FREQUENCIES', 'NOUN_FREQUENCIES', 
+        'NUM_FREQUENCIES', 'PART_FREQUENCIES', 'PRON_FREQUENCIES', 'PROPN_FREQUENCIES', 
+        'PUNCT_FREQUENCIES', 'SCONJ_FREQUENCIES', 'SYM_FREQUENCIES', 'VERB_FREQUENCIES',
+        'X_FREQUENCIES', 'SPACE_FREQUENCIES', 
+        'SENTIMENT_POS', 'SENTIMENT_NEUTRAL', 'SENTIMENT_NEG',
+        'EMOTION'
+  ]
+ 
   output_path = 'datasets/moodylyrics_featurized.csv'
   df.to_csv(output_path)
   print()

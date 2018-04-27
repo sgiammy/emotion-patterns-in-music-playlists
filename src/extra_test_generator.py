@@ -1,5 +1,7 @@
 from utils.dataset_parsing import *
 
+import utils.sentiment_analysis as sa
+
 songs = [
   ('Bobby McFerrin', 'Don\'t Worry, Be Happy', 'happy'),
   ('Queen', 'Don\'t Stop me Now', 'happy'),
@@ -42,6 +44,9 @@ if __name__ == '__main__':
     features = feature_extraction(lyric, song[1])
 
     freq = features['frequencies'] 
+
+    sentiment = sa.analyse(content)
+
     elem = (
         song[0], song[1],
         lyric_doc.vector, title_doc.vector,
@@ -55,6 +60,8 @@ if __name__ == '__main__':
         freq['CCONJ'], freq['DET'], freq['INTJ'], freq['NOUN'], freq['NUM'],
         freq['PART'], freq['PRON'], freq['PROPN'], freq['PUNCT'], freq['SCONJ'],
         freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
+        # Sentiment stuff
+        sentiment['probability']['pos'], sentiment['probability']['neutral'], sentiment['probability']['neg'],  
         song[2]
     )
 
@@ -71,7 +78,9 @@ if __name__ == '__main__':
     'DETERMINER_FREQUENCIES', 'INTERJECTION_FREQUENCIES', 'NOUN_FREQUENCIES', 
     'NUM_FREQUENCIES', 'PART_FREQUENCIES', 'PRON_FREQUENCIES', 'PROPN_FREQUENCIES', 
     'PUNCT_FREQUENCIES', 'SCONJ_FREQUENCIES', 'SYM_FREQUENCIES', 'VERB_FREQUENCIES',
-    'X_FREQUENCIES', 'SPACE_FREQUENCIES', 'EMOTION'
+    'X_FREQUENCIES', 'SPACE_FREQUENCIES', 
+    'SENTIMENT_POS', 'SENTIMENT_NEUTRAL', 'SENTIMENT_NEG',
+    'EMOTION'
   ]
 
   output_path = 'datasets/extra_test.csv'
