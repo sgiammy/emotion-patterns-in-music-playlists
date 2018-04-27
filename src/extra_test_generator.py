@@ -61,7 +61,7 @@ if __name__ == '__main__':
         freq['PART'], freq['PRON'], freq['PROPN'], freq['PUNCT'], freq['SCONJ'],
         freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
         # Sentiment stuff
-        sentiment['probability']['pos'], sentiment['probability']['neutral'], sentiment['probability']['neg'],  
+        sentiment[0], sentiment[1],
         song[2]
     )
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     'NUM_FREQUENCIES', 'PART_FREQUENCIES', 'PRON_FREQUENCIES', 'PROPN_FREQUENCIES', 
     'PUNCT_FREQUENCIES', 'SCONJ_FREQUENCIES', 'SYM_FREQUENCIES', 'VERB_FREQUENCIES',
     'X_FREQUENCIES', 'SPACE_FREQUENCIES', 
-    'SENTIMENT_POS', 'SENTIMENT_NEUTRAL', 'SENTIMENT_NEG',
+    'SENTIMENT', 'SUBJECTIVITY',
     'EMOTION'
   ]
 

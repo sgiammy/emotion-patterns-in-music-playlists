@@ -33,6 +33,7 @@ if __name__ == '__main__':
         sentiment = sa.analyse(content)
 
         elem = (
+          str(count),
           row['Artist'], row['Song'],
           lyric_doc.vector, title_doc.vector,
           features['line_count'], features['word_count'],#get_line_count(lyric), get_word_count(lyric),
@@ -46,7 +47,7 @@ if __name__ == '__main__':
           freq['PART'], freq['PRON'], freq['PROPN'], freq['PUNCT'], freq['SCONJ'],
           freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
           # Sentiment analysis stuff
-          sentiment['probability']['pos'], sentiment['probability']['neutral'], sentiment['probability']['neg'],
+          sentiment[0], sentiment[1],
           row['Emotion']
         )
         
@@ -63,7 +64,7 @@ if __name__ == '__main__':
         'NUM_FREQUENCIES', 'PART_FREQUENCIES', 'PRON_FREQUENCIES', 'PROPN_FREQUENCIES', 
         'PUNCT_FREQUENCIES', 'SCONJ_FREQUENCIES', 'SYM_FREQUENCIES', 'VERB_FREQUENCIES',
         'X_FREQUENCIES', 'SPACE_FREQUENCIES', 
-        'SENTIMENT_POS', 'SENTIMENT_NEUTRAL', 'SENTIMENT_NEG',
+        'SENTIMENT', 'SUBJECTIVITY',
         'EMOTION'
   ]
  
