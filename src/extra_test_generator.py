@@ -7,12 +7,18 @@ songs = [
   ('Queen', 'Don\'t Stop me Now', 'happy'),
   ('Pharrell Williams', 'Happy', 'happy'),
   ('The Monkees', 'I\'m a believer', 'happy'),
+  ('Britney Spears', 'Toxic', 'happy'),
+  ('The Pussycat Dolls', 'Buttons', 'happy'),
+  ('Beyoncé' ,'Crazy In Love', 'happy'),
   
   ('R.E.M.', 'Everybody Hurts', 'sad'),
   ('Adele', 'Someone Like You', 'sad'),
   ('Pink Floyd', 'Wish you were here', 'sad'),
   ('Johnny Cash', 'Hurt', 'sad'),
   ('Nirvana', 'Smells like teen spirit', 'sad'),
+  ('Usher', 'My Boo', 'sad'),
+  ('Justin Timberlake', 'Rock Your Body', 'sad'),
+  ('Shaggy', 'It Wasn\'t Me', 'sad'),
   
   ('Rage Against the Machine', 'Killing in the name', 'angry'),
   ('Kanye West', 'Stronger', 'angry'),

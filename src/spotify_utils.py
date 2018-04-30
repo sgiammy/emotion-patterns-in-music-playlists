@@ -26,10 +26,10 @@ from keras.utils import np_utils
 
 def build_ann(input_size,optimizer='adam'):			
     classifier = Sequential()
-    classifier.add(Dense(units = 60, kernel_initializer = 'random_normal', activation = 'sigmoid', input_dim = input_size))
+    classifier.add(Dense(units = 120, kernel_initializer = 'random_normal', activation = 'sigmoid', input_dim = input_size))
     classifier.add(Dropout(0.5))
 
-    classifier.add(Dense(units = 60, kernel_initializer = 'random_normal', activation = 'sigmoid', input_dim = input_size))
+    classifier.add(Dense(units = 60, kernel_initializer = 'random_normal', activation = 'softmax', input_dim = input_size))
     classifier.add(Dropout(0.5))
 
     classifier.add(Dense(units = 4, kernel_initializer = 'random_normal', activation = 'softmax'))
@@ -139,7 +139,6 @@ def adjust(df):
     return X_vect
 
 def train_and_predict(X_train,X_test, y_train, y_test):
-    encoder = LabelEncoder()
     y_nn = np_utils.to_categorical(encoder.fit_transform(y_train))
     #Feature Scaling
     sc = StandardScaler()

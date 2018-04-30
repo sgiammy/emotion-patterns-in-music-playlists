@@ -7,6 +7,7 @@ import numpy as np
 
 from utils.dataset_parsing import *
 from utils.progress import *
+import utils.sentiment_analysis as sa
 
 EMOINT_BASEDIR = 'emoint'
 
@@ -62,6 +63,9 @@ if __name__ == '__main__':
         features = feature_extraction(tweet, None)
 
         freq = features['frequencies'] 
+        
+        sentiment = sa.analyse(content)
+        
         elem = (
             '_'.join(['EmoInt', str(row['ID'])]),
             'EmoInt', row['ID'], # Artist and title set just to match ML schema
@@ -76,6 +80,7 @@ if __name__ == '__main__':
             freq['CCONJ'], freq['DET'], freq['INTJ'], freq['NOUN'], freq['NUM'],
             freq['PART'], freq['PRON'], freq['PROPN'], freq['PUNCT'], freq['SCONJ'],
             freq['SYM'], freq['VERB'], freq['X'], freq['SPACE'],
+            sentiment[0], sentiment[1],
             row['EMOTION']
         )
         rows.append(elem)
@@ -90,7 +95,8 @@ if __name__ == '__main__':
         'DETERMINER_FREQUENCIES', 'INTERJECTION_FREQUENCIES', 'NOUN_FREQUENCIES', 
         'NUM_FREQUENCIES', 'PART_FREQUENCIES', 'PRON_FREQUENCIES', 'PROPN_FREQUENCIES', 
         'PUNCT_FREQUENCIES', 'SCONJ_FREQUENCIES', 'SYM_FREQUENCIES', 'VERB_FREQUENCIES',
-        'X_FREQUENCIES', 'SPACE_FREQUENCIES', 'EMOTION'
+        'X_FREQUENCIES', 'SPACE_FREQUENCIES', 'SENTIMENT', 'SUBJECTIVITY',
+        'EMOTION'
     ]
     
     output_path = 'datasets/emoint_featurized.csv'
