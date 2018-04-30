@@ -150,8 +150,7 @@ def train_and_predict(X_train,X_test, y_train, y_test):
     y_pred = classifier.predict(X_test,verbose=0)
     y_pred_index = np.argmax(y_pred,axis=1)
     #Validating the results
-    encoder = LabelEncoder()
-    y_nn_pred = np_utils.to_categorical(encoder.fit_transform(y_test))
+    y_nn_pred = np_utils.to_categorical(encoder.transform(y_test))
     cm = confusion_matrix(y_pred_index, y_nn_pred.argmax(axis=1))
     accuracy = (sum([cm[i,i] for i in range(len(cm))])) / len(y_nn_pred)
     return (classifier, sc, accuracy,encoder)

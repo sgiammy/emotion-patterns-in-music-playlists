@@ -45,48 +45,48 @@ X_train, X_test, y_train, y_test = train_test_split(X_vect, y, test_size = 0.2, 
 classifier,sc,accuracy,encoder = train_and_predict(X_train, X_test, y_train, y_test)
 print('Accuracy: %0.2f' % (accuracy*100))
 
-
+featurize = False
 
 SPOTIFY_SLICES = os.listdir('spotify_dataset') # [ 'dataset/mpd.slice.0-999.json' ]
 
 for (idx, slic) in enumerate(SPOTIFY_SLICES):
+    if featurize:
+        '''
+        We first read the json files extracted from the Spotify dataset
+        We aim to: 
+            1. Read the json files and save into a pandas dataframe the following information: 
+               <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName>
+            2. Download the song lyrics and featurize the created dataset following the features selection described in the previous notebook
+            3. Train our classificator with the MoodyLyrics dataset (4 emotions: happy, sad, angry, relaxed)
+            4. Predict the emotion of each track in the spotify dataframe and add 4 columns: 
+               <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName, Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
+               where CL stands for confidence level. 
+            5. Once we classified each song in a playlist, we sum up the rows for each emotion confidence level.
+               We then create a new dataframe: 
+               <PlaylistPid, PlaylistName,Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
 
-    '''
-    We first read the json files extracted from the Spotify dataset
-    We aim to: 
-        1. Read the json files and save into a pandas dataframe the following information: 
-           <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName>
-        2. Download the song lyrics and featurize the created dataset following the features selection described in the previous notebook
-        3. Train our classificator with the MoodyLyrics dataset (4 emotions: happy, sad, angry, relaxed)
-        4. Predict the emotion of each track in the spotify dataframe and add 4 columns: 
-           <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName, Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
-           where CL stands for confidence level. 
-        5. Once we classified each song in a playlist, we sum up the rows for each emotion confidence level.
-           We then create a new dataframe: 
-           <PlaylistPid, PlaylistName,Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
+        '''
 
-    '''
-
-    '''
-    PART 1: Read the json files and save into a pandas dataframe the following information: 
-           <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName>
-    '''
-    df = read_spotify_json(slic)
-    '''
-    END PART 1 
-    '''
+        '''
+        PART 1: Read the json files and save into a pandas dataframe the following information: 
+               <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName>
+        '''
+        df = read_spotify_json(slic)
+        '''
+        END PART 1 
+        '''
 
 
-    '''
-    PART 2:	Download the song lyrics and featurize the created dataset following the features 
-            selection described in the previous notebook
-    '''
-    lyrics_dir = './spotify_lyrics'
-    output_path = 'datasets/Spotify_slice{:04}_featurized.csv'.format(idx)
-    new_df = download_and_featurize(df, lyrics_dir,output_path)
-    '''
-    END PART 2
-    '''
+        '''
+        PART 2:	Download the song lyrics and featurize the created dataset following the features 
+                selection described in the previous notebook
+        '''
+        lyrics_dir = './spotify_lyrics'
+        output_path = 'datasets/Spotify_slice{:04}_featurized.csv'.format(idx)
+        new_df = download_and_featurize(df, lyrics_dir,output_path)
+        '''
+        END PART 2
+        '''
 
     '''
     PART 3: Train our classificator with the MoodyLyrics dataset (4 emotions: happy, sad, angry, relaxed)
