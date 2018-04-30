@@ -90,7 +90,7 @@ new_df = pd.read_csv(output_path)
 selected_columns = ['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName',
        'LyricVector', 'wordCount', 'Echoisms', 'Selfish',
        'DuplicateLines', 'IsTitleInLyrics', 'VerbPresent',
-       'VerbPast', 'VerbFuture', 'ADJ', 'PUNCT'
+       'VerbPast', 'VerbFuture', 'ADJ', 'PUNCT', 'Sentiment', 'Subjectivity'
 ]
 
 tmp_df = new_df[selected_columns]
@@ -98,8 +98,8 @@ tmp_df = tmp_df.drop(['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', '
 
 
 X_vect = adjust(tmp_df)
-X_vect_scaled = sc.transform(X_vect)
-y_pred = classifier.predict(X_vect_scaled,verbose=0)
+#X_vect_scaled = sc.transform(X_vect)
+y_pred = classifier.predict(X_vect, verbose=0)
 #y_pred_label = [list(zip(y_pred[i], emotions_label)) for i in range(len(y_pred))]
 #y_pred_ord = [sorted(y_pred_label[i], key=lambda x:  x[0], reverse=True) for i in range(len(y_pred_label))]
 emotion_labels = encoder.inverse_transform([0,1,2,3])
@@ -107,20 +107,3 @@ classificationDf = pd.DataFrame(data=y_pred,columns=emotion_labels)
 finalDf = pd.concat([new_df, classificationDf],axis=1)
 output_path = './datasets/spotify_lyrics1st_classified'
 finalDf.to_csv(output_path,index=False)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

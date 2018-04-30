@@ -95,7 +95,6 @@ def download_and_featurize(df, lyrics_dir,output_path):
 
     for idx, row in df.iterrows():
         fname = '.'.join([lyrics_dir+'/'+row['TrackUri'],'txt'])
-        #print(fname)
         if not os.path.lexists(fname):
             try:
                 lyrics = lyricwikia.get_lyrics(row['ArtistName'], row['TrackName'])
@@ -104,8 +103,6 @@ def download_and_featurize(df, lyrics_dir,output_path):
             except lyricwikia.LyricsNotFound:
                 lyrics = None
                 continue
-        else: 
-            print(fname, 'found')
         
         # FEATURIZATION PART   
         if os.path.lexists(fname):
@@ -126,7 +123,6 @@ def download_and_featurize(df, lyrics_dir,output_path):
     print()
     print('Done! Dataset written:', output_path)
     return 
-
 
 def adjust(df):
     X_vect = list()
