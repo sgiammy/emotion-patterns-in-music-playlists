@@ -1,83 +1,83 @@
-Artist,Song,count
-Aerosmith,Janie's Got A Gun,2
-Akon,Don't Matter,2
-Akon,Lonely,2
-Alice Cooper,Be My Lover,2
-Asobi Seksu,Thursday,2
-Austra,Spellwork,2
-Avenged Sevenfold,Nightmare,2
-Bebel Gilberto,Aganju,3
-Billie Holiday,Nice Work If You Can Get It,2
-Boyz II Men,Silent Night,2
-Brandon Heath,Your Love,2
-Caribou,Sun,2
-Chet Baker,Let's Get Lost,2
-Chevelle,Send The Pain Below,2
-Chris Tomlin,Our God,3
-David Bowie,Fame,2
-Elvis Costello,One Bell Ringing,2
-Elvis Presley,Heartbreak Hotel,2
-Eric Clapton,Cocaine,2
-Fontella Bass,Rescue Me,2
-Franz Ferdinand,Do You Want To,2
-Freddie Hubbard,Red Clay,2
-George Harrison,What Is Life,2
-Innerpartysystem,American Trash,2
-Jeremy Camp,Take You Back,2
-John Lennon,Happy Xmas (War Is Over),3
-John Prine,Glory Of True Love,2
-Johnny Cash,Were You There (When They Crucified My Lord),2
-Josh Wilson,Before The Morning,2
-K-Paz De La Sierra,Volvere,2
-Keb' Mo',The Door,2
-Korn,Blind,2
-Mark Schultz,Love Has Come,2
-Metallica,Metal Militia,3
-Motley Crue,Home Sweet Home,2
-Mudvayne,Scream With Me,2
-Muse,Stockholm Syndrome,2
-Musiq,Girl Next Door ,2
-Natasha Bedingfield,These Words,2
-Nirvana,Come As You Are,2
-Nirvana,Polly,2
-Nnenna Freelon,If I Only Had A Brain ,2
-PJ Harvey,This Mess We're In,2
-Papa Roach,Burn,2
-Pink Floyd,Chapter 24,2
-Rihanna,Good Girl Gone Bad,2
-Rolling Stones,Gimme Shelter,2
-Scorpions,Rock You Like A Hurricane,2
-Sepultura,Territory,2
-Sheryl Crow,A Change Would Do You Good,2
-Sidewalk Prophets,You Can Have Me,2
-Small Faces,Itchycoo Park,2
-Smashing Pumpkins,Bullet With Butterfly Wings,2
-Temple Of The Dog,Hunger Strike,2
-The Beatles,All You Need Is Love,2
-The Beatles,And I Love Her,2
-The Beatles,Birthday,2
-The Beatles,Can't Buy Me Love,2
-The Beatles,For You Blue,2
-The Beatles,Golden Slumbers,2
-The Beatles,Her Majesty,2
-The Beatles,Here Comes The Sun,2
-The Beatles,Honey Don't,2
-The Beatles,I Should Have Known Better,2
-The Beatles,I'm Happy Just To Dance With You,2
-The Beatles,In My Life,2
-The Beatles,Love Me Do,2
-The Beatles,Maggie Mae,2
-The Beatles,Maxwell's Silver Hammer,2
-The Beatles,Octopus's Garden,2
-The Beatles,The End,2
-The Beatles,Two Of Us,2
-The Beatles,Yer Blues,2
-The Beatles,Your Mother Should Know,2
-The Clash,I'm So Bored With The U.S.A.,2
-The Gathering,Locked Away,2
-The Police,So Lonely,2
-The Prodigy,One Love,2
-The Shirelles,Will You Love Me Tomorrow,2
-The Staple Singers,Respect Yourself,2
-U2,Pride ,2
-Wings,Silly Love Songs,2
+Artist,Song,Duplicate_Count,Emotions
+Aerosmith,Janie's Got A Gun,2,"['angry', 'angry']"
+Akon,Don't Matter,2,"['angry', 'angry']"
+Akon,Lonely,2,"['sad', 'sad']"
+Alice Cooper,Be My Lover,2,"['relaxed', 'relaxed']"
+Asobi Seksu,Thursday,2,"['sad', 'sad']"
+Austra,Spellwork,2,"['angry', 'angry']"
+Avenged Sevenfold,Nightmare,2,"['angry', 'angry']"
+Bebel Gilberto,Aganju,3,"['sad', 'sad', 'sad']"
+Billie Holiday,Nice Work If You Can Get It,2,"['relaxed', 'relaxed']"
+Boyz II Men,Silent Night,2,"['relaxed', 'relaxed']"
+Brandon Heath,Your Love,2,"['happy', 'happy']"
+Caribou,Sun,2,"['relaxed', 'relaxed']"
+Chet Baker,Let's Get Lost,2,"['angry', 'angry']"
+Chevelle,Send The Pain Below,2,"['angry', 'angry']"
+Chris Tomlin,Our God,3,"['happy', 'happy', 'happy']"
+David Bowie,Fame,2,"['happy', 'happy']"
+Elvis Costello,One Bell Ringing,2,"['sad', 'sad']"
+Elvis Presley,Heartbreak Hotel,2,"['sad', 'sad']"
+Eric Clapton,Cocaine,2,"['angry', 'angry']"
+Fontella Bass,Rescue Me,2,"['happy', 'happy']"
+Franz Ferdinand,Do You Want To,2,"['happy', 'happy']"
+Freddie Hubbard,Red Clay,2,"['happy', 'happy']"
+George Harrison,What Is Life,2,"['happy', 'happy']"
+Innerpartysystem,American Trash,2,"['sad', 'sad']"
+Jeremy Camp,Take You Back,2,"['angry', 'angry']"
+John Lennon,Happy Xmas (War Is Over),3,"['happy', 'happy', 'happy']"
+John Prine,Glory Of True Love,2,"['happy', 'happy']"
+Johnny Cash,Were You There (When They Crucified My Lord),2,"['sad', 'sad']"
+Josh Wilson,Before The Morning,2,"['angry', 'angry']"
+K-Paz De La Sierra,Volvere,2,"['sad', 'sad']"
+Keb' Mo',The Door,2,"['sad', 'sad']"
+Korn,Blind,2,"['sad', 'sad']"
+Mark Schultz,Love Has Come,2,"['happy', 'happy']"
+Metallica,Metal Militia,3,"['sad', 'sad', 'sad']"
+Motley Crue,Home Sweet Home,2,"['relaxed', 'relaxed']"
+Mudvayne,Scream With Me,2,"['angry', 'angry']"
+Muse,Stockholm Syndrome,2,"['angry', 'angry']"
+Musiq,Girl Next Door ,2,"['relaxed', 'relaxed']"
+Natasha Bedingfield,These Words,2,"['happy', 'happy']"
+Nirvana,Come As You Are,2,"['angry', 'angry']"
+Nirvana,Polly,2,"['sad', 'sad']"
+Nnenna Freelon,If I Only Had A Brain ,2,"['angry', 'angry']"
+PJ Harvey,This Mess We're In,2,"['relaxed', 'relaxed']"
+Papa Roach,Burn,2,"['angry', 'angry']"
+Pink Floyd,Chapter 24,2,"['relaxed', 'relaxed']"
+Rihanna,Good Girl Gone Bad,2,"['relaxed', 'relaxed']"
+Rolling Stones,Gimme Shelter,2,"['angry', 'angry']"
+Scorpions,Rock You Like A Hurricane,2,"['angry', 'angry']"
+Sepultura,Territory,2,"['angry', 'angry']"
+Sheryl Crow,A Change Would Do You Good,2,"['relaxed', 'relaxed']"
+Sidewalk Prophets,You Can Have Me,2,"['happy', 'happy']"
+Small Faces,Itchycoo Park,2,"['happy', 'happy']"
+Smashing Pumpkins,Bullet With Butterfly Wings,2,"['angry', 'angry']"
+Temple Of The Dog,Hunger Strike,2,"['sad', 'sad']"
+The Beatles,All You Need Is Love,2,"['happy', 'happy']"
+The Beatles,And I Love Her,2,"['happy', 'happy']"
+The Beatles,Birthday,2,"['happy', 'happy']"
+The Beatles,Can't Buy Me Love,2,"['happy', 'happy']"
+The Beatles,For You Blue,2,"['relaxed', 'relaxed']"
+The Beatles,Golden Slumbers,2,"['relaxed', 'relaxed']"
+The Beatles,Her Majesty,2,"['relaxed', 'relaxed']"
+The Beatles,Here Comes The Sun,2,"['relaxed', 'relaxed']"
+The Beatles,Honey Don't,2,"['relaxed', 'relaxed']"
+The Beatles,I Should Have Known Better,2,"['happy', 'happy']"
+The Beatles,I'm Happy Just To Dance With You,2,"['happy', 'happy']"
+The Beatles,In My Life,2,"['happy', 'happy']"
+The Beatles,Love Me Do,2,"['happy', 'happy']"
+The Beatles,Maggie Mae,2,"['sad', 'sad']"
+The Beatles,Maxwell's Silver Hammer,2,"['sad', 'sad']"
+The Beatles,Octopus's Garden,2,"['relaxed', 'relaxed']"
+The Beatles,The End,2,"['happy', 'happy']"
+The Beatles,Two Of Us,2,"['relaxed', 'relaxed']"
+The Beatles,Yer Blues,2,"['sad', 'sad']"
+The Beatles,Your Mother Should Know,2,"['happy', 'happy']"
+The Clash,I'm So Bored With The U.S.A.,2,"['sad', 'sad']"
+The Gathering,Locked Away,2,"['angry', 'angry']"
+The Police,So Lonely,2,"['sad', 'sad']"
+The Prodigy,One Love,2,"['happy', 'happy']"
+The Shirelles,Will You Love Me Tomorrow,2,"['happy', 'happy']"
+The Staple Singers,Respect Yourself,2,"['relaxed', 'relaxed']"
+U2,Pride ,2,"['happy', 'happy']"
+Wings,Silly Love Songs,2,"['happy', 'happy']"
