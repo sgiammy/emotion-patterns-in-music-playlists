@@ -47,9 +47,12 @@ print('Accuracy: %0.2f' % (accuracy*100))
 
 featurize = False
 
-SPOTIFY_SLICES = os.listdir('spotify_dataset') # [ 'dataset/mpd.slice.0-999.json' ]
+SPOTIFY_SLICES = [ 'dataset/mpd.slice.0-999.json' ] #os.listdir('spotify_dataset') # 
 
 for (idx, slic) in enumerate(SPOTIFY_SLICES):
+
+    output_path = 'datasets/Spotify_slice{:04}_featurized.csv'.format(idx)
+
     if featurize:
         '''
         We first read the json files extracted from the Spotify dataset
@@ -82,7 +85,7 @@ for (idx, slic) in enumerate(SPOTIFY_SLICES):
                 selection described in the previous notebook
         '''
         lyrics_dir = './spotify_lyrics'
-        output_path = 'datasets/Spotify_slice{:04}_featurized.csv'.format(idx)
+        
         new_df = download_and_featurize(df, lyrics_dir,output_path)
         '''
         END PART 2
@@ -98,7 +101,7 @@ for (idx, slic) in enumerate(SPOTIFY_SLICES):
            <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName, Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
            where CL stands for confidence level. 
     '''
-    new_df = pd.read_csv(output_path)
+    new_df = pd.read_csv('datasets/Spotify1stSlice_featurized.csv')#output_path)
     selected_columns = ['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName',
            'LyricVector', 'wordCount', 'Echoisms', 'Selfish',
            'DuplicateLines', 'IsTitleInLyrics', 'VerbPresent',

@@ -139,6 +139,7 @@ def adjust(df):
     return X_vect
 
 def train_and_predict(X_train,X_test, y_train, y_test):
+    encoder = LabelEncoder()
     y_nn = np_utils.to_categorical(encoder.fit_transform(y_train))
     #Feature Scaling
     sc = StandardScaler()
