@@ -86,7 +86,7 @@ PART 4:  Predict the emotion of each track in the spotify dataframe and add 4 co
 	   <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName, Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
 	   where CL stands for confidence level. 
 '''
-new_df = pd.read_csv('./datasets/spotify_lyrics_1st.csv')
+new_df = pd.read_csv(output_path)
 selected_columns = ['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName',
        'LyricVector', 'wordCount', 'Echoisms', 'Selfish',
        'DuplicateLines', 'IsTitleInLyrics', 'VerbPresent',

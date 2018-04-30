@@ -123,3 +123,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+src/spotify_lyrics/
+src/datasets/spotify*.json
+src/datasets/Spotify*

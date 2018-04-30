@@ -122,7 +122,7 @@ def download_and_featurize(df, lyrics_dir,output_path):
               'VERB','X','SPACE','Sentiment','Subjectivity']
     new_df = pd.DataFrame(data=rows,columns=columns)
 
-    new_df.to_csv(output_path)
+    new_df.to_csv(output_path, index=False)
     print()
     print('Done! Dataset written:', output_path)
     return 

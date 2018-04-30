@@ -98,13 +98,13 @@ def feature_extraction(lines, title):
         verbfreq[key] /= verbs_no
 
   for tag in tags:
-    freq[tag] /= wc
+    freq[tag] /= wc if wc > 0 else 1
  
   d['rhymes'] = get_rhymes(lines)
 
   d['selfish'] = i_count / pronouns_count if pronouns_count > 0 else 0
   
-  d['echoisms'] /= wc
+  d['echoisms'] /= wc if wc > 0 else 1
   
   return d
 
@@ -128,7 +128,7 @@ def get_rhymes(lines):
     next_line_words = lines[i+1].split()
     if next_line_words is not None and len(next_line_words) > 0 and  next_line_words[-1] in rhymes:
       count += 1 
-  return count / len(lines) 
+  return count / ( len(lines) if len(lines) > 0 else 1 ) 
 
 def get_slang_counts(tokens):
   slang_counter = 0
@@ -216,7 +216,9 @@ def get_selfish_degree(tokens):
   return i_count / pronouns_count if pronouns_count > 0 else 0
 
 def count_duplicate_lines(tokens):
-  return sum([tokens.count(x) for x in list(set(tokens)) if tokens.count(x) > 1]) / get_word_count(tokens)
+  wc = get_word_count(tokens)
+  wc = wc if wc > 0 else 1
+  return sum([tokens.count(x) for x in list(set(tokens)) if tokens.count(x) > 1]) / wc
 
 def is_title_in_lyrics(title, tokens):
   for tk in tokens:
