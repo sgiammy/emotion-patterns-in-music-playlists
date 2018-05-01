@@ -122,10 +122,16 @@ def download_and_featurize(df, lyrics_dir,output_path, intersectionDf=None, inte
         progress(count, total, '{}/{}'.format(count, total))
 
     # DATASET CREATION
-    columns = ['PlaylistPid','PlaylistName','TrackUri', 'ArtistName', 'TrackName','LyricVector','lineCount','wordCount',
-              'Echoisms','Selfish','DuplicateLines','IsTitleInLyrics','Rhymes','VerbPresent','VerbPast','VerbFuture',
-              'ADJ','ADP','ADV','AUX','CONJ','CCONJ','DET','INTJ','NOUN','NUM','PART','PRON','PROPN','PUNCT','SCONJ','SYM',
-              'VERB','X','SPACE','Sentiment','Subjectivity']
+    columns = ['PlaylistPid','PlaylistName','TrackUri', 'ArtistName', 'TrackName','LYRICS_VECTOR',
+        'LINE_COUNT', 'WORD_COUNT', 'ECHOISMS', 'SELFISH_DEGREE', 
+        'DUPLICATE_LINES', 'IS_TITLE_IN_LYRICS', 'RHYMES', 'VERB_PRESENT', 
+        'VERB_PAST', 'VERB_FUTURE', 'ADJ_FREQUENCIES', 'CONJUCTION_FREQUENCIES', 
+        'ADV_FREQUENCIES', 'AUX_FREQUENCIES', 'CONJ_FREQUENCIES', 'CCONJ_FREQUENCIES', 
+        'DETERMINER_FREQUENCIES', 'INTERJECTION_FREQUENCIES', 'NOUN_FREQUENCIES', 
+        'NUM_FREQUENCIES', 'PART_FREQUENCIES', 'PRON_FREQUENCIES', 'PROPN_FREQUENCIES', 
+        'PUNCT_FREQUENCIES', 'SCONJ_FREQUENCIES', 'SYM_FREQUENCIES', 'VERB_FREQUENCIES',
+        'X_FREQUENCIES', 'SPACE_FREQUENCIES', 'SENTIMENT', 'SUBJECTIVITY'
+    ]
     new_df = pd.DataFrame(data=rows,columns=columns)
 
     new_df.to_csv(output_path, index=False)
@@ -155,7 +161,9 @@ def train_logreg(X, y):
 
 def train_and_predict(X_train,X_test, y_train, y_test):
     encoder = LabelEncoder()
-    y_train_nn = np_utils.to_categorical(encoder.fit_transform(y_train))
+    encoder.fit(y_train)
+    y_train = encoder.transform(y_train)
+    y_train_nn = np_utils.to_categorical(y_train)
     #Feature Scaling
     sc = StandardScaler()
     X_train_nn = sc.fit_transform(X_train)
@@ -170,4 +178,4 @@ def train_and_predict(X_train,X_test, y_train, y_test):
     
     cm = confusion_matrix(y_pred_index, y_nn_pred.argmax(axis=1))
     accuracy = (sum([cm[i,i] for i in range(len(cm))])) / len(y_nn_pred)
-    return (classifier, sc, accuracy,encoder)
+    return (classifier, sc, accuracy,encoder, encoder.inverse_transform([0,1,2,3]))

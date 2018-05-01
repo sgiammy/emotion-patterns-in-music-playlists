@@ -45,21 +45,21 @@ train_df = dataset.drop(['EMOTION'], axis=1)
 # X and Y vect creation
 X_vect = adjust(train_df)
 y = dataset['EMOTION'].as_matrix().T
-'''
+
 # Train,test split
 X_train, X_test, y_train, y_test = train_test_split(X_vect, y, test_size = 0.2, random_state = 0)
 # Neural network: model definition, training,prediction and validation
-classifier,sc,accuracy,encoder = train_and_predict(X_train, X_test, y_train, y_test)
+classifier,sc,accuracy,encoder, emotion_labels = train_and_predict(X_train, X_test, y_train, y_test)
 print('Accuracy: %0.2f' % (accuracy*100))
-'''
+
 # Attempt at using logistic regression for classifying
-encoder = LabelEncoder()
-y = encoder.fit_transform(y)
-classifier = train_logreg(X_vect, y)
+#encoder = LabelEncoder()
+#y = encoder.fit_transform(y)
+#classifier = train_logreg(X_vect, y)
 
 featurize = False
 
-SPOTIFY_SLICES = [ 'dataset/mpd.slice.0-999.json' ] #os.listdir('spotify_dataset') # 
+SPOTIFY_SLICES = [ 'datasets/mpd.slice.0-999.json' ] #os.listdir('spotify_dataset') # 
 
 for (idx, slic) in enumerate(SPOTIFY_SLICES):
 
@@ -112,25 +112,26 @@ for (idx, slic) in enumerate(SPOTIFY_SLICES):
            <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName, Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
            where CL stands for confidence level. 
     '''
-    new_df = pd.read_csv('datasets/Spotify1stSlice_featurized.csv')#output_path)
-    selected_columns = ['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName',
-           'LyricVector', 'wordCount', 'Echoisms', 'Selfish',
-           'DuplicateLines', 'IsTitleInLyrics', 'VerbPresent',
-           'VerbPast', 'VerbFuture', 'ADJ', 'PUNCT', 'Sentiment', 'Subjectivity'
+    new_df = pd.read_csv(output_path)
+    selected_columns = [
+        'LYRICS_VECTOR',
+        'WORD_COUNT', 'ECHOISMS', 'SELFISH_DEGREE', 
+        'DUPLICATE_LINES', 'IS_TITLE_IN_LYRICS', 'VERB_PRESENT', 
+        'VERB_PAST', 'VERB_FUTURE', 'ADJ_FREQUENCIES',
+        'PUNCT_FREQUENCIES',
+        'SENTIMENT', 'SUBJECTIVITY'
     ]
 
     tmp_df = new_df[selected_columns]
-    tmp_df = tmp_df.drop(['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName'], axis=1)
+    #tmp_df = tmp_df.drop(['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName'], axis=1)
 
 
     X_vect = adjust(tmp_df)
-    #X_vect_scaled = sc.transform(X_vect)
+    X_vect_scaled = sc.transform(X_vect)
     # TODO: change following line in case of neural network
-    y_pred = classifier.predict_proba(X_vect)#, verbose=0)
-    print(y_pred[0])
+    y_pred = classifier.predict(X_vect_scaled)#, verbose=0)
     #y_pred_label = [list(zip(y_pred[i], emotions_label)) forgt i in range(len(y_pred))]
     #y_pred_ord = [sorted(y_pred_label[i], key=lambda x:  x[0], reverse=True) for i in range(len(y_pred_label))]
-    emotion_labels = encoder.inverse_transform([0,1,2,3])
     print(emotion_labels)
     classificationDf = pd.DataFrame(data=y_pred,columns=emotion_labels)
     finalDf = pd.concat([new_df, classificationDf],axis=1)
@@ -140,7 +141,10 @@ for (idx, slic) in enumerate(SPOTIFY_SLICES):
     '''
     PART 5: Classify playlists 
     '''
-    clfDf = finalDf.groupby(by='PlaylistPid').agg({'happy': 'mean', 'sad': 'mean', 'angry': 'mean', 'relaxed': 'mean'})
+    mean_map = dict()
+    for emo in emotion_labels:
+        mean_map[emo] = 'mean'
+    clfDf = finalDf.groupby(by='PlaylistPid').agg(mean_map)
     output_path = './datasets/classified_playlists_slice{:04}.csv'.format(idx)
     clfDf.to_csv(output_path, index=False)
     print()
