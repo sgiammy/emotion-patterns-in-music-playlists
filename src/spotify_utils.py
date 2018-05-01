@@ -10,6 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import confusion_matrix
+from sklearn.linear_model import LogisticRegression
 from utils.datasets import load_dataset_from_path, split_train_validation
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
