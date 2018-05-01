@@ -142,7 +142,7 @@ def adjust(df):
 def train_logreg(X, y):
     clf = LogisticRegression(penalty='l2', dual=False, C=0.15, 
                              solver='newton-cg', multi_class='multinomial', random_state=0)
-    clf.fit(X_train, y_train)
+    clf.fit(X, y)
     return clf
 
 def train_and_predict(X_train,X_test, y_train, y_test):
