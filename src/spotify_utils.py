@@ -24,12 +24,12 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.utils import np_utils
 
-def build_ann(input_size,optimizer='adam'):			
+def build_ann(input_size,optimizer='adam'):
     classifier = Sequential()
-    classifier.add(Dense(units = 120, kernel_initializer = 'random_normal', activation = 'sigmoid', input_dim = input_size))
+    classifier.add(Dense(units = 60, kernel_initializer = 'random_normal', activation = 'sigmoid', input_dim = input_size))
     classifier.add(Dropout(0.5))
 
-    classifier.add(Dense(units = 60, kernel_initializer = 'random_normal', activation = 'softmax', input_dim = input_size))
+    classifier.add(Dense(units = 60, kernel_initializer = 'random_normal', activation = 'sigmoid', input_dim = input_size))
     classifier.add(Dropout(0.5))
 
     classifier.add(Dense(units = 4, kernel_initializer = 'random_normal', activation = 'softmax'))
@@ -138,19 +138,27 @@ def adjust(df):
     X_vect = np.array(X_vect)
     return X_vect
 
+def train_logreg(X, y):
+    clf = LogisticRegression(penalty='l2', dual=False, C=0.15, 
+                             solver='newton-cg', multi_class='multinomial', random_state=0)
+    clf.fit(X_train, y_train)
+    return clf
+
 def train_and_predict(X_train,X_test, y_train, y_test):
-    y_nn = np_utils.to_categorical(encoder.fit_transform(y_train))
+    encoder = LabelEncoder()
+    y_train_nn = np_utils.to_categorical(encoder.fit_transform(y_train))
     #Feature Scaling
     sc = StandardScaler()
-    X_train = sc.fit_transform(X_train)
-    X_test = sc.transform(X_test)
-    classifier = build_ann(input_size=X_train.shape[1])
-    classifier.fit(X_train, y_nn, batch_size = 64, epochs = 100, verbose=0)
+    X_train_nn = sc.fit_transform(X_train)
+    X_test_nn = sc.transform(X_test)
+    classifier = build_ann(input_size=X_train_nn.shape[1])
+    classifier.fit(X_train_nn, y_train_nn, batch_size = 256, epochs = 100, verbose=0)
     #Predicting the Test set results
-    y_pred = classifier.predict(X_test,verbose=0)
+    y_pred = classifier.predict(X_test_nn,verbose=0)
     y_pred_index = np.argmax(y_pred,axis=1)
     #Validating the results
     y_nn_pred = np_utils.to_categorical(encoder.transform(y_test))
+    
     cm = confusion_matrix(y_pred_index, y_nn_pred.argmax(axis=1))
     accuracy = (sum([cm[i,i] for i in range(len(cm))])) / len(y_nn_pred)
     return (classifier, sc, accuracy,encoder)
