@@ -26,6 +26,12 @@ Train the classifier
 '''
 # MoodyLyrics Preprocessing
 dataset = pd.read_csv('./datasets/moodylyrics_featurized.csv')
+intersectionDf = dataset[['ARTIST', 'SONG_TITLE']]
+intersectionLog = './moodylyrics_intersection.log'
+try:
+    os.remove(intersectionLog)
+except OSError:
+    pass
 selected_columns = [
    'LYRICS_VECTOR',
    'WORD_COUNT', 'ECHOISMS', 'SELFISH_DEGREE', 
@@ -91,7 +97,7 @@ for (idx, slic) in enumerate(SPOTIFY_SLICES):
                 selection described in the previous notebook
         '''
         lyrics_dir = './spotify_lyrics'
-        new_df = download_and_featurize(df, lyrics_dir,output_path)
+        new_df = download_and_featurize(df, lyrics_dir,output_path, intersectionDf, intersectionLog)
         '''
         END PART 2
         '''

@@ -126,4 +126,7 @@ venv.bak/
 src/spotify_lyrics/
 src/datasets/spotify*.json
 src/datasets/Spotify*
+src/datasets/spotify*
+src/datasets/classified*
+src/datasets/mpd*
 src/datasets/spotify_lyrics1st_classified

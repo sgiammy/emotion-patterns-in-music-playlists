@@ -85,11 +85,15 @@ def featurize(fname,row):
         )
     return elem
 
-def download_and_featurize(df, lyrics_dir,output_path):
+def download_and_featurize(df, lyrics_dir,output_path, intersectionDf=None, intersectionLog=None):
     rows = list() 
     total = len(df)
     count = 0
 
+    needIntersection = intersectionDf is not None and intersectionLog is not None
+    if needIntersection:
+        intersectionFile = open(intersectionLog, 'a+')
+    
     # LYRICS DOWNLOAD
     if not os.path.lexists(lyrics_dir):
         os.mkdir(lyrics_dir)
@@ -99,6 +103,10 @@ def download_and_featurize(df, lyrics_dir,output_path):
         if not os.path.lexists(fname):
             try:
                 lyrics = lyricwikia.get_lyrics(row['ArtistName'], row['TrackName'])
+                if needIntersection:
+                    # Update intersection log
+                    if ((intersectionDf.ARTIST == row['ArtistName']) & (intersectionDf.SONG_TITLE == row['TrackName'])).any():
+                        intersectionFile.write('{}, {}'.format(row['ArtistName'], row['TrackName']))
                 with open('.'.join([lyrics_dir+'/'+row['TrackUri'],'txt']), 'w') as f:
                     f.write(lyrics)
             except lyricwikia.LyricsNotFound:
