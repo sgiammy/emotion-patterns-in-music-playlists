@@ -53,10 +53,11 @@ classifier = train_logreg(X_vect, y)
 
 featurize = False
 
-SPOTIFY_SLICES = [ 'dataset/mpd.slice.0-999.json' ]  #os.listdir('spotify_dataset')
+SPOTIFY_SLICES = [ 'dataset/mpd.slice.0-999.json' ] #os.listdir('spotify_dataset') # 
+
 for (idx, slic) in enumerate(SPOTIFY_SLICES):
-    
-    output_path = './datasets/Spotify1stSlice_featurized.csv'  #'datasets/Spotify_slice{:04}_featurized.csv'.format(idx)
+
+    output_path = 'datasets/Spotify_slice{:04}_featurized.csv'.format(idx)
 
     if featurize:
         '''
@@ -105,7 +106,7 @@ for (idx, slic) in enumerate(SPOTIFY_SLICES):
            <PlaylistPid, PlaylistName, TrackUri, ArtistName, TrackName, Happy_CL, Sad_CL, Angry_CL, Relaxed_CL>
            where CL stands for confidence level. 
     '''
-    new_df = pd.read_csv(output_path)
+    new_df = pd.read_csv('datasets/Spotify1stSlice_featurized.csv')#output_path)
     selected_columns = ['PlaylistPid', 'PlaylistName', 'TrackUri', 'ArtistName', 'TrackName',
            'LyricVector', 'wordCount', 'Echoisms', 'Selfish',
            'DuplicateLines', 'IsTitleInLyrics', 'VerbPresent',
