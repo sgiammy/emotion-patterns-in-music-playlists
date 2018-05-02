@@ -170,7 +170,7 @@ At the end we will have 12 features (311 in reality, because the lyrics content 
 \end{columns}
 \end{frame}
 
-\begin{frame}{Obtained Results: Logistic Regression}
+\begin{frame}{Obtained Results: Logistic Regression\footnote{We experimented with several probabilistic classifiers and Logistic Regression was the one giving the best results}}
 \begin{columns}
 \column{0.5\textwidth}
 \begin{figure}
@@ -204,20 +204,30 @@ We considered different approaches
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Our results}
-\begin{itemize}
-\item Playlists classified using our best model (neural network) all appears to be very similar to each other
-\item Logistic Regression provided more heterogeneous classifications
-\item We can't validate what we did :-(
-\item Could you please test the feature we extracted into your recommendation system?
-\end{itemize}
+\begin{frame}{Our Results}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.45,left]{./images/playlist-emotion-distribution-ann}
+	\caption{Playlists emotion distribution with ANN}
+\end{figure}
+
+\column{0.5\textwidth}
+\begin{figure}
+	\includegraphics[scale=0.45,left]{./images/playlist-emotion-distribution-logreg}
+	\caption{Playlists emotion distribution with Logistic Regression}
+\end{figure}
+\end{columns}
 \end{frame}
+
 
 %Conclusions
 \section{Conclusion}
 
 \begin{frame}{What's next?}
 \begin{itemize}
+\item We can't evaluate our results
+\item Could you please test them inside your recommendation system?
 \item Can we start writing our report? (if yes, any hint?)
 \item ...
 \end{itemize}
