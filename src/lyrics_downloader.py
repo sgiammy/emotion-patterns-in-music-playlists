@@ -4,6 +4,8 @@ import sys
 import os
 import shutil
 
+import pandas as pd
+
 from utils.progress import progress
 
 # Define some command line arguments
@@ -23,13 +25,9 @@ def songs_count(path):
 
 # Generator function which reads the lyrics from a csv file line by line
 def lyric_entries_generator(path):
-  with open(path) as lp:
-    l = lp.readline()
-    if args.skipHeader:
-      l = lp.readline()
-    while l:
-      yield l.rstrip().split(',')
-      l = lp.readline()
+  df = pd.read_csv(path)
+  for idx, row in df.iterrows():
+      yield row
 
 def create_output_dir(path):
   if os.path.exists(path) and os.path.isdir(path):
@@ -51,14 +49,14 @@ def err(msg):
 
 def download_lyric(song):
   try:
-    lyric = lyricwikia.get_lyrics(song[1], song[2])
-    filename = '_'.join([song[3], song[1], song[2]])
+    lyric = lyricwikia.get_lyrics(song['Artist'], song['Title'])
+    filename = '_'.join([song['Mood'], song['Artist'], song['Title']])
     filename = filename.replace('/', '-') # The '/' should never appear
     with open(os.path.join(args.output, filename), 'w') as sfile:
       sfile.write(lyric)
       return True
   except lyricwikia.LyricsNotFound:
-    err('Could not download {}'.format(song))
+    err('Could not download {}: {}, {}'.format(song['Index'], song['Artist'], song['Title']))
     return False
 
 if __name__ == '__main__':
