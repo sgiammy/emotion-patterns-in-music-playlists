@@ -2,6 +2,7 @@
 src/test/
 src/models/
 src/ml_lyrics/
+src/ml_lyrics_cleaned/
 src/*.swp
 
 # LaTex

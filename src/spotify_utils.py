@@ -159,7 +159,7 @@ def train_logreg(X, y):
     clf.fit(X, y)
     return clf
 
-def train_and_predict(X_train,X_test, y_train, y_test):
+def train_and_predict(X_train,X_test, y_train, y_test, materialize=False):
     encoder = LabelEncoder()
     encoder.fit(y_train)
     y_train = encoder.transform(y_train)
@@ -170,6 +170,9 @@ def train_and_predict(X_train,X_test, y_train, y_test):
     X_test_nn = sc.transform(X_test)
     classifier = build_ann(input_size=X_train_nn.shape[1])
     classifier.fit(X_train_nn, y_train_nn, batch_size = 256, epochs = 100, verbose=0)
+    # Store
+    if materialize:
+        classifier.save('emodetect.h5')
     #Predicting the Test set results
     y_pred = classifier.predict(X_test_nn,verbose=0)
     y_pred_index = np.argmax(y_pred,axis=1)

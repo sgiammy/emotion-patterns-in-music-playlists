@@ -50,7 +50,7 @@ def err(msg):
 def download_lyric(song):
   try:
     lyric = lyricwikia.get_lyrics(song['Artist'], song['Title'])
-    filename = '_'.join([song['Mood'], song['Artist'], song['Title']])
+    filename = '_'.join([song['Emotion'], song['Artist'], song['Title']])
     filename = filename.replace('/', '-') # The '/' should never appear
     with open(os.path.join(args.output, filename), 'w') as sfile:
       sfile.write(lyric)
@@ -61,7 +61,7 @@ def download_lyric(song):
 
 if __name__ == '__main__':
   # Get the number of songs we are going to download
-  totalSongs = songs_count(args.input)
+  totalTitles = songs_count(args.input)
 
   # Create output directory
   create_output_dir(args.output)
@@ -70,7 +70,7 @@ if __name__ == '__main__':
   count = 0
   errCount = 0
   for lyric in lyric_entries_generator(args.input):
-    progress(count, totalSongs, 'Errors encountered: {}'.format(errCount))
+    progress(count, totalTitles, 'Errors encountered: {}'.format(errCount))
     if not download_lyric(lyric):
       errCount += 1
     count += 1

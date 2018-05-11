@@ -49,8 +49,10 @@ y = dataset['EMOTION'].as_matrix().T
 # Train,test split
 X_train, X_test, y_train, y_test = train_test_split(X_vect, y, test_size = 0.2, random_state = 0)
 # Neural network: model definition, training,prediction and validation
-classifier,sc,accuracy,encoder, emotion_labels = train_and_predict(X_train, X_test, y_train, y_test)
+classifier,sc,accuracy,encoder, emotion_labels = train_and_predict(X_train, X_test, y_train, y_test, True)
 print('Accuracy: %0.2f' % (accuracy*100))
+
+assert 1==2
 
 # Attempt at using logistic regression for classifying
 #encoder = LabelEncoder()
