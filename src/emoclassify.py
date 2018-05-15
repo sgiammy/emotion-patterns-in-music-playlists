@@ -46,7 +46,7 @@ def classify(lyrics, title, modelpath='emodetect.h5'):
     # Feature selection
     selected_columns = [
         'LYRICS_VECTOR',
-        'WORD_COUNT', 'ECHOISMS', 'SELFISH_DEGREE', 
+        'ECHOISMS', 
         'DUPLICATE_LINES', 'IS_TITLE_IN_LYRICS', 'VERB_PRESENT', 
         'VERB_PAST', 'VERB_FUTURE', 'ADJ_FREQUENCIES',
         'PUNCT_FREQUENCIES',
@@ -56,6 +56,7 @@ def classify(lyrics, title, modelpath='emodetect.h5'):
 
     # Turn into numerical features
     X_vect = adjust(df)
+
     sc = StandardScaler()
     X_vect_scaled = sc.fit_transform(X_vect)
 
