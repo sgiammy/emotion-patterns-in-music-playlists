@@ -1,0 +1,129 @@
+\chapter{Problem Pre-processing}
+\section{The problem}
+The goal of the semester project is to unravel the emotion pattern underlying the sequences of songs in a playlist using automatic approaches of Emotion Detection on the lyrics.\par
+The problem can be divided into two main parts:
+\begin{enumerate}
+\item Classify emotions for each song based on the lyrics
+\item Analyze emotion patterns in the playlists
+\end{enumerate}
+
+\section{Related work}
+Emotion detection domain has already attracted many researchers from computer science, psychology, cognitive science and so on. \par
+Before building our own emotion detection system we start analyzing some already existent classifier. \par
+\paragraph{IBM Watson Natural Language Understanding}\cite{ibm_watson}
+Watson is a question answering computer system capable of answering questions posed in natural language, developed by IBM.\par
+Natural Language Understanding is a collection of APIs that allows to:
+\begin{itemize}
+\item Recognize the overall sentiment, in a scale from negative to positive [-1, 1];
+\item Detect the emotion percentage between: joy, anger, disgust, sadness, fear;
+\item Determine keywords ranked by relevance;
+\item Extract entities: people, companies, organizations, cities and other information;
+\item Classify content into hierarchical categories;
+\item Identify general concepts that may not be directly referenced in the text; 
+\end{itemize}
+Results obtained analyzing Oasis - Wonderwall are illustrated in Fig.
+
+
+\paragraph{IBM Watson Tone Analyzer}\cite{ibm_watson_tone}
+It uses linguistic analysis to detect joy, fear, sadness, anger, analytical, confident, and tentative tones found in text. It allows to select different sources: tweets, online reviews, email messages, or other text. It uses both:
+\begin{itemize}
+\item the document level: to get a sense of the overall tone;
+\item the sentence level: to identify specific areas where tones are the strongest.
+\end{itemize}
+
+\paragraph{QEmotion}\cite{qemotion}
+Qemotion detects the main emotion of the speech and define the corresponding emotion in terms of temperature. 
+\begin{itemize}
+\item From $31^{\circ}$ to $40^{\circ}$ $\to$ Happiness
+\item From $21^{\circ}$ to $30^{\circ}$ $\to$ Surprise
+\item From $11^{\circ}$ to $20^{\circ}$ $\to $ Calm
+\item From $6^{\circ}$ to $10^{\circ}$ $\to $ Fear
+\item From $-5^{\circ}$ to $5^{\circ}$ $\to $ Sadness
+\item From $-14^{\circ}$ to $-6^{\circ}$ $\to $ Anger
+\item From $-20^{\circ}$ to $-15^{\circ}$ $\to $ Disgust
+\end{itemize}
+
+
+\section{NLP libraries}
+In order to select the best Natural Language Processing library for our purpose we also analyzed pros and cons of the main Natural Language Processing libraries, i.e. NLTK, TextBlob, Standord's CoreNLP and SpaCy. 
+
+\paragraph{NLTK: Natural Language Toolkit}
+It is recommended only as an education and research tool. \\
+Pros:
+\begin{itemize}
+\item its modularized structure makes it excellent for learning and exploring NLP concepts; 
+\item over 50 corpora and lexicons, 9 stemmers, and a dozens of algorithms to choose from (this can also be considered as a con).
+\end{itemize}
+Cons: 
+\begin{itemize}
+\item Heavy library with a steep learning curve;
+\item Slow and not production-ready. 
+\end{itemize}
+
+\paragraph{TextBlob}
+Built on top on NLTK.\\
+Pros: 
+\begin{itemize}
+\item More intuitive; 
+\item Gentle learning curve. 
+\end{itemize} 
+
+\paragraph{Stanford's CoreNLP}
+Java library with Python wrappers. \\
+Pros:
+\begin{itemize}
+\item fast;
+\item support for several major languages. 
+\end{itemize}
+
+\paragraph{SpaCy}
+It is a new NLP library designed to be fast, streamlined and production-ready.\\
+Pros:
+\begin{itemize}
+\item minimal number of options;
+\item its philosophy is to only present the best algorithm for each purpose. 
+\end{itemize}
+Cons:
+\begin{itemize}
+\item it is new, so its support community is not as large as other libraries, but it is growing very fast.
+\end{itemize}
+
+
+
+
+
+\section{Word embedding techniques}
+Word embeddings are a set of feature learning techniques mapping words or phrases from the vocabulary to vectors or real numbers. \par
+These techniques map sparse word vectors into continuous space based on the surrounding context. For example if \textit{``salt''} and \textit{``seasoning''} appear within the same context, the model will indicate that \textit{``salt''} is conceptually closer to \textit{``seasoning''}, than another word, say \textit{``chair''}.\par
+There are two main embedding libraries: Word2vec and FastText. While Word2vec treats each word in corpus like an atomic entity generating a vector for each word, FastText treats each word as composed of character ngrams, so the vector for a word is made of the sum of this character n grams. \par
+For example,  the word vector \textit{``apple''} is a sum of the vectors of the n-grams ``ap'', ``app'', ``appl'', ``apple'', ``ppl', ``pple'', ``ple'', ``le'' assuming 3 and 6 as minimum and maximum ngrams size.\\
+The difference between Word2vec and FastText manifests as follows:
+\begin{enumerate}
+\item \textit{Rare words}: even if words are rare, their character n-grams are still shared with other words - hence the embeddings with FastText can still be good;
+\item \textit{Out of vocabulary words}: FastText can construct the vector for a word from its character n-grams even if word does not appear in training corpus;
+\item \textit{Hyperparameters choice}: FastText requires to  choose the minimum and maximum n-grams sizes, and this directly impacts the computation time and the memory requirements. 
+\end{enumerate}
+
+
+
+
+\section{Public datasets}
+A big challenge in emotion detection is the lack of a labelled emotion database to enable active innovation. Currently, few publicly accessible databases are available.\\\textit{MoodyLyrics}\cite{moodylyrics} contains around 2500 songs manually annotated through Amazon Mechanical Turk with 4 different emotion, i.e., happy, sad, angry and relaxed.\\
+\textit{EmoInt}\cite{emoint} contains manually annotated tweets classified according to the intensities of anger, fear, joy and sadness. \textit{EmoBank}\cite{emobank} instead contains 10.000 sentences, each of which has been annotated according to both the emotion expressed by the writer and the emotion perceived by the reader. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,169 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% want your title page.
+% OR
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+% move this file to the same directory as the LaTeX file you wish to add it to. 
+% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+% title page.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{Title page with logo}
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{report}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{float}
+\usepackage{hyperref}
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.2mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%   HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+%\textsc{\LARGE EURECOM}\\[1.5cm] % Name of your university/college
+\textsc{\Large Semester Project Report}\\[0.5cm] % Major heading such as course name
+\textsc{\large Department Of Data Science and Engineering}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \Large \bfseries Emotion Patterns in Music Playlists}\\[0.4cm] % Title of your document
+\HRule \\[6cm]
+ 
+%----------------------------------------------------------------------------------------
+%   AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Authors:}\\
+Sara \textsc{Giammusso} \\ Mario \textsc{Guerriero} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisors:} \\
+Raphael \textsc{Troncy}\\ Pasquale \textsc{Lisena}\\ Enrico \textsc{Palumbo} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[2cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%   DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%   LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics[width=0.3\textwidth]{logo.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\tableofcontents
+
+
+\begin{abstract}
+
+Music streaming services such as Spotify are revolutionizing the music world, enabling a transition from artist-created bundles of songs (CDs) to user-created playlists.\par
+Different logics may be applied in the generation of a playlist: they can contain songs of a similar genre (e.g. ``Rock playlist''), fit to a particular occasion (e.g. ``New year's eve party''), to a particular context (e.g. ``Gym''), to a particular mood (e.g.``Happy'') and so on.\par
+
+The goal of this semester project is to unravel the emotion patterns underlying the sequences of songs in a playlist using automatic approaches of Emotion Detection on the lyrics.
+
+\end{abstract}
+\newpage
+
+\include{./chapters/chapter1/introduction}
+\include{./chapters/chapter2/chapter2}
+\include{./chapters/chapter3/chapter3}
+
+\begin{thebibliography}{9}
+\bibitem{survey} 
+Walaa Medhat, Ahmed Hassan, and Hoda Korashy. \textit{Sentiment Analysis Algorithms and Applications: A Survey}. Ain Shams Engineering Journal, 1994.
+ 
+\bibitem{edfromtext} 
+Shiv Naresh Shivhare1 and Prof. Saritha Khethawat. \textit{Emotion Detection From Text}, 2012.
+
+ 
+\bibitem{microsoft} 
+Emotion detection and recognition from text using Deep Learning,
+\\\href{https://www.microsoft.com/developerblog/2015/11/29/emotion-detection-and-recognition-from-text-using-deep-learning/}{link}
+
+ 
+\bibitem{ibm_watson} 
+IBM Watson: Natural Language Understanding APIs
+\\\footnotesize \url{https://www.ibm.com/watson/services/natural-language-understanding/}
+
+\bibitem{ibm_watson_tone} 
+IBM Watson: Tone Analyzer
+\\\footnotesize \url{https://www.ibm.com/watson/services/tone-analyzer/}
+
+\bibitem{qemotion} 
+QEmotion
+\\\footnotesize \url{http://www.qemotion.com/demo.php}
+
+\bibitem{moodylyrics} 
+MoodyLyrics: A Sentiment Annotated Lyrics Dataset
+\\\footnotesize \url{https://www.researchgate.net/publication/317031495_MoodyLyrics_A_Sentiment_Annotated_Lyrics_Dataset}
+
+\bibitem{emoint} 
+Shared Task on Emotion Intensity (EmoInt)
+\\\footnotesize \url{http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html}
+
+\bibitem{emobank} 
+EmoBank
+\\\footnotesize \url{https://github.com/JULIELab/EmoBank}
+
+
+
+
+
+
+\end{thebibliography}
+ 
+
+\end{document}
+              
