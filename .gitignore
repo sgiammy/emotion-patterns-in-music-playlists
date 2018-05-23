@@ -13,6 +13,22 @@ Slides/**/*.out
 Slides/**/*.snm
 Slides/**/*.toc
 Slides/**/*.gz
+Report/*.log
+Report/*.aux
+Report/*.nav
+Report/*.out
+Report/*.snm
+Report/*.toc
+Report/*.gz
+Report/chapters/*.log
+Report/chapters/**/*.log
+Report/chapters/**/*.aux
+Report/chapters/**/*.nav
+Report/chapters/**/*.out
+Report/chapters/**/*.snm
+Report/chapters/**/*.toc
+Report/chapters/**/*.gz
+
 
 # auto-generated files
 .DS_Store

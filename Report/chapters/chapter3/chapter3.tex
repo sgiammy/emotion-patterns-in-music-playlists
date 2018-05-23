@@ -114,7 +114,46 @@ A big challenge in emotion detection is the lack of a labelled emotion database 
 
 
 
+\section{Feature Engineering}
+Once we were able to collect data to be used as golden standard for our classification process, we focused our attention on feature engineering. Specifically we tried to extract stylometric, structural, orientation and vocabulary based features\cite{features}. Apart from this we also generated a word embedding vector of the words contained in each song's lyric by using SpaCy's\cite{spacy} pre-trained language model based on word2vec\cite{word2vec}.
 
+Here is a comprehensive list of the features we extracted from our dataset, followed by a brief description:
+
+\begin{description}
+\item \textbf{Title\_vector}: word embedding vector of the song's title
+\item \textbf{Lyric\_vector}: word embedding vector of the lyric content
+\item \textbf{\%Rhymes}: defined as the percentage of the number of rhymes over the number of total lines. A rhyme is defined as a rhyme between two following lines
+\item \textbf{Line\_count}: number of lines in the lyric
+\item \textbf{Word\_count}: number of words in the lyric
+\item \textbf{\%Past\_tense\_verbs}: defined as the the percentage of the number of past tense verbs over the total number of verbs
+\item \textbf{\%Present\_tense\_verbs}: defined as the the percentage of the number of present tense verbs over the total number of verbs
+\item \textbf{\%Future\_tense\_verbs}: defined as the the percentage of the number of future tense verbs over the total number of verbs, where future is just will + base form
+\item \textbf{\%ADJ}: percentage of adjectives over the total number of words
+\item \textbf{\%ADP}: percentage of adpositions (e.g. in, to, during) over the total number of words
+\item \textbf{\%ADV}: percentage of adverbs (e.g. very, tomorrow, down, where, there) over the total number of words
+\item \textbf{\%AUX}: percentage of auxiliaries (e.g. is, has (done), will (do), should (do)) over the total number of words
+\item \textbf{\%INTJ}: percentage of interjections (e.g. psst, ouch, bravo, hello) over the total number of words
+\item \textbf{\%NOUN}: percentage of nouns over the total number of words
+\item \textbf{\%NUM}: percentage of numerals over the total number of words
+\item \textbf{\%PRON}: percentage of pronouns (e.g. I, you, he, she, myself, themselves, somebody,...) over the total number of words
+\item \textbf{\%PROPN}: percentage of proper nouns (e.g. Mary, John) over the total number of words
+\item \textbf{\%PUNCT}: percentage of puntuctuation (e.g. ., (, ), ?) over the total number of words
+\item \textbf{\%VERB}: percentage of verbs over the total number of words
+\item \textbf{Selfish\_degree}: percentage of 'I' pronouns over the total number of pronouns
+\item \textbf{\%Echoism}: percentage of echoism over the total number of words, where an echoism is either a sequence of two subsequent repeated words or the repetition of a vowel in a word
+\item \textbf{\%Duplicate\_Lines}: number of lines duplicated across the lyric text
+\item \textbf{isTitleInLyric}: boolean, true if the title string is also a substring of the lyric
+\item \textbf{Sentiment}: sentiment between -1 and 1
+\item \textbf{Subjectivity\_degree}: degree of subjectivity of the text
+\end{description}
+
+Since the word embedding vectors we generated had length 300, at the end we were able to obtain 623 distinct numerical features for each of the songs in our dataset.
+
+\subsection{Feature Selection}
+
+Having to deal with 623 different features for discriminating songs among 4 classes is probably enough and many features may be redundant or may not bring any useful information to our goal. Indeed, after running many experiments, we tried to keep our models as simple as possible by trying to select the fewer number of features possible.
+
+In the end, we obtained the best results just by using the following features: \textit{Lyric\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyrc}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
 
 
 
