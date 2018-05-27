@@ -42,6 +42,8 @@
 \usepackage{listings}
 \usepackage{booktabs}
 \usepackage{subcaption}
+\usepackage{cite}
+
 \begin{document}
 
 \begin{titlepage}
@@ -127,74 +129,8 @@ The goal of this semester project is to unravel the emotion patterns underlying 
 \include{./chapters/chapter6/chapter6}
 \include{./chapters/chapter7/chapter7}
 
-\begin{thebibliography}{9}
-\bibitem{survey} 
-Walaa Medhat, Ahmed Hassan, and Hoda Korashy. \textit{Sentiment Analysis Algorithms and Applications: A Survey}. Ain Shams Engineering Journal, 1994.
- 
-\bibitem{edfromtext} 
-Shiv Naresh Shivhare1 and Prof. Saritha Khethawat. \textit{Emotion Detection From Text}, 2012.
-
- 
-\bibitem{microsoft} 
-Emotion detection and recognition from text using Deep Learning,
-\\\href{https://www.microsoft.com/developerblog/2015/11/29/emotion-detection-and-recognition-from-text-using-deep-learning/}{link}
-
- 
-\bibitem{ibm_watson} 
-IBM Watson: Natural Language Understanding APIs
-\\\footnotesize \url{https://www.ibm.com/watson/services/natural-language-understanding/}
-
-\bibitem{ibm_watson_tone} 
-IBM Watson: Tone Analyzer
-\\\footnotesize \url{https://www.ibm.com/watson/services/tone-analyzer/}
-
-\bibitem{qemotion} 
-QEmotion
-\\\footnotesize \url{http://www.qemotion.com/demo.php}
-
-\bibitem{moodylyrics} 
-MoodyLyrics: A Sentiment Annotated Lyrics Dataset
-\\\footnotesize \url{https://www.researchgate.net/publication/317031495_MoodyLyrics_A_Sentiment_Annotated_Lyrics_Dataset}
-
-\bibitem{emoint} 
-Shared Task on Emotion Intensity (EmoInt)
-\\\footnotesize \url{http://saifmohammad.com/WebPages/EmotionIntensity-SharedTask.html}
-
-\bibitem{emobank} 
-EmoBank
-\\\footnotesize \url{https://github.com/JULIELab/EmoBank}
-
-\bibitem{features}
-Fell, Michael and Caroline Sporleder. "Lyrics-based Analysis and Classification of Music." COLING (2014).
-
-\bibitem{spacy}
-SpaCy - Industrial-Strength Natural Language Processing in Python
-\\\footnotesize \url{https://spacy.io/}
-
-\bibitem{word2vec}
-word2vec - Tool for computing continuous distributed representations of words
-\\\footnotesize \url{https://code.google.com/archive/p/word2vec/}
-
-\bibitem{textblob}
-TextBlob: Simplified Text Processing
-\\\footnotesize \url{http://textblob.readthedocs.io/en/dev/index.html}
-
-\bibitem{ontonotes5}
-OntoNotes Release 5.0
-\\\footnotesize \url{https://catalog.ldc.upenn.edu/ldc2013t19}
-
-\bibitem{common-crawl}
-Common Crawl, an open repository of web crawl data that can be accessed and analyzed by anyone
-\\\footnotesize \url{http://commoncrawl.org/}
-
-\bibitem{emoint}
-Emotion Intensities in Tweets, Saif M. Mohammad, Felipe Bravo-Marquez
-
-\bibitem{bws}
-Best-worst scaling more reliable than rating scales: a case study on
-sentiment intensity annotation, Kiritchenko Svetlana, Mohammad Saif
-
-\end{thebibliography}
+\bibliography{main}{}
+\bibliographystyle{plain}
  
 
 \end{document}

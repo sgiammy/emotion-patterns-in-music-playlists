@@ -28,7 +28,8 @@ Report/chapters/*/*.out
 Report/chapters/*/*.snm
 Report/chapters/*/*.toc
 Report/chapters/*/*.gz
-
+Report/main.bbl
+Report/main.blg
 
 # auto-generated files
 .DS_Store
