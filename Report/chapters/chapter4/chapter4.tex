@@ -1,120 +1,200 @@
-\chapter{Sentiment Analysis}
-\section{Sentiment Analysis} 
-Sentiment Analysis (SA) is the computational study of people's opinions, attitudes and emotions toward an entity, the entity being an individual, event or topic.\cite{survey} \par
+\chapter{Basic Modeling Approaches}
 
-Sentiment Analysis can be considered a classification task as illustrated in Fig \ref{fig:sa_process}.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Initial Classification}
 
-\begin{figure}[H]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{POS Tagger Validity Check} 
+
+Before digging into more complex types of analysis, we took the time to check if
+the tools we were using could be really good for our purpose. 
+
+Specifically, we had some doubts on the Part-Of-Speech (POS) tagger. Indeed, those kind of systems are generarly 
+trained on texts coming from sources whose type of language is very different from those
+we would expect to find in lyrics. In fact, the SpaCy's POS tagger implemented in the language
+model we are using is trained on OntoNotes 5\cite{ontonotes5} and on Common Crawl\cite{common-crawl},
+which are both made of pieces of text taken from news, conversational telephone speech, weblogs, 
+usenet newsgroups, broadcast and talk shows. Obviously, this type of natural language texts are 
+much different from a lyric and we just wanted to make sure that we were using a appropriate tool.
+
+Before going into the details of what we did, we must state that SpaCy's POS tagger provides two tags per words, which
+will both be considered in our analysis. Those two type of tags are:
+
+\begin{itemize}
+\item \textbf{POS}: coarse-grained part-of-speech e.g. VERB
+\item \textbf{TAG}: fine-grained part-of-speech e.g. PAST\_TENSE
+\end{itemize}
+
+In order to obtain reliable insights of the functionalities of our POS tagger we considered three songs:
+one with a common language and very few slang words, one filled with slangs and another one with some
+vulgar words.
+
+The first song we considered was "Polly" from Nirvana.
+
+As a first approach we tried to tag the words considering one line of the lyric at the time. Here is an example of
+what we obtained:
+
+\begin{lstlisting}
+Polly wants a cracker
+PROPN VERB DET NOUN 
+
+Polly = PROPN NNP -> noun, proper singular
+wants = VERB VBZ -> verb, 3rd person singular present
+a = DET DT -> determiner
+cracker = NOUN NN -> noun, singular or mass
+\end{lstlisting}
+
+As a first attempt, our POS tagger completelly succedeed in recognizing the phrase the 
+exact way we were expecting. In fact, the absence of weird words e.g. slangs made the
+task much easier.
+
+Because of the almost complete absence of punctuation marks in our lyric, we expected
+the POS tagger to fail while analyzing the entire song as whole. Instead, we were quite
+surprised to see that SpaCy's POS tagger does one desirable thing for our goal:
+it treats each line as a standalone sentence, evern though they are not specifically separed by
+a stopping mark. Therefore, the same positive behaviour we observed on the first line
+was totally replicated on the other lines, giving us the exact tagging we were
+expecting by visually inspecting our song's lyrics.
+
+We omitted the entire tagging process output for brevity reasons.
+
+Our first experiment served to the purpose of arriving to a conclusion: SpaCy's POS tagger
+is a good tool for lyrics. However it did not solve our doubts about its ability of recognizing
+"weirder" words such as slang words or abbreviations. For this reason, we moved on 
+analysing the lyrics of "Kiss You Back" from Underground Kiss.
+
+The first interesting thing we noticed was that the POS tagger properly recognized abbreviations such as "'ll'".
+Moreover, another important feature we noticed was clearly visible while tagging this line: "Yeah, we chocolate cross-over".
+Indeed, here the word "chocolate" is used as a verb (even though chocolate is clearly not defined as a verb in 
+the dictionary) and the POS tagger was able to recognize this exception. 
+This is quite important because, in songs, those situations happen very often.
+
+Other additional things we noticed while analyzing this song came our of the tagging output of the following line:
+
+\begin{lstlisting}
+Jus't havin' fun with it, man, know what I'm sayin'?
+NOUN VERB NOUN ADP PRON PUNCT INTJ PUNCT VERB NOUN PRON VERB VERB PUNCT PUNCT 
+
+Jus't = NOUN NNS -> noun, plural
+havin' = VERB VBG -> verb, gerund or present participle
+fun = NOUN NN -> noun, singular or mass
+with = ADP IN -> conjunction, subordinating or preposition
+it = PRON PRP -> pronoun, personal
+, = PUNCT , -> punctuation mark, comma
+man = INTJ UH -> interjection
+, = PUNCT , -> punctuation mark, comma
+know = VERB VB -> verb, base form
+what = NOUN WP -> wh-pronoun, personal
+I = PRON PRP -> pronoun, personal
+'m = VERB VBP -> verb, non-3rd person singular present
+sayin = VERB VBG -> verb, gerund or present participle
+' = PUNCT '' -> closing quotation mark
+? = PUNCT . -> punctuation mark, sentence closer
+\end{lstlisting}
+
+One very interesting result we can notice comes from the following two lines:
+\begin{lstlisting}
+havin' = VERB VBG -> verb, gerund or present participle and
+ayin = VERB VBG -> verb, gerund or present participle
+\end{lstlisting}
+
+In fact it looks like our POS tagger is able to recognize verbs in their correct tense
+even if they are abbreviated in an unconventional way.
+
+One thing which really impressed us, was the word "man" being recognized to be an interjection from time to time. 
+"An interjection is a part of speech that shows the emotion or feeling of the author. These words or phrases can 
+stand alone or be placed before or after a sentence. Many times an interjection is followed 
+by a punctuation mark, often an exclamation point"\footnote{http://examples.yourdictionary.com/examples-of-interjections.html}. 
+This description perfectly fits with the usage of the word "man" in their contextes when it was recognized to be an interjection. 
+
+Those kind of things are not trivial to detect and this ability of our POS tagger convinced us even more
+of its impressive skills.
+
+The last thing we were left to analyze at this point was a vulgar song. For this purpose we considered 
+"The Ballad Of Chasey Lain", from Bloodhound Gang. 
+
+In this case we have no special remarks to report. We can just say that everything was tagged and
+recognized in the exact way we expected.
+
+We did not report entire lyrics nor the full POS tagger output for the interest of brevity. However, those
+analysis are available on the public GitHub repository for this project\footnote{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/3\_POS\_tagger\_verification.ipynb}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Beyond the lyrics dataset: EmoInt}
+
+One major limitation we had to face during our work on this project was the shortage in terms of data.
+Indeed, most of the already labeled datasets which can be found online have been created for type of texts
+which were much different from lyrics i.e. news items, blog posts, Facebook posts, tweets, etc.
+
+In order to overcome this limitation we tought that, if we found a dataset whose items language is close enough
+to the common lyrics language, we would have had some performances improvements in our classifiers. This is the
+reason why we tried to combine our dataset together with EmoInt\cite{emoint}.
+
+EmoInt provides several tweets annotated according to an emotion (anger, fear, joy, sadness) and to the degree 
+at which the emotion is expressed in text. As EmoInt provide intensity levels together with emotion labels, 
+we decided to take into account only those tweets for which the intensity was greater that 0.50 (50\%). 
+
+Our original dataset, MoodyLyrics, contains "happy", "sad", "angry" and "relaxed" as labels. 
+Therefore, in order to perform a sort of interjection with EmoInt, we used only the tweets corresponding to the anger, 
+joy and sadness emotions, discarding those belonging to the fear emotion as we would not have been able to map them into
+our original work.
+
+Moreover, it is important to mention that EmoInt was manually annotated using Best-Worst Scaling (BWS)\cite{bws}, 
+an annotation scheme proved to obtain very reliable scores. Therefore, we choose EmoInt because it looked
+like a realiable choice.
+
+As a single preprocessing technique, we dropped hashtags and remove the tag characters 
+(e.g. "Hey @MrTwitter how are you? \#cool" became "Hey MrTwitter how are you?") because 
+we had to compare tweets with songs and songs do not have those kind of things. Also, 
+this sort of preprocessing should maximize the chances that everything is properly recognized by our POS tagger.
+
+After having preprocessed EmoInt, we combined it to our lyrics based dataset (MoodyLyrics) and tried some different
+modeling approaches to see if we could obtain any performance improvements.
+
+After having performed several different trials, we came to the conclusion that the best subset of features
+to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyric\_Vector}, \textit{Word\_Count}, 
+\textit{\%Echoisms}, \textit{Selfish\_degree}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyric}, 
+\textit{\%Present\_tense\_verbs}, \textit{\%Past\_tense\_verbs}, \textit{\%Future\_tense\_verbs},
+\textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}.
+
+\begin{table}[]
 \centering
-\includegraphics[width=0.4\textwidth]{./chapters/chapter1/images/sa_process}
-\caption{Sentiment analysis process on product reviews}
-\label{fig:sa_process}
-\end{figure}
+\label{table:emoint-results}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
+k-Nearest Neighbour & 46\%  \\
+Support Vector Machine & 48\%  \\
+Gradient Boost & 46\%  \\
+Neural Network & 82.38\%  \\
+Multinomial Na\"{i}ve Bayes Classifier & 49\%  \\ \bottomrule
+\end{tabular}
+\caption{Accuracy results for different classifiers on MoodyLyrics and EmoInt combined}
+\end{table}
 
-There are three main classification levels in SA: 
-\begin{itemize}
-\item Document-level
-\item Sentence-level
-\item Aspect-level
-\end{itemize}
-While document-level SA aims to classify an opinion document a expressing a positive or negative opinion or sentiment by considering the whole document as the basic information unit, sentence-level SA aims to classify sentiment expressed in each sentence. \par
-In both cases the first step is to identify whether the sentence/document is subjective or objective and if it is subjective  determine whether the sentence expresses positive or negative opinions. \par
+Using the data obtained as just explained, we built several classifiers with which we obtained the results
+shown in table \ref{table:emoint-results}. Those results were obtained by performing a leave-one-out
+validation on the built model.
 
-Classifying text at the document level or at the sentence level does not provide the necessary detail needed on opinions on all aspects of the entity which is needed in many applications. Aspect-level SA instead aims to classify the sentiment with respect to the specific aspects of entities. The first step is to identify the entities and their aspects. The opinion holders can give different opinions for different aspects of the same entity, e.g. ``This chair is ugly but it is comfortable''.\par
+As it was when we used MoodyLyrics alone, the best results were obtained in using a Neural Network also in this case.
+This network had a very simple architecture: one input layer with sigmoid activation function and 120 neurons,
+one hidden layer with softmax activation function and 60 neurons and an output layer with 4 neurons and softmax
+activation function.
 
-Sentiment Analysis task is considered a sentiment classification problem. The first step in the SC problem is to extract and select text features. Some of the current features are:
-\begin{itemize}
-\item \textbf{Terms presence and frequency}: These features are individual words or word n-grams and their frequency counts;
-\item \textbf{Parts of speech (POS)}: finding adjectives, pronouns, etc. as they are important indicators of opinions;
-\item \textbf{Opinion words and phrases}: these are words commonly used to express opinions including \textit{good or bad, like or hate}. On the other hand, some phrases express opinions without using opinion words, e.g. \textit{cost me and arm and a leg};
-\item \textbf{Negations}: the appearance of negative words may change the opinion orientation like \textit{not good} is equivalent to \textit{bad}. 
-\end{itemize}
-
-Sentiment Classification techniques can be roughly divided into machine learning approach, lexicon based approach and hybrid approach. \par
-The \textit{Machine Learning Approach (ML)} applies the famous ML algorithms and uses linguistic features. The \textit{Lexicon-based Approach} relies on a sentiment lexicon, a collection of known and precomiled sentiment terms. It is divided into dictionary-based approach and corpus-based approach which use statistical or semantic methods to find sentiment polarity.\\
-The \textit{hybrid Approach} combines both approaches. The various approaches and the most popular algorithms of SC are illustrated in Fig \ref{fig:sentiment_classification}. 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{./chapters/chapter1/images/sentiment_classification}
-\caption{Sentiment classification techniques}
-\label{fig:sentiment_classification}
-\end{figure}
-
-The text classification methods using ML approach can be roughly divided into supervised and unsupervised learning methods. The supervised methods make use of a large number of labeled training documents. The unsupervised methods are used when it is difficult to find these labeled training training documents. \par
-The lexicon-based approach depends on finding the opinion lexicon which is used to analyze the text. There are two methods in this approach.	\\ In the Dictionary-based approach a small set of opinion words is collected manually with known orientations. Then, this set is grown by searching their synonyms and antonyms. The newly found words are added to the seed list then the next iteration starts. The iterative process stops when no new words are found. \par
-The dictionary based approach has a major disadvantage which is the inability to find opinion words with domain and context specific orientation. This problem is solved by the corpus-based approach that depends on syntactic patterns or patterns that occur together along with a seed list of opinion words to find other opinion words in a large corpus. One of these methods is called \textit{sentiment consistency}: it starts with a list of seed opinion adjectives, and used them along with a set of linguistic constraints to identify additional adjective opinion words and their orientations. The constraints being for example \textit{AND, OR, BUT, EITHER-OR,...}; the conjunction \textit{AND} for example says that conjoined adjectives usually have the same orientation. \par
-
-
-\subsection{Emotion Detection}
-Emotion detection (ED) is the process of identifying human emotions. It is a recent field of research that is closely related to Sentiment Analysis. Indeed, Sentiment Analysis aims to detect positive, neutral or negative feelings from text, whereas Emotion Analysis aims to detect and recognize feelings through the expression of texts.\par
-Emotion is expressed as joy, sadness, anger, surprise, hate, fear and so on. Since there is not any standard emotion word hierarchy, focus is on the related research about emotion in cognitive psychology domain. In 2001, W. Gerrod Parrot, wrote a book named ``Emotions In Social Psychology'', in which he explained the emotion system and formally classified the human emotions through an emotion hierarchy in six classes at primary level which are \textit{Love, Joy, Anger, Sadness, Fear and Surprise} \cite{edfromtext}.\par
-
-Emotion detection may have useful applications, such as \cite{microsoft}: 
-\begin{itemize}
-\item Measure citizens happiness;
-\item Pervasive computing: this may include suggesting help when anxiety is detected through speech, or to check the tone of an email; 
-\item Improving perception of a customer to increase brand reputation and sales. 
-\end{itemize}
-
-Some of the biggest challenges in determining emotion are:
-\begin{itemize}
-\item \textit{Context-dependence of emotions}: people use different regulation strategies in different social contexts. A phrase can have element of \textit{anger} without using the word ``anger'' or any of its synonyms, e.g. \textit{``Shut up!''}
-\item \textit{Word-sense disambiguation}: identifying which sense of a word (i.e. meaning) is used in a sentence, when the word has multiple meanings; 
-\item \textit{Co-reference resolution}: pronouns and other referring expressions must be connected to the right individuals;
-\item Lack of labelled emotion databases. 
-\end{itemize}
-
-The main methods used for text based emotion detection are: 
-\begin{itemize}
-\item \textit{Keyword Spotting}
-\item \textit{Lexical Affinity}
-\item \textit{Learning-based}
-\item \textit{Hybrid}
-\end{itemize}
-
-\paragraph{Keyword Spotting}
-The keyword pattern matching problem can be described as the problem of finding occurrences of keywords from a given set as substrings in a given string. These words are classified into categories such as disgusted, sad, happy, angry, fearful, surprised, etc. Process of Keyword spotting method is  shown in Fig \ref{fig:keyword_spotting}. 
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.4\textwidth]{./chapters/chapter1/images/keyword_spotting}
-\caption{Keyword spotting technique}
-\label{fig:keyword_spotting}
-\end{figure}
-
-The first step is converting data into tokens, i.e. a sentence into words, then from these tokens emotion words are detected. The second step is analyzing the intensity of emotion words. Sentence, then, is checked whether negation is involved in it or not then finally an emotion class will be assigned.
-
-\paragraph{Lexical Affinity method} 
-The Lexical Affinity approach is an extension of keyword spotting technique: apart from picking up emotional keywords it assigns \textit{probabilistic affinity} for a particular emotion to arbitrary words. This technique has the main disadvantage of missing out emotion content that resides deeper than the word level.\\
-For example the word 'accident', having been assigned a high probability of indicating a negative emotion, would not contribute correctly to the emotional assessment of phrases like \textit{``I avoided an accident''} or \textit{``I met my girlfriend by accident''}. 
-
-\paragraph{Learning-based methods}
-Learning-based methods change the focus from ``determining emotions'' to ``classify the input texts into different emotions''. Indeed, learning-based methods try to detect emotions based on a previously trained classifier, which apply various theories of machine learning such as SVM.
-
-\paragraph{Hybrid Methods}
-Since keyword-based methods and naive learning-based methods could not acquire satisfactory results, some systems use hybrid approach by combining both keyword spotting technique and learning based method, which help to improve accuracy. \\
-\\
-
-However all these methods have some major limitations:
-\begin{itemize}
-\item \textit{Ambiguity in Keyword Definitions}: words can have multiple and vague meanings that can change according to different usages and contexts. Moreover emotion labels could have different emotions in some extreme cases such as ironic or cynical sentences; 
-\item \textit{Lack of Linguistic Information}: these methods totally ignore syntax structures and semantics that also have influences on expressed emotions. For example the sentences \textit{``He laughed at me''} or \textit{``I laughed at him''} express two totally different meanings;
-\item \textit{Incapability of Recognizing Sentences without Keywords}: sentences without any keyword would imply that they do not contain any emotion at all, which is obviously wrong. 
-\end{itemize}
-
-There are mainly two possible way to label data \cite{microsoft}:
-\begin{enumerate}
-\item The label is one between the set of emotions, e.g. \textit{anger, disgust, sad, happy, surpise, fear, neutral};
-\item \textit{Slider approach}: the label is composed of percentages for each emotion, as described in Fig \ref{fig:emotion_labeling_sliders}.
-\end{enumerate}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{./chapters/chapter1/images/emotion_labeling_sliders}
-\caption{Slider approach}
-\label{fig:emotion_labeling_sliders}
-\end{figure}
-
-The design n.2 offers more information but it comes with complication. Labels produced by design n.2 can be turned into distinct labels of single emotion, just like those produced by design n.1, but not vice versa. 
+Anyway, it is quite clear that this approach did not lead us to real improvements over our previous cases.
+This experiment served to the purpose of understanding that EmoInt is probably too much different from what 
+we have classify and it may not improve our predictive abilities at all. Therefore we believed that the best
+choice was to keep using a lyrics based dataset as it is MoodyLyrics.
 
