@@ -97,46 +97,49 @@ def featurize(sid, artist, title, lyric_content=None):
         'SENTIMENT', 'SUBJECTIVITY'
     '''
 
-    if 
-    lyric_path_name = os.path.join(LYRICS_PATH, str(sid))
+    # Obtain lyric content
+    if lyric_content is None:
+        lyric_path_name = os.path.join(LYRICS_PATH, str(sid))
 
-    # If the lyric file does not exist, download it
-    if not os.path.lexists(lyric_path_name):
-        try:
-            download_lyric(artist, title, lyric_path_name)        
-        except Exception:
-            return None
+        # If the lyric file does not exist, download it
+        if not os.path.lexists(lyric_path_name):
+            try:
+                download_lyric(artist, title, lyric_path_name)        
+            except Exception:
+                return None
 
-    # Read lyric file and parse it
-    f = open(lyric_path_name, 'r')
-    # Read lyric content
-    content = f.read()
-       
-        # Preprocess content
-        content_prep = dp.preprocess(content)
+        # Read lyric file and parse it
+        f = open(lyric_path_name, 'r')
+        # Read lyric content
+        content = f.read()
+    else:
+        content = lyric_content
+    
+    # Preprocess content
+    content_prep = dp.preprocess(content)
 
-        # Generate SpaCy docs for both lyric and title
-        lyric_doc = dp.nlp('\n'.join(content_prep))
-        title_doc = dp.nlp(title)
-        
-        # Extract features
-        features = dp.feature_extraction(content_prep, title)
-        frequencies = features['frequencies'] 
-        sentiment = sa.analyse(content)
+    # Generate SpaCy docs for both lyric and title
+    lyric_doc = dp.nlp('\n'.join(content_prep))
+    title_doc = dp.nlp(title)
+    
+    # Extract features
+    features = dp.feature_extraction(content_prep, title)
+    frequencies = features['frequencies'] 
+    sentiment = sa.analyse(content)
 
-        # Return extracted features
-        return (
-                sid,
-                artist, title,
-                lyric_doc.vector, title_doc.vector,
-                features['line_count'], features['word_count'],
-                features['echoisms'], features['selfish'],
-                dp.count_duplicate_lines(content_prep), features['is_title_in_lyrics'],
-                features['rhymes'],
-                features['verb_tenses']['present'], features['verb_tenses']['past'], features['verb_tenses']['future'], 
-                frequencies['ADJ'], frequencies['ADP'], frequencies['ADV'], frequencies['AUX'], frequencies['CONJ'], 
-                frequencies['CCONJ'], frequencies['DET'], frequencies['INTJ'], frequencies['NOUN'], frequencies['NUM'],
-                frequencies['PART'], frequencies['PRON'], frequencies['PROPN'], frequencies['PUNCT'], frequencies['SCONJ'],
-                frequencies['SYM'], frequencies['VERB'], frequencies['X'], frequencies['SPACE'],
-                sentiment[0], sentiment[1],
-        )
+    # Return extracted features
+    return (
+            sid,
+            artist, title,
+            lyric_doc.vector, title_doc.vector,
+            features['line_count'], features['word_count'],
+            features['echoisms'], features['selfish'],
+            dp.count_duplicate_lines(content_prep), features['is_title_in_lyrics'],
+            features['rhymes'],
+            features['verb_tenses']['present'], features['verb_tenses']['past'], features['verb_tenses']['future'], 
+            frequencies['ADJ'], frequencies['ADP'], frequencies['ADV'], frequencies['AUX'], frequencies['CONJ'], 
+            frequencies['CCONJ'], frequencies['DET'], frequencies['INTJ'], frequencies['NOUN'], frequencies['NUM'],
+            frequencies['PART'], frequencies['PRON'], frequencies['PROPN'], frequencies['PUNCT'], frequencies['SCONJ'],
+            frequencies['SYM'], frequencies['VERB'], frequencies['X'], frequencies['SPACE'],
+            sentiment[0], sentiment[1],
+    )

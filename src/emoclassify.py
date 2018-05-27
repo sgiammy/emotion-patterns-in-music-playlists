@@ -15,7 +15,7 @@ model = load_model(MODEL_PATH)
 scaler = joblib.load(SCALER_PATH)
 encoder = joblib.load(ENCODER_PATH)
 
-def classify(sid, artist, title):
+def classify(sid, artist, title, lyric_content=None):
     '''
     Generate the 4 emotions vector for the given song.
 
@@ -27,7 +27,7 @@ def classify(sid, artist, title):
     title: string
     '''
     # Featurize lyrics
-    feature_vector = sf.featurize(sid, artist, title)
+    feature_vector = sf.featurize(sid, artist, title, lyric_content)
     if feature_vector is None:
         # There has been an errror e.g. unable to download the lyric
         return None
