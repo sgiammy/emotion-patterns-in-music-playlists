@@ -81,7 +81,7 @@ def preprocess_features(feature_vector, scaler):
     '''
     return scaler.transform(feature_vector.reshape(1,-1))
 
-def featurize(sid, artist, title):
+def featurize(sid, artist, title, lyric_content=None):
     '''
     Download lyric into LYRICS_PATH and generate feature for the given song.
     The feature tuple has the following schema:
@@ -96,7 +96,8 @@ def featurize(sid, artist, title):
         'X_FREQUENCIES', 'SPACE_FREQUENCIES', 
         'SENTIMENT', 'SUBJECTIVITY'
     '''
-    
+
+    if 
     lyric_path_name = os.path.join(LYRICS_PATH, str(sid))
 
     # If the lyric file does not exist, download it
@@ -107,9 +108,9 @@ def featurize(sid, artist, title):
             return None
 
     # Read lyric file and parse it
-    with open(lyric_path_name, 'r') as f:
-        # Read lyric content
-        content = f.read()
+    f = open(lyric_path_name, 'r')
+    # Read lyric content
+    content = f.read()
        
         # Preprocess content
         content_prep = dp.preprocess(content)
@@ -125,17 +126,17 @@ def featurize(sid, artist, title):
 
         # Return extracted features
         return (
-              sid,
-              artist, title,
-              lyric_doc.vector, title_doc.vector,
-              features['line_count'], features['word_count'],
-              features['echoisms'], features['selfish'],
-              dp.count_duplicate_lines(content_prep), features['is_title_in_lyrics'],
-              features['rhymes'],
-              features['verb_tenses']['present'], features['verb_tenses']['past'], features['verb_tenses']['future'], 
-              frequencies['ADJ'], frequencies['ADP'], frequencies['ADV'], frequencies['AUX'], frequencies['CONJ'], 
-              frequencies['CCONJ'], frequencies['DET'], frequencies['INTJ'], frequencies['NOUN'], frequencies['NUM'],
-              frequencies['PART'], frequencies['PRON'], frequencies['PROPN'], frequencies['PUNCT'], frequencies['SCONJ'],
-              frequencies['SYM'], frequencies['VERB'], frequencies['X'], frequencies['SPACE'],
-              sentiment[0], sentiment[1],
+                sid,
+                artist, title,
+                lyric_doc.vector, title_doc.vector,
+                features['line_count'], features['word_count'],
+                features['echoisms'], features['selfish'],
+                dp.count_duplicate_lines(content_prep), features['is_title_in_lyrics'],
+                features['rhymes'],
+                features['verb_tenses']['present'], features['verb_tenses']['past'], features['verb_tenses']['future'], 
+                frequencies['ADJ'], frequencies['ADP'], frequencies['ADV'], frequencies['AUX'], frequencies['CONJ'], 
+                frequencies['CCONJ'], frequencies['DET'], frequencies['INTJ'], frequencies['NOUN'], frequencies['NUM'],
+                frequencies['PART'], frequencies['PRON'], frequencies['PROPN'], frequencies['PUNCT'], frequencies['SCONJ'],
+                frequencies['SYM'], frequencies['VERB'], frequencies['X'], frequencies['SPACE'],
+                sentiment[0], sentiment[1],
         )
