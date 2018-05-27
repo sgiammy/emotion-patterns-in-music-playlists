@@ -42,6 +42,73 @@ Having to deal with 623 different features for discriminating songs among 4 clas
 
 In the end, we obtained the best results just by using the following features: \textit{Lyric\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyrc}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
 
+\section{Beyond the lyrics dataset: EmoInt}
+
+One major limitation we had to face during our work on this project was the shortage in terms of data.
+Indeed, most of the already labeled datasets which can be found online have been created for type of texts
+which were much different from lyrics i.e. news items, blog posts, Facebook posts, tweets, etc.
+
+In order to overcome this limitation we tought that, if we found a dataset whose items language is close enough
+to the common lyrics language, we would have had some performances improvements in our classifiers. This is the
+reason why we tried to combine our dataset together with EmoInt\cite{emoint}.
+
+EmoInt provides several tweets annotated according to an emotion (anger, fear, joy, sadness) and to the degree 
+at which the emotion is expressed in text. As EmoInt provide intensity levels together with emotion labels, 
+we decided to take into account only those tweets for which the intensity was greater that 0.50 (50\%). 
+
+Our original dataset, MoodyLyrics, contains "happy", "sad", "angry" and "relaxed" as labels. 
+Therefore, in order to perform a sort of interjection with EmoInt, we used only the tweets corresponding to the anger, 
+joy and sadness emotions, discarding those belonging to the fear emotion as we would not have been able to map them into
+our original work.
+
+Moreover, it is important to mention that EmoInt was manually annotated using Best-Worst Scaling (BWS)\cite{bws}, 
+an annotation scheme proved to obtain very reliable scores. Therefore, we choose EmoInt because it looked
+like a realiable choice.
+
+As a single preprocessing technique, we dropped hashtags and remove the tag characters 
+(e.g. "Hey @MrTwitter how are you? \#cool" became "Hey MrTwitter how are you?") because 
+we had to compare tweets with songs and songs do not have those kind of things. Also, 
+this sort of preprocessing should maximize the chances that everything is properly recognized by our POS tagger.
+
+After having preprocessed EmoInt, we combined it to our lyrics based dataset (MoodyLyrics) and tried some different
+modeling approaches to see if we could obtain any performance improvements.
+
+After having performed several different trials, we came to the conclusion that the best subset of features
+to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyric\_Vector}, \textit{Word\_Count}, 
+\textit{\%Echoisms}, \textit{Selfish\_degree}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyric}, 
+\textit{\%Present\_tense\_verbs}, \textit{\%Past\_tense\_verbs}, \textit{\%Future\_tense\_verbs},
+\textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}.
+
+\begin{table}[]
+\centering
+\label{table:emoint-results}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
+k-Nearest Neighbour & 46\%  \\
+Support Vector Machine & 48\%  \\
+Gradient Boost & 46\%  \\
+Neural Network & 82.38\%  \\
+Multinomial Na\"{i}ve Bayes Classifier & 49\%  \\ \bottomrule
+\end{tabular}
+\caption{Accuracy results for different classifiers on MoodyLyrics and EmoInt combined}
+\end{table}
+
+Using the data obtained as just explained, we built several classifiers with which we obtained the results
+shown in table \ref{table:emoint-results}. Those results were obtained by performing a leave-one-out
+validation on the built model.
+
+As it was when we used MoodyLyrics alone, the best results were obtained in using a Neural Network also in this case.
+This network had a very simple architecture: one input layer with sigmoid activation function and 120 neurons,
+one hidden layer with softmax activation function and 60 neurons and an output layer with 4 neurons and softmax
+activation function.
+
+Anyway, it is quite clear that this approach did not lead us to real improvements over our previous cases.
+This experiment served to the purpose of understanding that EmoInt is probably too much different from what 
+we have classify and it may not improve our predictive abilities at all. Therefore we believed that the best
+choice was to keep using a lyrics based dataset as it is MoodyLyrics.
+
+
 
 \section{MoodyLyrics duplicates bug}
 During the analysis of MoodyLyrics described in the previous chapter we detected the presence of duplicated songs inside the dataset. Moreover, sometimes different emotions were associated with the duplicated songs. Thus, to continue our analysis we eliminated duplicated rows and we chose as emotion label the most frequent emotion between all the duplicates.\par
