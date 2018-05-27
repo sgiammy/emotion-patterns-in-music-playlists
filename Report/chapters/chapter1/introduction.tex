@@ -6,8 +6,40 @@ One of the new possible task a Recommender System should perform is the automati
 More precisely the task of automatic playlist continuation consists in: given a set of playlist features, the system shall generate a list of recommended tracks that can be added to that playlist, thereby ``continuing'' the playlist. \par
 
 \section{Project scope}
-In light of this one of the possible feature to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song contained in the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
+In light of this, one of the possible feature to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song contained in the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
 Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text. It can be considered a Sentiment Analysis task, the computational treatment of opinions, sentiments and subjectivity of text. \par
+
+\section{Results}
+\begin{table}[H]
+\centering
+\begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
+ \hline
+ \multicolumn{5}{|c|}{5-fold Cross Validation Accuracy} \\
+ \hline
+ Dataset & ANN & LR &SVM & xgboost\\
+ \hline
+MoodyLyrics4Q  & 51\%    &55\% &  59\% & 56\%\\
+Both together &   67\%  & 68\%   &69\% &63.7\%\\
+\hline
+\end{tabular}
+\caption{Emotion detection accuracies} \label{tab:compar}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}| }
+ \hline
+ \multicolumn{3}{|c|}{Playlist Classification Accuracy} \\
+ \hline
+Model trained on & With outliers & Without outliers\\
+ \hline
+MoodyLyrics & 24\% & 24\%\\
+MoodyLyrics4Q  & 71\%    &66\%\\
+Both together &   58\%  & 61\%\\
+\hline
+\end{tabular}
+\caption{Playlist classification accuracies} \label{tab:compar2}
+\end{table}
 
 \section{Report outline}
 The report is structured as follow: 
