@@ -147,3 +147,4 @@ src/datasets/spotify*
 src/datasets/classified*
 src/datasets/mpd*
 src/datasets/spotify_lyrics1st_classified
+src/datasets/silver_standard/lyrics
