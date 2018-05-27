@@ -10,6 +10,10 @@ def classify_slice(slice_path):
     '''
     Return emotion predictions for each playlist in the
     given slice
+
+    Parameters:
+    -----------
+    slice_path: string
     '''
 
     # Return playlists

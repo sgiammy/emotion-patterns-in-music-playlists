@@ -5,7 +5,14 @@ from scipy.stats import iqr
 def robust_classify(playlist_vect):
     '''
     Given a playlist of emotions, return a vector using robust 
-    classification approach (with outliers removal)
+    classification approach (with outliers removal) as described
+    in the report
+
+    Parameters
+    ----------
+    playlist_vect: numpy.ndarray
+                   A 2D vector with shape (num_tracks, 4) containing the emotional
+                   classification of each of the track of the playlist
     '''
     if len(playlist_vect) < 4 and len(playlist_vect) > 0:
         # Avoid doing this classification if there are too few elements

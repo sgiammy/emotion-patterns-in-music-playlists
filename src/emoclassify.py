@@ -17,7 +17,14 @@ encoder = joblib.load(ENCODER_PATH)
 
 def classify(sid, artist, title):
     '''
-    Generate the 4 emotions vector for the given song
+    Generate the 4 emotions vector for the given song.
+
+    Parameters
+    ----------
+    sid: string
+         Spotify's track ID, used for recognizing the file in which the analyzed lyric is stored
+    artist: string
+    title: string
     '''
     # Featurize lyrics
     feature_vector = sf.featurize(sid, artist, title)
