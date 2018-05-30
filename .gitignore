@@ -153,3 +153,4 @@ src/datasets/silver_standard/lyrics
 Notebook/datasets
 Notebook/utils
 Notebook/ml_lyrics
+Notebook/*.pkl
