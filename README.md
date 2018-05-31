@@ -58,3 +58,17 @@ Map Spotify track URIs to LyricsWiki, and download the lyrics in a folder.
 
         python src/dataset_parsers/LyricsManager.py -ml /Users/pasquale/Desktop/MoodyLyrics/ml_raw.csv -i /Users/pasquale/Desktop/mpd.v1/data/ -o ./tmp/
 
+
+### Demo
+
+In order to run the web application demo you need to install Flask:
+
+```
+        pip install Flask
+```
+
+After that, the web app server can be executed by running:
+
+```
+        FLASK_APP=index.py flask run
+```
