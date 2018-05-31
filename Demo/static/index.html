@@ -1,0 +1,179 @@
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    function Song(artist, title) {
+      this.artist = artist
+      this.title = title
+    }
+
+    function argMax(array) {
+        return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+    }
+
+    function buildPredictionMatrix() {
+      predictions = []
+
+      $('#emotion-table-rows tr').each(function() {
+        tds = $(this).find('td')
+        predictions.push([
+          parseFloat(tds[2].textContent), 
+          parseFloat(tds[3].textContent), 
+          parseFloat(tds[4].textContent),
+          parseFloat(tds[5].textContent)
+        ])
+      })
+
+      return predictions
+    }
+
+    function markOutliers(outliers) {
+      idx = 0
+
+      $('#emotion-table-rows tr').each(function() {
+        tds = $(this).find('td')
+        for(var i = 0; i < outliers.length; i++) {
+          if(outliers[i][0] == idx) {
+            offset = 2
+            elements = []
+            for(var j = 0; j < tds.length - 2; j++) {
+              if(j == outliers[i][1]) {
+                $(tds[offset+j]).css('color', 'red')//#.html('<font color"red">'+parseFloat(tds[j+offset].textContent)+'</font>')
+              }
+            }
+          }
+        }
+        idx++
+      })
+    }
+
+    // Our "dataset"
+    dataset = [
+      new Song('Nirvana', 'Smells Like Teen Spirit'),
+      new Song('The Beatles', 'Yesterday'),
+      new Song('Oasis', 'Wonderwall'),
+      new Song('The Clash', 'Should I stay or Should I go'),
+      new Song('Pixies', 'Where is my mind?'),
+    ]
+
+    labels = ['Angry',  'Happy', 'Relaxed', 'Sad']
+  </script>
+</head>
+<body>
+  
+<div id='top-div'  class="container-fluid">
+  <h1>Emotion Patterns in Music Playlists - Demo</h1>      
+  <button id='classify-btn'  type="button" class="btn btn-primary">Classify</button>
+  <button id='classify-playlist-btn'  type="button" class="btn btn-success">Classify Playlist</button>
+  <p id='prediction-result'></p>
+</div>
+
+<div id="emotion-table" class="container">
+  <h2>Songs classification</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Title</th>
+        <th>Angry Score</th>
+        <th>Happy Score</th>
+        <th>Relaxed Score</th>
+        <th>Sad Score</th>
+      </tr>
+    </thead>
+    <tbody id='emotion-table-rows'>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // jQuery stuff goes here
+  $(document).ready(function(){
+    /**
+     * Songs classification
+     **/
+    $('#classify-btn').click(function(ev) {
+      // Clear table
+      $('#emotion-table-rows tr').remove()
+      // Start classification of songs one by one
+      for(var i = 0; i < dataset.length; i++) {
+        var song = dataset[i]
+        // Perform classification in background
+        data = JSON.stringify({ artist: song.artist, title:song.title})
+        $.ajax({
+          type: "POST",
+          url: "classify-song",
+          contentType: 'application/json',
+          dataType: 'json',
+          data: JSON.stringify({
+            artist: song.artist,
+            title: song.title
+          }, null),
+          success: function(data) {
+            // POST was successful - do something with the response
+            // Build row
+            var row = '<tr><td>' + data.artist + '</td><td>' + data.title + '</td>'
+            var emo = data.emotion[0]
+            var maxIdx = argMax(emo)
+            for(var j = 0; j < emo.length; j++) {
+              var entry = parseFloat(emo[j]).toFixed(4)
+              if(j == maxIdx)
+                row += '<td><b>' + entry + '</b></td>'
+              else
+                row += '<td>'+entry+'</td>'
+            }
+            row += '</tr>'
+            $('#emotion-table-rows').append(row)
+            $('#emotion-table-rows tr:last').css('visibility', 'visible').hide().fadeIn()
+         },
+          error: function(data) {
+            // Server error, e.g. 405, 500, error
+            alert(data.responseText);
+          }
+        }) 
+      }
+    })
+
+    /**
+     * Playlist classification
+     **/
+    $('#classify-playlist-btn').click(function(ev) {
+      predictions = buildPredictionMatrix() 
+
+      // Send request to the server
+      $.ajax({
+        type: "POST",
+        url: "classify-playlist",
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+          predictions: predictions,
+        }, null),
+        success: function(data) {
+          // POST was successful - do something with the response
+          prediction = data.prediction 
+          outliers_count = data.outliers_count
+          outliers = data.outliers
+
+          markOutliers(outliers)
+          $('#prediction-result').html('This playlist is: '+ labels[argMax(prediction)])
+       },
+        error: function(data) {
+          // Server error, e.g. 405, 500, error
+          alert(data.responseText);
+        }
+      }) 
+    })
+  })
+
+</script>
+
+</body>
+</html>
+
+

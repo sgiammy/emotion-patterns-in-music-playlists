@@ -154,3 +154,8 @@ Notebook/datasets
 Notebook/utils
 Notebook/ml_lyrics
 Notebook/*.pkl
+
+Demo/__pycache__
+Demo/dataset_parsers
+Demo/datasets
+Demo/models

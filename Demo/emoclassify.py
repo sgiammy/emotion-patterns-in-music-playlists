@@ -1,6 +1,7 @@
 from sklearn.externals import joblib
 
 from keras.models import load_model
+import tensorflow as tf
 
 import song_featurize as sf
 
@@ -10,6 +11,8 @@ ENCODER_PATH='models/emo_label_encoder.pkl'
 
 # Load the pretrained model
 model = load_model(MODEL_PATH)
+model._make_predict_function()
+graph = tf.get_default_graph()
 
 # Load scaler and label encoders
 scaler = joblib.load(SCALER_PATH)
@@ -38,4 +41,5 @@ def classify(sid, artist, title, lyric_content=None):
     x = sf.preprocess_features(x, scaler)
 
     # Return peredictions
-    return model.predict(x)
+    with graph.as_default():
+        return model.predict(x)
