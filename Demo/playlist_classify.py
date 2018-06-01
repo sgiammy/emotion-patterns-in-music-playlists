@@ -43,11 +43,11 @@ def robust_classify(playlist_vect):
 
         # Filter out outliers
         upper_outliers = emo > upper
-        outliers += [[i, j] for j, val in enumerate(upper_outliers) if val]
+        outliers += [[j, i] for j, val in enumerate(upper_outliers) if val]
         outliers_count += upper_outliers.sum()
 
         low_outliers = emo < low
-        outliers += [[i, j] for j, val in enumerate(low_outliers) if val]
+        outliers += [[j, i] for j, val in enumerate(low_outliers) if val]
         outliers_count += upper_outliers.sum()
        
         prediction[i] = np.mean([x for j, x in enumerate(emo)

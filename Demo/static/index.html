@@ -6,6 +6,23 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style>
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    } 
+  </style>
+  
   <script>
     function Song(artist, title) {
       this.artist = artist
@@ -68,8 +85,8 @@
   
 <div id='top-div'  class="container-fluid">
   <h1>Emotion Patterns in Music Playlists - Demo</h1>      
-  <button id='classify-btn'  type="button" class="btn btn-primary">Classify</button>
-  <button id='classify-playlist-btn'  type="button" class="btn btn-success">Classify Playlist</button>
+  <button id='classify-btn'  type="button" class="btn btn-primary" data-loading-text='Classifying'>Classify</button>
+  <button id='classify-playlist-btn'  type="button" class="btn btn-success" data-loading-text="Classifying">Classify Playlist</button>
   <p id='prediction-result'></p>
 </div>
 
@@ -98,6 +115,8 @@
      * Songs classification
      **/
     $('#classify-btn').click(function(ev) {
+      $(this).button('loading')
+      countdown = dataset.length
       // Clear table
       $('#emotion-table-rows tr').remove()
       // Start classification of songs one by one
@@ -130,10 +149,19 @@
             row += '</tr>'
             $('#emotion-table-rows').append(row)
             $('#emotion-table-rows tr:last').css('visibility', 'visible').hide().fadeIn()
+         
+            // Update countdown
+            countdown--
+            if(countdown == 0) $('#classify-btn').button('reset')
          },
           error: function(data) {
             // Server error, e.g. 405, 500, error
             alert(data.responseText);
+
+            // Update countdown
+            countdown--
+            if(countdown == 0) $('#classify-btn').button('reset')
+
           }
         }) 
       }
@@ -145,6 +173,7 @@
     $('#classify-playlist-btn').click(function(ev) {
       predictions = buildPredictionMatrix() 
 
+      $(this).button('loading')
       // Send request to the server
       $.ajax({
         type: "POST",
@@ -159,13 +188,16 @@
           prediction = data.prediction 
           outliers_count = data.outliers_count
           outliers = data.outliers
-
+          console.log(outliers)
           markOutliers(outliers)
-          $('#prediction-result').html('This playlist is: '+ labels[argMax(prediction)])
+          $('#prediction-result').html('This playlist is: <b>'+ labels[argMax(prediction)] + '</b>')
+
+          $('#classify-playlist-btn').button('reset')
        },
         error: function(data) {
           // Server error, e.g. 405, 500, error
           alert(data.responseText);
+          $('#classify-playlist-btn').button('reset')
         }
       }) 
     })
