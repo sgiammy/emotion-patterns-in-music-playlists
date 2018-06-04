@@ -1,210 +1,68 @@
-\chapter{Model improvements}
+\chapter{Playlists analysis}
 
+\section{Playlist classification}
+Once we have a model to classify song emotions, our next step it trying to classify playlists emotion. 
+A playlist emotion can be a really useful information for a Recommender System, indeed, imagine the situation of an empty playlist, the Recommender System cannot suggest songs based on the information related to the emotion pattern inside the playlist, but what it could do is to try to understand the playlist emotion based on the title information, and then suggest songs based on this information. \par
 
-\section{Feature Engineering}
-In order to improve our model performances, we focused our attention on feature engineering. Specifically we tried to extract stylometric, structural, orientation and vocabulary based features\cite{features}. Apart from this we also generated a word embedding vector of the words contained in each song's lyric by using SpaCy's\cite{spacy} pre-trained language model based on word2vec\cite{word2vec}.\par
-
-Here is a comprehensive list of the features we extracted from our dataset, followed by a brief description:
-
-\begin{description}
-\item \textbf{Title\_vector}: word embedding vector of the song's title
-\item \textbf{Lyric\_vector}: word embedding vector of the lyric content
-\item \textbf{\%Rhymes}: defined as the percentage of the number of rhymes over the number of total lines. A rhyme is defined as a rhyme between two following lines
-\item \textbf{Line\_count}: number of lines in the lyric
-\item \textbf{Word\_count}: number of words in the lyric
-\item \textbf{\%Past\_tense\_verbs}: defined as the the percentage of the number of past tense verbs over the total number of verbs
-\item \textbf{\%Present\_tense\_verbs}: defined as the the percentage of the number of present tense verbs over the total number of verbs
-\item \textbf{\%Future\_tense\_verbs}: defined as the the percentage of the number of future tense verbs over the total number of verbs, where future is just will + base form
-\item \textbf{\%ADJ}: percentage of adjectives over the total number of words
-\item \textbf{\%ADP}: percentage of adpositions (e.g. in, to, during) over the total number of words
-\item \textbf{\%ADV}: percentage of adverbs (e.g. very, tomorrow, down, where, there) over the total number of words
-\item \textbf{\%AUX}: percentage of auxiliaries (e.g. is, has (done), will (do), should (do)) over the total number of words
-\item \textbf{\%INTJ}: percentage of interjections (e.g. psst, ouch, bravo, hello) over the total number of words
-\item \textbf{\%NOUN}: percentage of nouns over the total number of words
-\item \textbf{\%NUM}: percentage of numerals over the total number of words
-\item \textbf{\%PRON}: percentage of pronouns (e.g. I, you, he, she, myself, themselves, somebody,...) over the total number of words
-\item \textbf{\%PROPN}: percentage of proper nouns (e.g. Mary, John) over the total number of words
-\item \textbf{\%PUNCT}: percentage of puntuctuation (e.g. ., (, ), ?) over the total number of words
-\item \textbf{\%VERB}: percentage of verbs over the total number of words
-\item \textbf{Selfish\_degree}: percentage of 'I' pronouns over the total number of pronouns
-\item \textbf{\%Echoism}: percentage of echoism over the total number of words, where an echoism is either a sequence of two subsequent repeated words or the repetition of a vowel in a word
-\item \textbf{\%Duplicate\_Lines}: number of lines duplicated across the lyric text
-\item \textbf{isTitleInLyric}: boolean, true if the title string is also a substring of the lyric
-\item \textbf{Sentiment}: sentiment between -1 and 1
-\item \textbf{Subjectivity\_degree}: degree of subjectivity of the text
-\end{description}
-
-Since the word embedding vectors we generated had length 300, at the end we were able to obtain 623 distinct numerical features for each of the songs in our dataset.
-
-\subsection{Feature Selection}
-
-Having to deal with 623 different features for discriminating songs among 4 classes is probably enough and many features may be redundant or may not bring any useful information to our goal. Indeed, after running many experiments, we tried to keep our models as simple as possible by trying to select the fewer number of features possible.
-
-In the end, we obtained the best results just by using the following features: \textit{Lyric\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyrc}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
-
-\section{Beyond the lyrics dataset: EmoInt}
-
-One major limitation we had to face during our work on this project was the shortage in terms of data.
-Indeed, most of the already labeled datasets which can be found online have been created for type of texts
-which were much different from lyrics i.e. news items, blog posts, Facebook posts, tweets, etc.
-
-In order to overcome this limitation we tought that, if we found a dataset whose items language is close enough
-to the common lyrics language, we would have had some performances improvements in our classifiers. This is the
-reason why we tried to combine our dataset together with EmoInt\cite{emoint}.
-
-EmoInt provides several tweets annotated according to an emotion (anger, fear, joy, sadness) and to the degree 
-at which the emotion is expressed in text. As EmoInt provide intensity levels together with emotion labels, 
-we decided to take into account only those tweets for which the intensity was greater that 0.50 (50\%). 
-
-Our original dataset, MoodyLyrics, contains "happy", "sad", "angry" and "relaxed" as labels. 
-Therefore, in order to perform a sort of interjection with EmoInt, we used only the tweets corresponding to the anger, 
-joy and sadness emotions, discarding those belonging to the fear emotion as we would not have been able to map them into
-our original work.
-
-Moreover, it is important to mention that EmoInt was manually annotated using Best-Worst Scaling (BWS)\cite{bws}, 
-an annotation scheme proved to obtain very reliable scores. Therefore, we choose EmoInt because it looked
-like a realiable choice.
-
-As a single preprocessing technique, we dropped hashtags and remove the tag characters 
-(e.g. "Hey @MrTwitter how are you? \#cool" became "Hey MrTwitter how are you?") because 
-we had to compare tweets with songs and songs do not have those kind of things. Also, 
-this sort of preprocessing should maximize the chances that everything is properly recognized by our POS tagger.
-
-After having preprocessed EmoInt, we combined it to our lyrics based dataset (MoodyLyrics) and tried some different
-modeling approaches to see if we could obtain any performance improvements.
-
-After having performed several different trials, we came to the conclusion that the best subset of features
-to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyric\_Vector}, \textit{Word\_Count}, 
-\textit{\%Echoisms}, \textit{Selfish\_degree}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyric}, 
-\textit{\%Present\_tense\_verbs}, \textit{\%Past\_tense\_verbs}, \textit{\%Future\_tense\_verbs},
-\textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}.
-
-\begin{table}[]
-\centering
-\label{table:emoint-results}
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
-k-Nearest Neighbour & 46\%  \\
-Support Vector Machine & 48\%  \\
-Gradient Boost & 46\%  \\
-Neural Network & 82.38\%  \\
-Multinomial Na\"{i}ve Bayes Classifier & 49\%  \\ \bottomrule
-\end{tabular}
-\caption{Accuracy results for different classifiers on MoodyLyrics and EmoInt combined}
-\end{table}
-
-Using the data obtained as just explained, we built several classifiers with which we obtained the results
-shown in table \ref{table:emoint-results}. Those results were obtained by performing a leave-one-out
-validation on the built model.
-
-As it was when we used MoodyLyrics alone, the best results were obtained in using a Neural Network also in this case.
-This network had a very simple architecture: one input layer with sigmoid activation function and 120 neurons,
-one hidden layer with softmax activation function and 60 neurons and an output layer with 4 neurons and softmax
-activation function.
-
-Anyway, it is quite clear that this approach did not lead us to real improvements over our previous cases.
-This experiment served to the purpose of understanding that EmoInt is probably too much different from what 
-we have classify and it may not improve our predictive abilities at all. Therefore we believed that the best
-choice was to keep using a lyrics based dataset as it is MoodyLyrics.
-
-
-
-\section{MoodyLyrics duplicates bug}
-During the analysis of MoodyLyrics described in the previous chapter we detected the presence of duplicated songs inside the dataset. Moreover, sometimes different emotions were associated with the duplicated songs. Thus, to continue our analysis we eliminated duplicated rows and we chose as emotion label the most frequent emotion between all the duplicates.\par
-After reporting the bug to MoodyLyrics owners we have been suggested to use MoodyLyrics4Q, that, according to the creators is a more accurate version of MoodyLyrics.\par
-This advice opened us three possibilities: continue using MoodyLyrics, start using MoodyLyrics4Q or create a new dataset as the concatenation of the previous two. We decided to start using all these three models, in order to understand which one, at the end, will give us a better playlists classification. The complete MoodyLyrics emotion classification analysis can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/1_ED_in_songs_lyrics.ipynb}{Notebook 1} while the MoodyLyrics4Q and the emotion detection analysis in the merged datasets can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}{Notebook 2}.
-
-
-\section{MoodyLyrics4Q}
-MoodyLyrics4Q contains 2000 songs and has the same annotation schema as MoodyLyrics. Fig \ref{fig:stats}
-shows the emotions distribution comparison between the two MoodyLyrics versions.
+For the emotion classification task we decided to use three artificial neural networks, with the same architecture, but trained with three different datasets: MoodyLyrics, MoodyLyrics4Q and the merged dataset. 
+Fig \ref{fig:annacc} shows the different accuracies reached with each dataset. 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1.1\textwidth]{./chapters/chapter5/images/Stats.png}
-\caption{Emotions distribution comparison between MoodyLyrics and MoodyLyrics4Q}
-\label{fig:stats}
+\includegraphics[width=0.7\textwidth]{./chapters/chapter5/images/ANN_accuracies.png}
+\caption{5-fold ANN accuracies for each model}
+\label{fig:annacc}
 \end{figure}
 
-MoodyLyrics4Q classes are more much balanced, however MoodyLyrics4Q contains only 2000 songs instead of 2509. \par
-We studied the qualitative difference between the two version comparing the classification given to the songs contained in both datasets to establish what version, according to us, is more correct. The intersection between the two versions contains 47 songs, and 21 over 47 have been classified differently. We noticed that in 15 over this 21 songs the two datasets confuses \textit{happy} with \textit{relaxed} and \textit{angry} with \textit{sad}. Indeed, only 6 of 21 songs are classified totally differently, however reading the lyrics of each of this song we could not establish which version is the best one.
+The method we chose to classify a playlist is the following: \\
+Given a \texttt{song emotion array} = [ sad\%, angry\%, happy\%, relaxed\% ] where the sum of the emotion percentage for each song is equal to one, the playlist emotion is the emotion with the maximum percentage sum over the columns. We found this approach very flexible, indeed, normalizing by the number of songs inside a playlist we obtain a probability of the emotion for that playlist. \par
 
+However our main issue has been the absence of a labeled dataset through which compute an accuracy of our classification method. In order to overcome this problem a perfectly balanced silver standard dataset has been generated considering 40 playlist inside Spotify RecSys dataset with four really expressive titles: \textit{rage} for angry playlists, \textit{crying} for sad, \textit{party!} for happy and \textit{sleeping} for relaxed playlists. \par
 
+The first step to classify the emotion for each song has been downloading the lyrics, and, unfortunately we noticed that we could not download the entire number of song lyrics for every playlist. Fig \ref{fig:rsongs} shows for each playlist the number of songs for which we could download the lyrics, while Fig \ref{fig:psongs} shows the percentage of available songs for each playlist. 
 
-\section{Results}
-In this section we present the result obtained while predicting one of the four emotion labels \textit{relaxed}, \textit{happy}, \textit{sad}, \textit{angry}, using an artificial neural network, a support vector machine, the logistic regression and xgboost. The accuracies have been computed with a 5-fold cross validation. All the implementation details can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}{Notebook 2}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{./chapters/chapter5/images/silver_standard_available_songs.png}
+\caption{Real number of available songs for playlist}
+\label{fig:rsongs}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{./chapters/chapter5/images/silver_standard_percentage_available_songs.png}
+\caption{Percentage of available songs for playlist}
+\label{fig:psongs}
+\end{figure}
+
+Unfortunately two \textit{relaxed} playlist totally disappeared, unbalancing our silver standard.\par
+We then featurized each song using the features described in Chapter 5 and classify each song using the three artificial neural networks (one trained with MoodyLyrics, one with MoodyLyrics4Q and one with the merged datasets) we previously built.\par
+
+\subsection{Results}
+Table \ref{tab:comparison2} shows the different accuracies reached classifying the playlist emotions using the method previously explained. 
 
 \begin{table}[H]
-\begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
+\centering
+\begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}| }
  \hline
- \multicolumn{5}{|c|}{5-fold Cross Validation Accuracy} \\
+ \multicolumn{3}{|c|}{Playlist Classification Accuracy} \\
  \hline
- Dataset & ANN & LR &SVM & xgboost\\
+Model trained on & With outliers & Without outliers\\
  \hline
-MoodyLyrics4Q  & 51\%    &55\% &  59\% & 56\%\\
-Both together &   67\%  & 68\%   &69\% &63.7\%\\
+MoodyLyrics & 24\% & 24\%\\
+MoodyLyrics4Q  & 71\%    &66\%\\
+Both together &   58\%  & 61\%\\
 \hline
 \end{tabular}
-\caption{Emotion detection accuracies} \label{tab:comparison}
+\caption{Playlist classification accuracies comparison} \label{tab:comparison2}
 \end{table}
 
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}[b]{0.49\linewidth}
-    \includegraphics[width=\linewidth]{./chapters/chapter5/images/4Q/CM_ANN.png}
-    \caption{ML4Q}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
-   \includegraphics[width=\linewidth]{./chapters/chapter5/images/join/CM_ANN.png}
-    \caption{ML + ML4Q}
-  \end{subfigure}
-  \caption{Artificial Neural Network - Confusion Matrix}
-  \label{fig:ann}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}[b]{0.49\linewidth}
-    \includegraphics[width=\linewidth]{./chapters/chapter5/images/4Q/CM_LR.png}
-    \caption{ML4Q}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
-   \includegraphics[width=\linewidth]{./chapters/chapter5/images/join/CM_LR.png}
-    \caption{ML + ML4Q}
-  \end{subfigure}
-  \caption{Logistic Regression - Confusion Matrix}
-  \label{fig:lr}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}[b]{0.49\linewidth}
-    \includegraphics[width=\linewidth]{./chapters/chapter5/images/4Q/CM_SVM.png}
-    \caption{ML4Q}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
-   \includegraphics[width=\linewidth]{./chapters/chapter5/images/join/CM_SVM.png}
-    \caption{ML + ML4Q}
-  \end{subfigure}
-  \caption{Support Vector Machine - Confusion Matrix}
-  \label{fig:svm}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \begin{subfigure}[b]{0.49\linewidth}
-    \includegraphics[width=\linewidth]{./chapters/chapter5/images/4Q/CM_XGB.png}
-    \caption{ML4Q}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.49\linewidth}
-   \includegraphics[width=\linewidth]{./chapters/chapter5/images/join/CM_XGB.png}
-    \caption{ML + ML4Q}
-  \end{subfigure}
-  \caption{Xgboost - Confusion Matrix}
-  \label{fig:xgb}
-\end{figure}
+\section{Emotion patterns in playlists}
 
 
 
 
+
+
+
+ 
