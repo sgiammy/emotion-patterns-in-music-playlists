@@ -1,15 +1,18 @@
 \chapter{Problem Background}
+
+In this chapter we will analyze what were the already existing systems and tools we found interesting when we started our project.
+
 \section{The problem}
-The goal of the semester project is to unravel the emotion pattern underlying the sequences of songs in a playlist using automatic approaches of Emotion Detection on the lyrics.\par
+The goal of this semester project is to unravel the emotion pattern underlying the sequences of songs in a playlist using automatic approaches of Emotion Detection on the lyrics.\par
 The problem can be divided into two main parts:
 \begin{enumerate}
-\item Classify emotions for each song based on the lyrics
+\item Classify emotions of songs based their lyrics
 \item Analyze emotion patterns in the playlists
 \end{enumerate}
 
 \section{Related work}
 Emotion detection domain has already attracted many researchers from computer science, psychology, cognitive science and so on. \par
-Before building our own emotion detection system we start analyzing some already existent classifier. \par
+Before building our own emotion detection system we started by analyzing some of the already existent classifiers. \par
 \paragraph{IBM Watson Natural Language Understanding}\cite{ibm_watson}
 Watson is a question answering computer system capable of answering questions posed in natural language, developed by IBM.\par
 Natural Language Understanding is a collection of APIs that allows to:
@@ -21,8 +24,15 @@ Natural Language Understanding is a collection of APIs that allows to:
 \item Classify content into hierarchical categories;
 \item Identify general concepts that may not be directly referenced in the text; 
 \end{itemize}
-Results obtained analyzing Oasis - Wonderwall are illustrated in Fig.
 
+An example of IBM Watson NLU output is shown in figure \ref{fig:ibm_watson_wonderwall}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./chapters/chapter3/images/ibm-watson-wonderwall}
+\caption{IBM Watson Natural Language Understanding output while analyzing the lyric of Wonderwall, from Oasis}
+\label{fig:ibm_watson_wonderwall}
+\end{figure}
 
 \paragraph{IBM Watson Tone Analyzer}\cite{ibm_watson_tone}
 It uses linguistic analysis to detect joy, fear, sadness, anger, analytical, confident, and tentative tones found in text. It allows to select different sources: tweets, online reviews, email messages, or other text. It uses both:
@@ -31,8 +41,20 @@ It uses linguistic analysis to detect joy, fear, sadness, anger, analytical, con
 \item the sentence level: to identify specific areas where tones are the strongest.
 \end{itemize}
 
+\paragraph{ParallelDots API}\cite{paralleldots}
+It uses an Emotion Analysis classifier trained on a proprietary dataset and tells whether the underlying emotion behind a message is: Happy,
+Sad, Angry, Fearful, Excited, Funny or Sarcastic. An example of its output is shown in figure \ref{fig:paralleldots}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{./chapters/chapter3/images/paralleldots}
+\caption{ParallelDots API applied on the lyrics of Wonderwall, from Oasis}
+\label{fig:paralleldots}
+\end{figure}
+
+
 \paragraph{QEmotion}\cite{qemotion}
-Qemotion detects the main emotion of the speech and define the corresponding emotion in terms of temperature. 
+Qemotion detects the main emotion of the speech and define the corresponding emotion in terms of temperature:
 \begin{itemize}
 \item From $31^{\circ}$ to $40^{\circ}$ $\to$ Happiness
 \item From $21^{\circ}$ to $30^{\circ}$ $\to$ Surprise
@@ -43,12 +65,11 @@ Qemotion detects the main emotion of the speech and define the corresponding emo
 \item From $-20^{\circ}$ to $-15^{\circ}$ $\to $ Disgust
 \end{itemize}
 
-
 \section{NLP libraries}
-In order to select the best Natural Language Processing library for our purpose we also analyzed pros and cons of the main Natural Language Processing libraries, i.e. NLTK, TextBlob, Standord's CoreNLP and SpaCy. 
+In order to select the best Natural Language Processing library for our purpose we also analyzed pros and cons of the main Natural Language Processing libraries available, i.e. NLTK, TextBlob, Standord's CoreNLP and SpaCy. 
 
 \paragraph{NLTK: Natural Language Toolkit}
-It is recommended only as an education and research tool. \\
+NLTK is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning and wrappers for industrial-strength NLP libraries\cite{nltk}. It is recommended only as an education and research tool. \\
 Pros:
 \begin{itemize}
 \item its modularized structure makes it excellent for learning and exploring NLP concepts; 
@@ -61,7 +82,7 @@ Cons:
 \end{itemize}
 
 \paragraph{TextBlob}
-Built on top on NLTK.\\
+Built on top on NLTK\cite{textblob}.\\
 Pros: 
 \begin{itemize}
 \item More intuitive; 
@@ -69,7 +90,7 @@ Pros:
 \end{itemize} 
 
 \paragraph{Stanford's CoreNLP}
-Java library with Python wrappers. \\
+Stanford CoreNLP provides a set of human language technology tools. It can give the base forms of words, their parts of speech, whether they are names of companies, people, etc., normalize dates, times, and numeric quantities, mark up the structure of sentences in terms of phrases and syntactic dependencies, indicate which noun phrases refer to the same entities, indicate sentiment, extract particular or open-class relations between entity mentions, get the quotes people said, etc.\cite{stanfordcorenlp} It is Java library with Python wrappers. \\
 Pros:
 \begin{itemize}
 \item fast;
@@ -77,7 +98,7 @@ Pros:
 \end{itemize}
 
 \paragraph{SpaCy}
-It is a new NLP library designed to be fast, streamlined and production-ready.\\
+It is a new NLP library designed to be fast, streamlined and production-ready\cite{spacy}.\\
 Pros:
 \begin{itemize}
 \item minimal number of options;
@@ -89,14 +110,11 @@ Cons:
 \end{itemize}
 
 
-
-
-
 \section{Word embedding techniques}
-Word embeddings are a set of feature learning techniques mapping words or phrases from the vocabulary to vectors or real numbers. \par
+Word embeddings are a set of feature learning techniques mapping words or phrases from the vocabulary to vectors of real numbers. \par
 These techniques map sparse word vectors into continuous space based on the surrounding context. For example if \textit{``salt''} and \textit{``seasoning''} appear within the same context, the model will indicate that \textit{``salt''} is conceptually closer to \textit{``seasoning''}, than another word, say \textit{``chair''}.\par
-There are two main embedding libraries: Word2vec and FastText. While Word2vec treats each word in corpus like an atomic entity generating a vector for each word, FastText treats each word as composed of character ngrams, so the vector for a word is made of the sum of this character n grams. \par
-For example,  the word vector \textit{``apple''} is a sum of the vectors of the n-grams ``ap'', ``app'', ``appl'', ``apple'', ``ppl', ``pple'', ``ple'', ``le'' assuming 3 and 6 as minimum and maximum ngrams size.\\
+There are two main embedding libraries: Word2vec\cite{word2vec} and FastText\cite{fasttext}. While Word2vec treats each word in corpus like an atomic entity generating a vector for each word\cite{word2vec}, FastText treats each word as composed of character ngrams, so the vector for a word is made of the sum of this character n-grams\cite{fasttext}. \par
+For example, for FastText,  the word vector for \textit{``apple''} is a sum of the vectors of the n-grams ``ap'', ``app'', ``appl'', ``apple'', ``ppl', ``pple'', ``ple'', ``le'' assuming 3 and 6 as minimum and maximum ngrams size.\\
 The difference between Word2vec and FastText manifests as follows:
 \begin{enumerate}
 \item \textit{Rare words}: even if words are rare, their character n-grams are still shared with other words - hence the embeddings with FastText can still be good;
@@ -104,24 +122,8 @@ The difference between Word2vec and FastText manifests as follows:
 \item \textit{Hyperparameters choice}: FastText requires to  choose the minimum and maximum n-grams sizes, and this directly impacts the computation time and the memory requirements. 
 \end{enumerate}
 
+\section{Tools Choice}
 
+Given the considerations expressed above, for our project we decided to use SpaCy and Word2Vec.
 
-
-\section{Public datasets}
-A big challenge in emotion detection is the lack of a labelled emotion database to enable active innovation. Currently, few publicly accessible databases are available.\\\textit{MoodyLyrics}\cite{moodylyrics} contains around 2500 songs manually annotated through Amazon Mechanical Turk with 4 different emotion, i.e., happy, sad, angry and relaxed.\\
-\textit{EmoInt}\cite{emoint} contains manually annotated tweets classified according to the intensities of anger, fear, joy and sadness. \textit{EmoBank}\cite{emobank} instead contains 10.000 sentences, each of which has been annotated according to both the emotion expressed by the writer and the emotion perceived by the reader. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+SpaCy was choosen among the other analyzed libraries for its efficiency and for its simplicity. Word2Vec, instead, was choosen because we did not believe that we needed all the complications introduced in FastText.
