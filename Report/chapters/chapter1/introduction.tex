@@ -2,14 +2,17 @@
 \chapter{Introduction}
 \section{Background}
 In the last few years the online music streaming services such as Spotify, Apple Music and Deezer introduced, among others,  the possibility to create playlists thus opening new challenges on music recommendation.\par
-One of the new possible task a Recommender System should perform is the automatic playlist continuation. By suggesting appropriate songs to add to a playlist, a Recommender System can increase user engagement by making playlist creation easier, as well as extending listening beyond the end of existing playlists. \par
+One of the new possible tasks a modern Recommender System should perform is automatic playlist continuation. By suggesting appropriate songs to add to a playlist, a Recommender System can increase user engagement by making playlist creation easier, as well as extending listening beyond the end of existing playlists. \par
 More precisely the task of automatic playlist continuation consists in: given a set of playlist features, the system shall generate a list of recommended tracks that can be added to that playlist, thereby ``continuing'' the playlist. \par
 
 \section{Project scope}
-In light of this, one of the possible feature to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song contained in the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
-Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text. It can be considered a Sentiment Analysis task, the computational treatment of opinions, sentiments and subjectivity of text. \par
+In the light of this, one of the possible features to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song of the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
+Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text. It can be considered as a Sentiment Analysis task, which is the computational treatment of opinions, sentiments and subjectivity of a natural language text. \par
 
 \section{Results}
+
+Below we just reported the accuracy results we obtained throughout our project while classifying both lyrics and playlists, as shown in table \ref{tab:compar} and \ref{tab:compar2} respectivelly.
+
 \begin{table}[H]
 \centering
 \begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
@@ -18,6 +21,7 @@ Emotion Detection is a novel and promising field of study of Natural Language Un
  \hline
  Dataset & ANN & LR &SVM & xgboost\\
  \hline
+MoodyLyrics  & 90.06\%    &- &  90\% & -\\
 MoodyLyrics4Q  & 51\%    &55\% &  59\% & 56\%\\
 Both together &   67\%  & 68\%   &69\% &63.7\%\\
 \hline
@@ -31,7 +35,7 @@ Both together &   67\%  & 68\%   &69\% &63.7\%\\
  \hline
  \multicolumn{3}{|c|}{Playlist Classification Accuracy} \\
  \hline
-Model trained on & With outliers & Without outliers\\
+Dataset & With outliers & Without outliers\\
  \hline
 MoodyLyrics & 24\% & 24\%\\
 MoodyLyrics4Q  & 71\%    &66\%\\
@@ -41,10 +45,16 @@ Both together &   58\%  & 61\%\\
 \caption{Playlist classification accuracies} \label{tab:compar2}
 \end{table}
 
+We will go into the details of how those results were obtained in the next chapters of this report.
+
 \section{Report outline}
 The report is structured as follow: 
 \begin{itemize}
-\item \textit{Chapter 2}: 
+\item \textit{Chapter 2}: analysis of the state of the art in emotion detection tasks
+\item \textit{Chapter 3}: exploration of the background knoledge for this project
+\item \textit{Chapter 4}: description of the lyrics emotion classification approaches tried
+\item \textit{Chapter 5}: analysis of the state of the playlists classification results
+\item \textit{Chapter 6}: conclusions and future works
 \end{itemize}
 
 

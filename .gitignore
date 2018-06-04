@@ -20,6 +20,7 @@ Report/*.out
 Report/*.snm
 Report/*.toc
 Report/*.gz
+Report/*.dvi
 Report/chapters/*.log
 Report/chapters/*.log
 Report/chapters/*/*.aux
