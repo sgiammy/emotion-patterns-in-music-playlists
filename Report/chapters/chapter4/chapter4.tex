@@ -399,7 +399,6 @@ to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyr
 
 \begin{table}[]
 \centering
-\label{table:emoint-results}
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
@@ -410,6 +409,7 @@ Neural Network & 82.38\%  \\
 Multinomial Na\"{i}ve Bayes Classifier & 49\%  \\ \bottomrule
 \end{tabular}
 \caption{Accuracy results for different classifiers on MoodyLyrics and EmoInt combined}
+\label{table:emoint-results}
 \end{table}
 
 Using the data obtained as explained, we built several classifiers with which we obtained the results
@@ -432,25 +432,28 @@ choice was to keep using a lyrics based dataset as it is MoodyLyrics.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-In this section we present a summary of the result obtained while predicting one of the four emotion labels \textit{relaxed}, \textit{happy}, \textit{sad}, \textit{angry}, using an artificial neural network, a support vector machine, a logistic regression and xgboost. The accuracies have been computed with a 5-fold cross validation. The presented results were computed using both MoodyLyrics4Q and the union of MoodyLyrics and MoodyLyrics4Q. Of course, all of the feature engineering approaches described above were applied.
+In this section we present a summary of the result obtained while predicting one of the four emotion labels \textit{relaxed}, \textit{happy}, \textit{sad}, \textit{angry}, using an artificial neural network, a support vector machine, a logistic regression and xgboost. The accuracies have been computed with a 10-fold cross validation. The presented results were computed using both MoodyLyrics4Q and the union of MoodyLyrics and MoodyLyrics4Q. Of course, all of the feature engineering approaches described above were applied.
 
 Here we omitted MoodyLyrics alone results because, after several experiments, we noticed that MoodyLyrics creators were right when saying that their first version of the dataset should be used as a ground truth dataset because it contains unappropriate labelings which could deteriorate performances in real world cases.
 
 All the implementation details can be found at \url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}.
 
-\begin{table}[H]
+\begin{table}[]
+\centering
 \begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
  \hline
- \multicolumn{5}{|c|}{5-fold Cross Validation Accuracy} \\
+ \multicolumn{5}{|c|}{10-fold Cross Validation Accuracy} \\
  \hline
  Dataset & ANN & LR &SVM & xgboost\\
  \hline
-MoodyLyrics4Q  & 51\%    &55\% &  59\% & 56\%\\
-Both together &   67\%  & 68\%   &69\% &63.7\%\\
+MoodyLyrics4Q  & 55.97\%    &57.87\% &  58.04\% & 56.89\%\\
+Both together &   68.41\%  & 69.42\%   &69.32\% &64.27\%\\
 \hline
 \end{tabular}
-\caption{Emotion detection accuracies} \label{tab:comparison}
+\caption{Emotion classification accuracies} \label{tab:comparison}
 \end{table}
+
+Figure \ref{fig:ann}, \ref{fig:lr} and \ref{fig:svm} represents the confusion matrix obtained while training each model on the 90\% of the toal dataset and testing it on the randomly sampled remaining 10\%.
 
 \begin{figure}[H]
   \centering
