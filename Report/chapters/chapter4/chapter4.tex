@@ -248,7 +248,7 @@ of human error during the annotation process.
 k-Nearest Neighbour & 82\%  \\
 Support Vector Machine & 90\%  \\
 Gradient Boost & 86\%  \\
-Neural Network & 90.06\%  \\
+Neural Network & 90.55\%  \\
 \end{tabular}
 \caption{Accuracy results for different classifiers on MoodyLyrics}
 \label{table:ml-simple-results}
@@ -256,7 +256,7 @@ Neural Network & 90.06\%  \\
 
 After this preliminary data analysis, we moved on producing models to actually classify our dataset.
 The result of these process are visible in table \ref{table:ml-simple-results} where the reported
-accuracy values were obtain after a 5-fold cross validation.
+accuracy values were obtain after a 10-fold cross validation.
 
 As we can see, the best results were certainly achieved by a Neural Network whose architecture was
 as follows: one input layer with 60 neurons and sigmoid activation function, one hidden layer with
@@ -268,10 +268,9 @@ function.
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
-k-Nearest Neighbour & 82\%  \\
-Support Vector Machine & 90\%  \\
-Gradient Boost & 86\%  \\
-Neural Network & 90.06\%  \\
+Support Vector Machine & 67\%  \\
+Gradient Boost & 65\%  \\
+Neural Network & 70\%  \\
 \end{tabular}
 \caption{Accuracy results for different classifiers on MoodyLyrics, using just the title's word embedding vector}
 \label{table:ml-simple-results-title}
@@ -279,30 +278,34 @@ Neural Network & 90.06\%  \\
 
 Anyway for certain songs we noticed that the expressed emotion could be easily guessed from its title. Therefore
 we tried to build also songs titles word embedding vectors and classified them. The results of this operation are 
-visible in table \ref{table:ml-simple-results-title}. Again, those results were obtained after a 5-fold cross-validation. 
+visible in table \ref{table:ml-simple-results-title}. Again, those results were obtained after a 10-fold cross-validation. 
 
 \begin{table}[]
 \centering
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
-Support Vector Machine & 62\%  \\
-Neural Network & 31.22\%  \\
+Support Vector Machine & 91\%  \\
+Neural Network & 54.14\%  \\
 \end{tabular}
 \caption{Accuracy results for different classifiers on MoodyLyrics, using both the lyric's and the title's word embedding vectors}
 \label{table:ml-simple-results-both}
 \end{table}
 
-Moreover, performances obtained while building classifier based on the songs title's word embedding vector only
-did not improve with respect to the previous case even if their decrease was not that high. Therefore we decided
-that, probably, we could have given a try at classifying based on both the title's and the lyric's vector for each
-song. The results of this process are shown in table \ref{table:ml-simple-results-both}.
+Moreover, performances obtained while building classifiers based on the songs title's word embedding vector only
+did not improve with respect to the previous case. Therefore we decided
+that, probably, we could have given a try at using both the title's and the lyric's word embedding information for each
+song. What we did was to use both lyrics vectors and title vectors norm. The results of this process are shown in table \ref{table:ml-simple-results-both}.
 
-For this case we did not try to learn the same number of classifiers as above simply because we noticed a huge decrease
-in performances for those models in which we used to obtain the best results. Anyway, this approach was clearly proven to be
-the worst so far.
+For this case we did not try to learn the same number of classifiers as above because, based on the previous experiments, we noticed
+that SVM and ANN should be the best algorithms for our problem. 
 
-In conclusion, the best performances were those obtained by learning our model solely on the lyrics word embedding vectors.
+The accuracy values obtained in this experiment seem quite abnormal. Indeed,
+while the SVM provides an accuracy score which is comparable to those obtained while using only the lyrics content, the ANN performances 
+drastically decreased. However, we were expecting to obtain performances very similar to those we got while using just the lyrics content as, 
+in  this case, we are basically adding one features (which is the norm of the title's word embedding vector).
+
+In conclusion, the best and more stable performances were those obtained by learning our model solely on the lyrics word embedding vectors.
 Those results are also quite encouraging and made us think that, with some more advanced feature engineering techniques,
 we may be able to achieve even better results.
 
