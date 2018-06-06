@@ -11,6 +11,9 @@ nlp.vocab.add_flag(lambda s: s.lower() in spacy.lang.en.stop_words.STOP_WORDS, s
 
 parser = WiktionaryParser()
 
+tks = list(filter(lambda tk: not tk.is_stop, doc))
+spacy.tokens.Doc(nlp.vocab, words=[tk.text for tk in tks])
+
 def preprocess(doc):
   # Delete text between parentheses
   prep = doc
