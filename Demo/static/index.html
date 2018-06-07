@@ -1,28 +1,12 @@
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Emotion Patterns in Music Playlists - Demo</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  <style>
-    .loader {
-        border: 16px solid #f3f3f3; /* Light grey */
-        border-top: 16px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    } 
-  </style>
-  
   <script>
     function Song(artist, title) {
       this.artist = artist
@@ -69,13 +53,167 @@
       })
     }
 
+    function buildTransitionGraph(transitions) {
+      // Nodes
+      emonodes = []
+      for(var i = 0; i < labels.length; i++) {
+        var recurrent =  transitions[i][i] > 0 ?  '\n(' + transitions[i][i] + ')' : ''
+        emonodes.push({name:labels[i] + recurrent})
+      }
+
+      // Edges
+      emoedges = []
+      for(var i = 0; i < 4; i++) {
+        for(var j = 0; j < 4; j++) {
+          if(transitions[i][j] > 0 && i != j)
+            emoedges.push({source:i, target:j})
+        }
+      }
+      
+      console.log(transitions)
+      console.log(emoedges)
+
+      // Data
+      var data = {
+        nodes: emonodes,
+        edges: emoedges
+      }
+
+      // Draw the graph
+
+      var w = 700;
+      var h = 350;
+      var linkDistance=150;
+
+      var colors = d3.scale.category10();
+
+      var svg = d3.select("body").append("svg").attr({"width":w,"height":h});
+
+      var force = d3.layout.force()
+          .nodes(data.nodes)
+          .links(data.edges)
+          .size([w,h])
+          .linkDistance([linkDistance])
+          .charge([-500])
+          .theta(0.1)
+          .gravity(0.05)
+          .start(); 
+
+      var edges = svg.selectAll("line")
+        .data(data.edges)
+        .enter()
+        .append("line")
+        .attr("id",function(d,i) {return 'edge'+i})
+        .attr('marker-end','url(#arrowhead)')
+        .style("stroke","#ccc")
+        .style("pointer-events", "none");
+      
+      var nodes = svg.selectAll("circle")
+        .data(data.nodes)
+        .enter()
+        .append("circle")
+        .attr({"r":15})
+        .style("fill",function(d,i){return colors(i);})
+        .call(force.drag)
+
+
+      var nodelabels = svg.selectAll(".nodelabel") 
+         .data(data.nodes)
+         .enter()
+         .append("text")
+         .attr({"x":function(d){return d.x;},
+                "y":function(d){return d.y;},
+                "class":"nodelabel",
+                "stroke":"black"})
+         .text(function(d){return d.name;});
+
+      var edgepaths = svg.selectAll(".edgepath")
+          .data(data.edges)
+          .enter()
+          .append('path')
+          .attr({'d': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
+                 'class':'edgepath',
+                 'fill-opacity':0,
+                 'stroke-opacity':0,
+                 'fill':'blue',
+                 'stroke':'red',
+                 'id':function(d,i) {return 'edgepath'+i}})
+          .style("pointer-events", "none");
+
+      var edgelabels = svg.selectAll(".edgelabel")
+          .data(data.edges)
+          .enter()
+          .append('text')
+          .style("pointer-events", "none")
+          .attr({'class':'edgelabel',
+                 'id':function(d,i){return 'edgelabel'+i},
+                 'dx':80,
+                 'dy':0,
+                 'font-size':18});
+
+      edgelabels.append('textPath')
+          .attr('xlink:href',function(d,i) {return '#edgepath'+i})
+          .style("pointer-events", "none")
+          .text(function(d,i){return transitions[d.source.index][d.target.index]});
+
+
+      svg.append('defs').append('marker')
+          .attr({'id':'arrowhead',
+                 'viewBox':'-0 -5 10 10',
+                 'refX':25,
+                 'refY':0,
+                 //'markerUnits':'strokeWidth',
+                 'orient':'auto',
+                 'markerWidth':10,
+                 'markerHeight':10,
+                 'xoverflow':'visible'})
+          .append('svg:path')
+              .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+              .attr('fill', '#ccc')
+              .attr('stroke','#ccc');
+
+          force.on("tick", function(){
+
+            edges.attr({"x1": function(d){return d.source.x;},
+                        "y1": function(d){return d.source.y;},
+                        "x2": function(d){return d.target.x;},
+                        "y2": function(d){return d.target.y;}
+            });
+
+            nodes.attr({"cx":function(d){return d.x;},
+                        "cy":function(d){return d.y;}
+            });
+
+            nodelabels.attr("x", function(d) { return d.x; }) 
+                      .attr("y", function(d) { return d.y; });
+
+            edgepaths.attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
+                                               //console.log(d)
+                                               return path});       
+
+            edgelabels.attr('transform',function(d,i){
+                if (d.target.x<d.source.x){
+                    bbox = this.getBBox();
+                    rx = bbox.x+bbox.width/2;
+                    ry = bbox.y+bbox.height/2;
+                    return 'rotate(180 '+rx+' '+ry+')';
+                    }
+                else {
+                    return 'rotate(0)';
+                    }
+            });
+        });
+    }
+
     // Our "dataset"
     dataset = [
       new Song('Nirvana', 'Smells Like Teen Spirit'),
       new Song('The Beatles', 'Yesterday'),
       new Song('Oasis', 'Wonderwall'),
       new Song('The Clash', 'Should I stay or Should I go'),
-      new Song('Pixies', 'Where is my mind?'),
+      new Song('The Rolling Stones', '(I Can\'t Get No) Satisfaction'),
+      new Song('Queen', 'Don\'t Stop Me Now'),
+      new Song('Led Zeppelin', 'Stairway to Heaven'),
     ]
 
     labels = ['Angry',  'Happy', 'Relaxed', 'Sad']
@@ -84,9 +222,14 @@
 <body>
   
 <div id='top-div'  class="container-fluid">
-  <h1>Emotion Patterns in Music Playlists - Demo</h1>      
-  <button id='classify-btn'  type="button" class="btn btn-primary" data-loading-text='Classifying'>Classify</button>
-  <button id='classify-playlist-btn'  type="button" class="btn btn-success" data-loading-text="Classifying">Classify Playlist</button>
+  <h1>Emotion Patterns in Music Playlists</h1>
+
+  <p>This web application was developed with the purpose of demoing the
+  semester project title "Emotion Patterns in Music Playlist", developed by Mario Guerriero
+  and Sara Giammusso in collaboration with professor Raphael Troncy and Pasquale Lisena at EURECOM.</p>
+
+  <button id='classify-btn'  type="button" class="btn btn-primary">Classify</button>
+  <button id='classify-playlist-btn'  type="button" class="btn btn-success">Classify Playlist</button>
   <p id='prediction-result'></p>
 </div>
 
@@ -115,8 +258,6 @@
      * Songs classification
      **/
     $('#classify-btn').click(function(ev) {
-      $(this).button('loading')
-      countdown = dataset.length
       // Clear table
       $('#emotion-table-rows tr').remove()
       // Start classification of songs one by one
@@ -149,19 +290,10 @@
             row += '</tr>'
             $('#emotion-table-rows').append(row)
             $('#emotion-table-rows tr:last').css('visibility', 'visible').hide().fadeIn()
-         
-            // Update countdown
-            countdown--
-            if(countdown == 0) $('#classify-btn').button('reset')
          },
           error: function(data) {
             // Server error, e.g. 405, 500, error
             alert(data.responseText);
-
-            // Update countdown
-            countdown--
-            if(countdown == 0) $('#classify-btn').button('reset')
-
           }
         }) 
       }
@@ -173,7 +305,6 @@
     $('#classify-playlist-btn').click(function(ev) {
       predictions = buildPredictionMatrix() 
 
-      $(this).button('loading')
       // Send request to the server
       $.ajax({
         type: "POST",
@@ -188,16 +319,34 @@
           prediction = data.prediction 
           outliers_count = data.outliers_count
           outliers = data.outliers
-          console.log(outliers)
-          markOutliers(outliers)
-          $('#prediction-result').html('This playlist is: <b>'+ labels[argMax(prediction)] + '</b>')
 
-          $('#classify-playlist-btn').button('reset')
+          markOutliers(outliers)
+          $('#prediction-result').html('This playlist is: '+ labels[argMax(prediction)]) 
+
+          // Work on transitions
+          var transitions = [];
+          for(var i=0; i < 4; i++) {
+            transitions[i] = new Array(4)
+            for(var j=0; j < 4; j++) {
+              transitions[i][j] = 0
+            }
+          }
+          
+          predictions = buildPredictionMatrix()
+          console.log(predictions)
+          for(var j=0; j < predictions.length-1; j++) {
+            p1 = predictions[j]
+            p2 = predictions[j+1]
+
+            x = argMax(p1)
+            y = argMax(p2)
+            transitions[x][y]++
+          }
+          buildTransitionGraph(transitions)
        },
         error: function(data) {
           // Server error, e.g. 405, 500, error
           alert(data.responseText);
-          $('#classify-playlist-btn').button('reset')
         }
       }) 
     })

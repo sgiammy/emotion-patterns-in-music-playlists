@@ -124,6 +124,8 @@ def get_rhymes(lines):
     words = lines[i].split()
     if len(words) < 1:
       continue
+    if words[-1] is None:
+        return 0
     rhymes = pronouncing.rhymes(words[-1])
     next_line_words = lines[i+1].split()
     if next_line_words is not None and len(next_line_words) > 0 and  next_line_words[-1] in rhymes:
