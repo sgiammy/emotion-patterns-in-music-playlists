@@ -5,7 +5,10 @@ In the last few years the online music streaming services such as Spotify, Apple
 One of the new possible tasks a modern Recommender System should perform is automatic playlist continuation. By suggesting appropriate songs to add to a playlist, a Recommender System can increase user engagement by making playlist creation easier, as well as extending listening beyond the end of existing playlists. \par
 More precisely the task of automatic playlist continuation consists in: given a set of playlist features, the system shall generate a list of recommended tracks that can be added to that playlist, thereby ``continuing'' the playlist. \par
 
+In fact, one of the final goals of this project was to produce numerical features to be used in a recommender system for music playlists. Specifically, this recommender system had to be built for the RecSys Challenge 2018\footnote{\url{https://recsys-challenge.spotify.com/}}, hosted for this year by Spotify, which provided a huge dataset of a milion playlist coming from their own platform. Since the goal of this challenge is to improve the playlist continuation feature of the Spotify's recommender system, we believed that putting emotions in the features used to group playlists could be useful for achieving better performances. For this reason, the output of this system is a vector where, each element, expresses the likelihood score for the releated emotion. The details of how this vector is built will be made clearer throughout this report.
+
 \section{Project scope}
+
 One of the possible features to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song of the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
 Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text. It can be considered as a Sentiment Analysis task, which is the computational treatment of opinions, sentiments and subjectivity of a natural language text. \par
 
@@ -47,15 +50,17 @@ Both together &   50\%  & 47\%\\
 
 We will go into the details of how those results were obtained in the next chapters of this report.
 
+\section{Emotion Classification Utilities}
+
+The above results can be obtained using the code which can be found in the project's GitHub repository\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists}}. Specifically, using this code, we can perform classification at three different levels:
+\begin{itemize}
+\item \textbf{Lyric level}: using the function \texttt{classify(sid, artist, title)} of the \texttt{src\/emoclassify.py} script
+\item \textbf{Playlist level}: using the function \texttt{robust\_classify(playlist\_vect)} from the \texttt{src\/playlist\_classify.py} script
+\item \textbf{Spotify's dataset slice level}: using the function \texttt{classify\_slice(slice\_path)} from the \texttt{src\/slice\_classify.py} script
+\end{itemize}
+
+Along with those utilitiy programs we also provided some pre-trained models in the folder \texttt{src\/model}, which can be used to reproduce the results we obtained. The details of how those models were built will be discussed later in this report.
+
 \section{Report outline}
+
 The report is structured as follow: \textit{chapter 2} contains the analysis of the state of the art in emotion detection tasks. \textit{Chapter 3} includes an exploration of the background knowledge for this project, \textit{chapter 4} describes the lyrics emotion classification approaches tried, \textit{chapter 5} the playlists classification methods and results while \textit{chapter 6} contains conclusions and future works considerations. 
-
-
-
-
-
-
-
-
-
-
