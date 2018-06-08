@@ -7,6 +7,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  </style>
   <script>
     function Song(artist, title) {
       this.artist = artist
@@ -70,9 +76,6 @@
         }
       }
       
-      console.log(transitions)
-      console.log(emoedges)
-
       // Data
       var data = {
         nodes: emonodes,
@@ -81,13 +84,13 @@
 
       // Draw the graph
 
-      var w = 700;
+      var w = 450;
       var h = 350;
       var linkDistance=150;
 
       var colors = d3.scale.category10();
 
-      var svg = d3.select("body").append("svg").attr({"width":w,"height":h});
+      var svg = d3.select('#graph-container').append("svg").attr({"width":w,"height":h});
 
       var force = d3.layout.force()
           .nodes(data.nodes)
@@ -112,7 +115,7 @@
         .data(data.nodes)
         .enter()
         .append("circle")
-        .attr({"r":15})
+        .attr({"r":40})
         .style("fill",function(d,i){return colors(i);})
         .call(force.drag)
 
@@ -188,7 +191,6 @@
                       .attr("y", function(d) { return d.y; });
 
             edgepaths.attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
-                                               //console.log(d)
                                                return path});       
 
             edgelabels.attr('transform',function(d,i){
@@ -217,12 +219,33 @@
     ]
 
     labels = ['Angry',  'Happy', 'Relaxed', 'Sad']
+    emotion_img = ['static/img/angry.png', 'static/img/happy.png', 'static/img/relaxed.png', 'static/img/sad.png']
   </script>
 </head>
 <body>
   
 <div id='top-div'  class="container-fluid">
   <h1>Emotion Patterns in Music Playlists</h1>
+
+  <p>
+  Music streaming services such as Spotify are revolutionizing the music world, enabling a transition from artist-created bundles of songs (CDs) to user-created playlists. Different logics may be applied in the generation of a playlist: they can contain songs of a similar genre (e.g. “Rock playlist”), fit to a particular occasion (e.g. “New year’s eve party”), to a particular context (e.g. “Gym”), to a particular mood (e.g. “Happy”) and so on.
+  </p>
+
+  <p>
+  The goal of the project is to unravel the emotion patterns underlying the sequences of songs in a playlist using automatic approaches of Emotion Detection on the lyrics. Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text.
+  </p>
+
+  <p>
+  In the context of this project we had to:
+  </p>
+
+  <ol>
+    <li>Select an appropriate playlist dataset among the ones available on the web</li>
+    <li>Collect the lyrics associated to each song through an automatic approach</li>
+    <li>Study the state-of-the-art in Emotion Detection</li>
+    <li>Extract the emotions present in each song using an Emotion Detection tool</li>
+    <li>Analyze the experimental results statistically to unravel emotion patterns in the playlists</li>
+  </ol>
 
   <p>This web application was developed with the purpose of demoing the
   semester project title "Emotion Patterns in Music Playlist", developed by Mario Guerriero
@@ -233,7 +256,7 @@
   <p id='prediction-result'></p>
 </div>
 
-<div id="emotion-table" class="container">
+<div id="emotion-table" class="container" style='display:none'>
   <h2>Songs classification</h2>
   <table class="table">
     <thead>
@@ -251,6 +274,13 @@
   </table>
 </div>
 
+<div id='bottom-div' class='container'>
+  <div id='graph-container' class='col-sm-6'></div>
+  <div id='emoj-container' class='col-sm-6'>
+    <img id='emoj' style='display: none'>
+  </div>
+</div>
+
 <script>
   // jQuery stuff goes here
   $(document).ready(function(){
@@ -259,6 +289,8 @@
      **/
     $('#classify-btn').click(function(ev) {
       // Clear table
+      $('#classify-btn').button('loading')
+      $('#emotion-table').css('display', 'block')
       $('#emotion-table-rows tr').remove()
       // Start classification of songs one by one
       for(var i = 0; i < dataset.length; i++) {
@@ -290,6 +322,11 @@
             row += '</tr>'
             $('#emotion-table-rows').append(row)
             $('#emotion-table-rows tr:last').css('visibility', 'visible').hide().fadeIn()
+
+            // Reset button status
+            if($('#emotion-table  tr').length == dataset.length) {
+              $('#classify-btn').button('reset')
+            }
          },
           error: function(data) {
             // Server error, e.g. 405, 500, error
@@ -321,7 +358,8 @@
           outliers = data.outliers
 
           markOutliers(outliers)
-          $('#prediction-result').html('This playlist is: '+ labels[argMax(prediction)]) 
+          $('#emoj').css('display', 'block')
+          $('#emoj').attr('src', emotion_img[argMax(prediction)])
 
           // Work on transitions
           var transitions = [];
@@ -333,7 +371,6 @@
           }
           
           predictions = buildPredictionMatrix()
-          console.log(predictions)
           for(var j=0; j < predictions.length-1; j++) {
             p1 = predictions[j]
             p2 = predictions[j+1]
