@@ -29,8 +29,8 @@ An example of IBM Watson NLU output is shown in figure \ref{fig:ibm_watson_wonde
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{./chapters/chapter3/images/ibm-watson-wonderwall}
-\caption{IBM Watson Natural Language Understanding output while analyzing the lyric of Wonderwall, from Oasis}
+\includegraphics[width=1\textwidth]{./chapters/chapter3/images/ibm-watson-wonderwall}
+\caption{IBM Watson Natural Language Understanding output while analyzing the lyric of Wonderwall, by Oasis}
 \label{fig:ibm_watson_wonderwall}
 \end{figure}
 
@@ -52,6 +52,7 @@ Sad, Angry, Fearful, Excited, Funny or Sarcastic. An example of its output is sh
 \label{fig:paralleldots}
 \end{figure}
 
+The results obtained with ParallelDots API and IBM Watson are quite different. Moreover we should consider that we don't know how the two tools internally parse the lyrics, i.e. how they do consider line breaks, line breaks without commas, etc. 
 
 \paragraph{QEmotion}\cite{qemotion}
 Qemotion detects the main emotion of the speech and define the corresponding emotion in terms of temperature:
@@ -69,7 +70,7 @@ Qemotion detects the main emotion of the speech and define the corresponding emo
 In order to select the best Natural Language Processing library for our purpose we also analyzed pros and cons of the main Natural Language Processing libraries available, i.e. NLTK, TextBlob, Standord's CoreNLP and SpaCy. 
 
 \paragraph{NLTK: Natural Language Toolkit}
-NLTK is a leading platform for building Python programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning and wrappers for industrial-strength NLP libraries\cite{nltk}. It is recommended only as an education and research tool. \\
+NLTK is a leading platform for building programs to work with human language data. It provides easy-to-use interfaces to over 50 corpora and lexical resources, along with a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning and wrappers for industrial-strength NLP libraries\cite{nltk}. It is recommended only as an education and research tool. \\
 Pros:
 \begin{itemize}
 \item its modularized structure makes it excellent for learning and exploring NLP concepts; 

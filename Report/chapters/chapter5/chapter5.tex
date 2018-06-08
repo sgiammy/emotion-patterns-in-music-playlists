@@ -1,6 +1,6 @@
 \chapter{Playlists analysis}
 
-Now we will move our focus from lyrics to playlists. Indeed, we willl now demonstrate how we extended our work on single songs to whole playlists.
+Now we will move our focus from lyrics to playlists. Indeed, we will now demonstrate how we extended our work on single songs to whole playlists.
 
 \section{Playlist classification}
 
@@ -15,7 +15,7 @@ For the emotion classification task we decided to use three artificial neural ne
 \label{fig:annacc}
 \end{figure}
 
-The method we chose to classify a playlist is the following: given a \texttt{song emotion array} = [ sad\%, angry\%, happy\%, relaxed\% ] where the sum of the emotion percentage for each song is equal to one, the playlist emotion is the emotion with the maximum percentage sum over the columns. We found this approach very flexible, indeed, normalizing by the number of songs inside a playlist we obtain a probability of the emotion for that playlist. This would add 4 additional features which could be used by a Recommendation System.
+The method we chose to classify a playlist is the following: given a \texttt{song emotion array} = [ sad\%, angry\%, happy\%, relaxed\% ] where the sum of the emotion percentage for each song is equal to one, the playlist emotion is the emotion with the maximum percentage column sum over the rows. We found this approach very flexible, indeed, normalizing by the number of songs inside a playlist we obtain a probability of the emotion for that playlist. This would add 4 additional features which could be used by a Recommendation System.
 
 However our main issue has been the absence of a labeled dataset through which compute an accuracy score of our classification method. In order to overcome this problem a perfectly balanced silver standard dataset has been generated considering 40 playlist inside Spotify RecSys\cite{recsys} dataset with four really expressive titles: \textit{rage} for angry playlists, \textit{crying} for sad, \textit{party!} for happy and \textit{sleeping} for relaxed playlists. \par
 
@@ -43,7 +43,7 @@ We then featurized each song using the features described earlier in this report
 
 As we already said, playlist classification was done by averaging the emotion vectors which are given as output of the lyrics classification process. However, in order to make the classifications more robust, we tried to remove outliers from our predictions.
 
-Basically, for each playlist, we built a matrix of dimension Nx4, where N is the number of songs in the playlist and 4 is the number of target emotions (happy, sad, angry and relaxed). In this matrix, each row corresponds to the probabilistic assignment of emotions to each of song of the playlist. In order to remove outliers we considered a column (an emotion) at the time and we followed those steps:
+Basically, for each playlist, we built a matrix of dimension $N$x$4$, where $N$ is the number of songs in the playlist and $4$ is the number of target emotions (happy, sad, angry and relaxed). In this matrix, each row corresponds to the probabilistic assignment of emotions to each of song of the playlist. In order to remove outliers we considered a column (an emotion) at the time and we followed those steps:
 \begin{enumerate}
 \item compute the third (q3) and the first quartile (q1)
 \item compute the interquartile range (IQR) defined as the difference between the third and the first quartile
@@ -53,7 +53,7 @@ Basically, for each playlist, we built a matrix of dimension Nx4, where N is the
 \item average the remaining values to compute the label score for the emotion corresponding to the current column of the matrix
 \end{enumerate}
 
-After having repeated the above process for all the 4 columns of our Nx4 matrix, we obtain a vector of 4 real values, respectivelly representing the playlist score for each of our target emotion.
+After having repeated the above process for all the $4$ columns of our $N$x$4$ matrix, we obtain a vector of $4$ real values, respectively representing the playlist score for each of our target emotion.
 
 \subsection{Playlist Classification with a subset of the songs}
 
@@ -65,28 +65,28 @@ Figures \ref{fig:subset-absolute} and \ref{fig:subset-percentage} shows the accu
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{./chapters/chapter5/images/subset-absolute}
+\includegraphics[width=0.9\textwidth]{./chapters/chapter5/images/subset-absolute}
 \caption{Classification accuracy on playlists obtained while considering just a certain amount of songs}
 \label{fig:subset-absolute}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{./chapters/chapter5/images/subset-percentage}
+\includegraphics[width=0.9\textwidth]{./chapters/chapter5/images/subset-percentage}
 \caption{Classification accuracy on playlists obtained while considering just a percentage sample of the total number of songs}
 \label{fig:subset-percentage}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{./chapters/chapter5/images/subset-absolute-robust}
+\includegraphics[width=0.9\textwidth]{./chapters/chapter5/images/subset-absolute-robust}
 \caption{Classification accuracy on playlists obtained using robust classification while considering just a certain amount of songs}
 \label{fig:subset-absolute-robust}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{./chapters/chapter5/images/subset-percentage-robust}
+\includegraphics[width=0.9\textwidth]{./chapters/chapter5/images/subset-percentage-robust}
 \caption{Classification accuracy on playlists obtained while using robust classification considering just a percentage sample of the total number of songs}
 \label{fig:subset-percentage-robust}
 \end{figure}
@@ -104,9 +104,9 @@ Table \ref{tab:comparison2} shows the different accuracies reached classifying t
  \hline
 Dataset & With outliers & Without outliers\\
  \hline
-MoodyLyrics & 26\% & 24\%\\
-MoodyLyrics4Q  & 39\%    &66\%\\
-Both together &   39\%  & 61\%\\
+MoodyLyrics & 29\% & 29\%\\
+MoodyLyrics4Q  & 66\%    &66\%\\
+Both together &   50\%  & 47\%\\
 \hline
 \end{tabular}
 \caption{Playlist classification accuracies comparison} \label{tab:comparison2}

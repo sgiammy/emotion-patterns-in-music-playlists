@@ -6,12 +6,12 @@ One of the new possible tasks a modern Recommender System should perform is auto
 More precisely the task of automatic playlist continuation consists in: given a set of playlist features, the system shall generate a list of recommended tracks that can be added to that playlist, thereby ``continuing'' the playlist. \par
 
 \section{Project scope}
-In the light of this, one of the possible features to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song of the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
+One of the possible features to consider in developing a system for the automatic playlist continuation task is the emotion expressed in each song of the playlist and the more frequent transition patterns from one emotion to the other. Thus, not only the emotion of each song lyrics must be detected, but also the transitions between emotions must be analyzed. \par
 Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text. It can be considered as a Sentiment Analysis task, which is the computational treatment of opinions, sentiments and subjectivity of a natural language text. \par
 
 \section{Results}
 
-Below we just reported the accuracy results we obtained throughout our project while classifying both lyrics and playlists, as shown in table \ref{tab:compar} and \ref{tab:compar2} respectivelly.
+Below we just reported the accuracy results we obtained throughout our project while classifying emotions both in song lyrics and in playlists, as shown in table \ref{tab:compar} and \ref{tab:compar2} respectively.
 
 \begin{table}[H]
 \centering
@@ -37,9 +37,9 @@ Both together &   68.41\%  & 69.42\%   &69.32\% &64.27\%\\
  \hline
 Dataset & With outliers & Without outliers\\
  \hline
-MoodyLyrics & 24\% & 24\%\\
-MoodyLyrics4Q  & 71\%    &66\%\\
-Both together &   58\%  & 61\%\\
+MoodyLyrics & 29\% & 29\%\\
+MoodyLyrics4Q  & 66\%    &66\%\\
+Both together &   50\%  & 47\%\\
 \hline
 \end{tabular}
 \caption{Playlist classification accuracies} \label{tab:compar2}
@@ -48,15 +48,7 @@ Both together &   58\%  & 61\%\\
 We will go into the details of how those results were obtained in the next chapters of this report.
 
 \section{Report outline}
-The report is structured as follow: 
-\begin{itemize}
-\item \textit{Chapter 2}: analysis of the state of the art in emotion detection tasks
-\item \textit{Chapter 3}: exploration of the background knoledge for this project
-\item \textit{Chapter 4}: description of the lyrics emotion classification approaches tried
-\item \textit{Chapter 5}: analysis of the state of the playlists classification results
-\item \textit{Chapter 6}: conclusions and future works
-\end{itemize}
-
+The report is structured as follow: \textit{chapter 2} contains the analysis of the state of the art in emotion detection tasks. \textit{Chapter 3} includes an exploration of the background knowledge for this project, \textit{chapter 4} describes the lyrics emotion classification approaches tried, \textit{chapter 5} the playlists classification methods and results while \textit{chapter 6} contains conclusions and future works considerations. 
 
 
 

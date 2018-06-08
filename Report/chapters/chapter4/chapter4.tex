@@ -6,8 +6,7 @@ based on the MoodyLyrics dataset, with no particular preprocessing nor feature
 engineering techniques, just by using the tools we already mentioned. Then we will
 move to more complex feature engineering techniques and classifiers.
 
-Along with that, we will also provide a formal validation of one of the tools we used, in
-order to make sure that what we have at our disposal is good for our task.
+Along with that, we will also provide a formal validation of the POS tagger tool we used.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,9 +31,9 @@ In the context of MoodyLyrics, Valence represents the positive or negative inten
 
 Based on this assumptions, MoodyLyrics creators classified lyrics according to the planar model shown in figure \ref{fig:ml-classification-schema}, which relates arousal and valence.
 
-\begin{figure}
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{./chapters/chapter4/images/moodylyrics-classification-schema}
+  \includegraphics[width=0.6\textwidth]{./chapters/chapter4/images/moodylyrics-classification-schema}
   \caption{Valence and Arousal planar model used by MoodyLyrics creators to annotate lyrics\cite{moodylyrics}}
   \label{fig:ml-classification-schema}
 \end{figure}
@@ -45,12 +44,11 @@ During the analysis of MoodyLyrics described in the previous section we detected
 
 This bug in the dataset was reported to MoodyLyrics creators. As a response to our bug report email, MoodyLyrics creators suggested to use MoodyLyrics4Q\cite{moodylyrics4q}, that, according to them is a more accuratelly labeled version of MoodyLyrics.\par
 
-This advice opened us three possibilities: continue using MoodyLyrics, start using MoodyLyrics4Q or create a new dataset as the concatenation of the previous two. We decided to start using all these three models, in order to understand which one, at the end, will give us a better playlists classification. The complete MoodyLyrics emotion classification analysis can be found at \url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/1_ED_in_songs_lyrics.ipynb} while the MoodyLyrics4Q and the emotion detection analysis in the merged datasets can be found at \url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}.
+This advice opened us three possibilities: continue using MoodyLyrics, start using MoodyLyrics4Q or create a new dataset as the concatenation of the previous two. We decided to start using all these three models, in order to understand which one, at the end, will give us a better playlists classification. The complete MoodyLyrics emotion classification analysis can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/1_ED_in_songs_lyrics.ipynb}{Notebook 1}, while the MoodyLyrics4Q and the emotion detection analysis in the merged datasets can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}{Notebook 2}.
 
 
 \subsection{MoodyLyrics4Q}
-MoodyLyrics4Q contains 2000 songs and has the same annotation schema as MoodyLyrics. Figure \ref{fig:stats}
-shows the emotions distribution comparison between the two MoodyLyrics versions.
+MoodyLyrics4Q contains 2000 songs and has the same annotation schema as MoodyLyrics. Figure \ref{fig:stats} shows the emotions distribution comparison between the two MoodyLyrics versions.
 
 \begin{figure}[H]
 \centering
@@ -60,7 +58,7 @@ shows the emotions distribution comparison between the two MoodyLyrics versions.
 \end{figure}
 
 MoodyLyrics4Q classes are much more balanced, however MoodyLyrics4Q contains less songs with respect to MoodyLyrics. \par
-We studied the qualitative difference between the two version comparing the classification given to the songs contained in both datasets to establish what version, according to us, is more correct. The intersection between the two versions contains 47 songs, and 21 over 47 have been classified differently. We noticed that in 15 over this 21 songs the two datasets confuses \textit{happy} with \textit{relaxed} and \textit{angry} with \textit{sad}. Indeed, only 6 of 21 songs are classified totally differently if we assume that we can merge happy and relaxed and angry and sad emotion. However, reading the lyrics of each of this 6 songs, we could not establish which version is the best one.
+We studied the qualitative difference between the two version comparing the classification given to the songs contained in both datasets to establish what version, according to us, is more correct. The intersection between the two versions contains 47 songs, and 21 over 47 have been classified differently. We noticed that in 15 over this 21 songs the two datasets confuses \textit{happy} with \textit{relaxed} and \textit{angry} with \textit{sad}. Indeed, only 6 of 21 songs are classified totally differently if we assume that we can merge happy and relaxed and angry and sad emotion. However, reading the lyrics of each of this 6 songs, we could not establish which version is the best one. A more detailed analysis can be fount at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/5_Final_steps.ipynb}{Notebook 5}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,7 +68,7 @@ We studied the qualitative difference between the two version comparing the clas
 \section{POS Tagger Validity Check} 
 
 Before digging into more complex types of analysis, we took the time to check if
-the tools we were using could be really good for our purpose. 
+the tools we were using could be really good for our purpose. \par
 
 Specifically, we had some doubts on the Part-Of-Speech (POS) tagger. Indeed, those kind of systems are generarly 
 trained on texts coming from sources whose type of language is very different from those
@@ -179,8 +177,7 @@ The last thing we were left to analyze at this point was a vulgar song. For this
 In this case we have no special remarks to report. We can just say that everything was tagged and
 recognized in the exact way we expected.
 
-We did not report entire lyrics nor the full POS tagger output in the interest of brevity. However, those
-analysis are available on the public GitHub repository for this project\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/3\_POS\_tagger\_verification.ipynb}}.
+We did not report entire lyrics nor the full POS tagger output in the interest of brevity. However, those analysis are available on the public GitHub repository for this project, at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/3_POS_tagger_verification.ipynb}{Notebook 3}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -195,52 +192,32 @@ artist and the title of its songs, we firstly downloaded the lyrics and then we 
 word embedding vectors for them by using SpaCy's built-in methods, based on Word2Vec.
 Those vectors we worked on are made of 300 dimensions.
 
-No particular preprocessing was applied on lyrics before generating the word embedding
-vectors apart from stopword removals, because we did not believe that they could bring
-any useful additional information.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.9\textwidth]{./chapters/chapter4/images/percentage-change.png}
-  \caption{Number of songs and percentage of word in which they changed after stop word removal}
-  \label{fig:ml-percentage-change}
-\end{figure}
-
-At first we were scared of the fact that most of the words in some lyrics may have been
-stop words, ending up in reducing lyrics text by too many words. Anyway, as we can see 
-from figure \ref{fig:ml-percentage-change}, less than 650 songs reduced their size by 
-more than 50\% while the majority of them has very small percentage decrease. Therefore
-we concluded that it could be worth trying to classify our lyrics by applying this mentioned
-preprocessing technique.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.9\textwidth]{./chapters/chapter4/images/ml-pca.png}
-  \caption{Principal Component Analys on MoodyLyrics data with 2 dimensions as output}
-  \label{fig:ml-pca}
-\end{figure}
-
 MoodyLyrics songs were annotated according to the arousal and valence dimension of their lyric,
-as explained above. Therefore we tought that, if we could be able to project the resulting
+as explained above. Therefore we thought that, if we could be able to project the resulting
 word embedding vector of each lyric in a bi-dimensional space, we could have been able to 
 clearly see how they are separated.
 
 In order to visualize the mentioned idea, we applied Principal Component Analysis (PCA) on
-MoodyLyrics songs and plotted the resulting points in 2-dimensional space, as can be seen in 
-figure \ref{fig:ml-pca}. However the resulting figure is not exactly what we were expecting.
+MoodyLyrics songs and plotted the resulting points in 2-dimensional space, as can be seen in figure \ref{fig:ml-pca}. However the resulting figure is not exactly what we were expecting.
 
-Indeed, because of the explained MoodyLyrics annotation schema, we were expecting to see 4
-clearly separated group of points. Instead, what we can see is that sad songs are clearly 
-separated from the others while the songs belonging to the classes happy, angry and relaxed
-are quite overlapped and can be easily confused between them.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{./chapters/chapter4/images/ml-pca.png}
+  \caption{Principal Component Analys on MoodyLyrics data with 2 dimensions as output}
+  \label{fig:ml-pca}
+\end{figure}
+
+Indeed, because of the explained MoodyLyrics annotation schema, we were expecting to see 4 clearly separated group of points. Instead, what we can see is that sad songs are clearly separated from the others while the songs belonging to the classes happy, angry and relaxedare quite overlapped and can be easily confused between them.
 
 Despite the fact that this result seemed weird, after listening to several songs and trying to
 manually classify them according to their lyrics, we came to the conclusion that it is very
 easy for a human to confuse happy, angry and relaxed song. Therefore, if we keep in mind that
-MoodyLyrics was manually annotated, we can explain the anomaly in our plot as a consequence
-of human error during the annotation process.
+MoodyLyrics was manually annotated, we can explain the anomaly in our plot as a consequence of human error during the annotation process.
 
-\begin{table}[]
+
+After this preliminary data analysis, we moved on producing models to actually classify our dataset.
+The result of these process are visible in table \ref{table:ml-simple-results} where the reported accuracy values were obtain after a 10-fold cross validation.
+\begin{table}[H]
 \centering
 \begin{tabular}{@{}lll@{}}
 \toprule
@@ -254,16 +231,13 @@ Neural Network & 90.55\%  \\
 \label{table:ml-simple-results}
 \end{table}
 
-After this preliminary data analysis, we moved on producing models to actually classify our dataset.
-The result of these process are visible in table \ref{table:ml-simple-results} where the reported
-accuracy values were obtain after a 10-fold cross validation.
+As we can see, the best results were certainly achieved by a Neural Network whose architecture was as follows: one input layer with 175 neurons and sigmoid activation function, one hidden layer with 175 neurons and sigmoid activation function, one output layer with 4 neurons and softmax activation function.
 
-As we can see, the best results were certainly achieved by a Neural Network whose architecture was
-as follows: one input layer with 60 neurons and sigmoid activation function, one hidden layer with
-60 neurons and sigmoid activation function, one output layer with 4 neurons and softmax activation
-function.
+Anyway for certain songs we noticed that the expressed emotion could be easily guessed from its title. Therefore
+we tried to build also songs titles word embedding vectors and classified them. The results of this operation are 
+visible in table \ref{table:ml-simple-results-title}. Again, those results were obtained after a 10-fold cross-validation. 
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{@{}lll@{}}
 \toprule
@@ -276,11 +250,12 @@ Neural Network & 70\%  \\
 \label{table:ml-simple-results-title}
 \end{table}
 
-Anyway for certain songs we noticed that the expressed emotion could be easily guessed from its title. Therefore
-we tried to build also songs titles word embedding vectors and classified them. The results of this operation are 
-visible in table \ref{table:ml-simple-results-title}. Again, those results were obtained after a 10-fold cross-validation. 
+Moreover, performances obtained while building classifiers based on the songs title's word embedding vector only
+did not improve with respect to the previous case. Therefore we decided
+that, probably, we could have given a try at using both the title's and the lyric's word embedding information for each
+song. What we did was to use both lyrics vectors and title vectors norm. The results of this process are shown in table \ref{table:ml-simple-results-both}.
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{@{}lll@{}}
 \toprule
@@ -292,10 +267,6 @@ Neural Network & 54.14\%  \\
 \label{table:ml-simple-results-both}
 \end{table}
 
-Moreover, performances obtained while building classifiers based on the songs title's word embedding vector only
-did not improve with respect to the previous case. Therefore we decided
-that, probably, we could have given a try at using both the title's and the lyric's word embedding information for each
-song. What we did was to use both lyrics vectors and title vectors norm. The results of this process are shown in table \ref{table:ml-simple-results-both}.
 
 For this case we did not try to learn the same number of classifiers as above because, based on the previous experiments, we noticed
 that SVM and ANN should be the best algorithms for our problem. 
@@ -353,7 +324,7 @@ Since the word embedding vectors we generated had length 300, at the end we were
 
 Having to deal with 623 different features for discriminating songs among 4 classes is probably exaggerated and many features may be redundant or may not bring any useful information to our goal. Indeed, after running many experiments, we tried to keep our models as simple as possible by trying to select the fewer number of features possible.
 
-In the end, we obtained the best results just by using the following features: \textit{Lyric\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyrc}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
+In the end, we obtained the best results just by using the following features: \textit{Lyric\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyric}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -366,9 +337,10 @@ One major limitation we had to face during our work on this project was the shor
 Indeed, most of the already labeled datasets which can be found online have been created for type of texts
 which were much different from lyrics i.e. news items, blog posts, Facebook posts, tweets, etc.
 
-In order to overcome this limitation we tought that, if we found a dataset whose items language is close enough
+In order to overcome this limitation we thought that, if we found a dataset whose items language is close enough
 to the common lyrics language, we would have had some performance improvements in our classifiers. This is the
 reason why we tried to combine our dataset together with EmoInt\cite{emoint}.
+A more detailed analysis of this work can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/4_EmoInt.ipynb}{Notebook 4}.
 
 EmoInt provides several tweets annotated according to an emotion (anger, fear, joy, sadness) and to the degree 
 at which the emotion is expressed in text. As EmoInt provide intensity levels together with emotion labels, 
@@ -397,7 +369,7 @@ to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyr
 \textit{\%Present\_tense\_verbs}, \textit{\%Past\_tense\_verbs}, \textit{\%Future\_tense\_verbs},
 \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}.
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{@{}lll@{}}
 \toprule
@@ -436,9 +408,9 @@ In this section we present a summary of the result obtained while predicting one
 
 Here we omitted MoodyLyrics alone results because, after several experiments, we noticed that MoodyLyrics creators were right when saying that their first version of the dataset should be used as a ground truth dataset because it contains unappropriate labelings which could deteriorate performances in real world cases.
 
-All the implementation details can be found at \url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}.
+All the implementation details can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}{Notebook 2}.
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
  \hline
