@@ -1,4 +1,23 @@
-# emotion-patterns-in-music-playlists
+# Emotion Patterns in Music Playlists
+
+Music streaming services such as Spotify are revolutionizing the music world, enabling a
+transition from artist-created bundles of songs (CDs) to user-created playlists. Different
+logics may be applied in the generation of a playlist: they can contain songs of a similar
+genre (e.g. “Rock playlist”), fit to a particular occasion (e.g. “New year’s eve party”), to a
+particular context (e.g. “Gym”), to a particular mood (e.g. “Happy”) and so on.
+
+The goal of the project is to unravel the emotion patterns underlying the sequences of songs
+in a playlist using automatic approaches of Emotion Detection on the lyrics. Emotion
+Detection is a novel and promising field of study of Natural Language Understanding, which
+is able to automatically infer what are the emotions expressed in a text.
+
+In the context of this project we had to:
+1. Select an appropriate playlist dataset among the ones available on the web
+2. Collect the lyrics associated to each song through an automatic approach
+3. Study the state-of-the-art in Emotion Detection
+4. Extract the emotions present in each song using an Emotion Detection tool
+5. Analyze the experimental results statistically to unravel emotion patterns in the playlists
+
 
 Before running any script, please install dependencies
 
@@ -61,14 +80,13 @@ Map Spotify track URIs to LyricsWiki, and download the lyrics in a folder.
 
 ### Demo
 
-In order to run the web application demo you need to install Flask:
+In order to run the demo web application you need to install Flask:
 
-```
         pip install Flask
-```
+
 
 After that, the web app server can be executed by running:
 
-```
+
         FLASK_APP=index.py flask run
-```
+
