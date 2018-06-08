@@ -160,3 +160,7 @@ Demo/__pycache__
 Demo/dataset_parsers
 Demo/datasets
 Demo/models
+Demo/.git/
+Demo/.gitignore
+Demo/Procfile
+Demo/requirements.txt

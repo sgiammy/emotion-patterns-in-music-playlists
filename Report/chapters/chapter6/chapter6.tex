@@ -1,1 +1,76 @@
 \chapter{Conlusion}
+
+In this report we detailed all the experiments and trials we did in the context
+of our semester project. Our main goal was to firstly build a system capable of
+classifying songs lyrics based on their emotion, and then to use the acquired knowledge 
+to understand emotional patterns in music playlists.
+
+The first thing we did, was focusing on the word embedding vectors generated for the lyrics
+of the already labeled songs we found in the MoodyLyrics dataset, which classifies lyrics according to 
+4 possible emotions: angry, sad, relaxed and happy. As we understood that this
+approach was very limiting, we started working on some smarter feature engineering approaches,
+in which we extracted our own features from the analyzed lyrics.
+
+Under the suggestion of the dataset's creator, we then moved from MoodyLyrics to its updated and more
+reliable version: MoodyLyrics4Q. This new dataset became then the gold standard for our experiments.
+
+We tried to combine our lyrics dataset also with data coming from different data sources, e.g. tweets. However
+we understood that the best way to proceed in our project was to keep working with just the lyrics
+based dataset, as it is obviously the most suitable one for unraveling emotional patters in music playlists.
+
+At the end of the lyrics classification process, our output was, for each song, an emotion vector, composed 
+of the intensities at which each sentiment was expressed.
+
+Once we understood which was the best subset of features and the best classifiers, we moved our focus on
+classifying playlists. For evaluating our playlist classification performances, we compared our outputs
+to those of the silver standard playlist dataset we built.
+
+We used two different approaches for playlist classification: in the first one we
+just computed the emotion classification vector for each song in the playlist and then we averaged them;
+in the second approach, before doing the average, we exclude from the emotion vectors those values which 
+were considered to be too different from the others (outliers).
+
+Before having a look at the emotional patterns in the playlists, we tried to ease out our computational
+load by trying to see if it was possible to properly classify a playlist based on just a subset of its songs.
+However, we found out that we need all the songs in each playlist if we want to achieve the best results possible.
+
+To conclude, we explored the emotional patterns inside each playlist, meaning that we saw how the emotion
+classification vector evolved inside each playlist, transitioning from one emotion to another.
+
+In conclusion, the results we obtained are shown in table ...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Future Works}
+
+Despite the interesting results we obtained, there is still much room
+for improvements.
+
+Indeed, one thing we did not explore in much depth is the usage of Recurrent 
+Neural Networks (RNN) and Convolutional Neural Networks (CNN), employed by
+many modern systems built for emotion classification tasks.
+
+We made several small experiments using some complex CNN and RNN based networks
+we found in the literature\cite{text-emotion-classification}. However, those models produced very poor performances,
+which is the reason why we did not even mention them in the current report.
+
+Anyway, those small experiments served to the purpose of letting us understand 
+which direction to take in the future. Indeed, neural networks components, such as
+Long Short Term Memories (LSTMs), seems to be perfectly suited for those kind of problems
+and, if properly tuned, may help us in reaching better performances.
+
+One current limitation we saw when running the mentioned experiments with deep neural
+networks is the shortage of training data. Indeed, effective training of 
+neural networks requires a huge amount of data. In the low-data regime, parameters 
+are underdetermined, and learnt networks generalise poorly. 
+
+The simplest way to solve this problem, would be to manually label more and more song lyrics, eventually using
+automated mechanisms e.g. Amazon Mechanical Turk\cite{amazon-turk}. However this solution is not practical
+and expensive (especially if we use Amazon Mechanical Turk).
+
+Certainly, a better approach would be to use some automated data generation techniques.
+Indeed, we may think of using some of the Data Augmentation mechanisms currently employed in deep learning. 
+We found several interesting techniques\cite{DBLP:journals/corr/abs-1711-00648} which could be employed in our domain
+and could help alleviate issue by using Generative Adversarial Neural Networks (GANN), which
+are able to generate new data from the already existing one.
