@@ -113,7 +113,10 @@ Both together &   50\%  & 47\%\\
 \end{table}
 
 \section{Emotion patterns in playlists}
+In order to visualize emotion patterns inside a playlist we will use the Silver standard previously created, in which playlists are already classified. We will instead classify the emotion of each song inside a playlist and count the transitions between the emotions.\par
+We will use a (4x4) matrix, where $matrix[i][j]$ is the total count of transition from emotion $i$ to emotion $j$ in that playlist. We count a transition from emotion $i$ to emotion $j$ only if the two songs are really consecutive, i.e. if the sequence IDs are consecutive inside the playlist. Indeed since sometimes we cannot download lyrics for a song inside a playlist it is possible that two songs are not really consecutive. \par
 
+In the following figures we show emotion patterns obtained for 2 angry, 2 happy, 2 relaxed and 2 sad playlists. 
 
 \begin{figure}[H]
   \centering
@@ -125,8 +128,8 @@ Both together &   50\%  & 47\%\\
    \includegraphics[width=\linewidth]{./chapters/chapter5/images/176336.png}
     \caption{Playlist PID 176336}
   \end{subfigure}
-  \caption{Rage playlists pattern}
-  \label{fig:ann}
+  \caption{Emotion patterns in angry playlists}
+  \label{fig:pattern1}
 \end{figure}
 
 \begin{figure}[H]
@@ -139,8 +142,8 @@ Both together &   50\%  & 47\%\\
    \includegraphics[width=\linewidth]{./chapters/chapter5/images/9655.png}
     \caption{Playlist PID 9655}
   \end{subfigure}
-  \caption{Happy playlists pattern}
-  \label{fig:ann}
+  \caption{Emotion patterns in happy playlists}
+  \label{fig:pattern2}
 \end{figure}
 
 \begin{figure}[H]
@@ -153,8 +156,8 @@ Both together &   50\%  & 47\%\\
    \includegraphics[width=\linewidth]{./chapters/chapter5/images/24143.png}
     \caption{Playlist PID 24143}
   \end{subfigure}
-  \caption{Relaxed playlists pattern}
-  \label{fig:ann}
+  \caption{Emotion patterns in relaxed playlists}
+  \label{fig:pattern3}
 \end{figure}
 
 \begin{figure}[H]
@@ -167,9 +170,13 @@ Both together &   50\%  & 47\%\\
    \includegraphics[width=\linewidth]{./chapters/chapter5/images/86626.png}
     \caption{Playlist PID 86626}
   \end{subfigure}
-  \caption{Sad playlists pattern}
-  \label{fig:ann}
+  \caption{Emotion patterns in sad playlists}
+  \label{fig:pattern4}
 \end{figure}
+
+We can notice that in most of the cases, the greatest number of transitions represents the transition from and to the playlist emotion itself. For example in \textit{angry} playlists not only $matrix[0][0]$ has the biggest count  but also the entire first row and column have the most populated cells, meaning that the majority of times pass from \textit{angry} to \textit{angry} or from \textit{happy}, \textit{relaxed}, \textit{sad} to \textit{angry}. \par
+
+However the \textit{relaxed} playlists represent a more random emotion pattern, meaning that or emotion songs (especially relaxed songs) are badly classified,  or simply relaxed playlist includes a more uniform variety of songs. \par
 
 
 
