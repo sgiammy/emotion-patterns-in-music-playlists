@@ -1,397 +1,148 @@
-<html lang="en">
-<head>
-  <title>Emotion Patterns in Music Playlists - Demo</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <style>
-    img {
-      width: 100px;
-      height: 100px;
-    }
-  </style>
-  <script>
-    function Song(artist, title) {
-      this.artist = artist
-      this.title = title
-    }
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>EURECOM Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+	<meta name="author" content="FreeHTML5.co" />
 
-    function argMax(array) {
-        return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
-    }
+	
+  <!-- 
+	//////////////////////////////////////////////////////
 
-    function buildPredictionMatrix() {
-      predictions = []
+	FREE HTML5 TEMPLATE 
+	DESIGNED & DEVELOPED by FreeHTML5.co
+		
+	Website: 		http://freehtml5.co/
+	Email: 			info@freehtml5.co
+	Twitter: 		http://twitter.com/fh5co
+	Facebook: 		https://www.facebook.com/fh5co
 
-      $('#emotion-table-rows tr').each(function() {
-        tds = $(this).find('td')
-        predictions.push([
-          parseFloat(tds[2].textContent), 
-          parseFloat(tds[3].textContent), 
-          parseFloat(tds[4].textContent),
-          parseFloat(tds[5].textContent)
-        ])
-      })
+	//////////////////////////////////////////////////////
+	 -->
 
-      return predictions
-    }
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
 
-    function markOutliers(outliers) {
-      idx = 0
+	<!-- <link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet' type='text/css'> -->
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
 
-      $('#emotion-table-rows tr').each(function() {
-        tds = $(this).find('td')
-        for(var i = 0; i < outliers.length; i++) {
-          if(outliers[i][0] == idx) {
-            offset = 2
-            elements = []
-            for(var j = 0; j < tds.length - 2; j++) {
-              if(j == outliers[i][1]) {
-                $(tds[offset+j]).css('color', 'red')//#.html('<font color"red">'+parseFloat(tds[j+offset].textContent)+'</font>')
-              }
-            }
-          }
-        }
-        idx++
-      })
-    }
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
 
-    function buildTransitionGraph(transitions) {
-      // Nodes
-      emonodes = []
-      for(var i = 0; i < labels.length; i++) {
-        var recurrent =  transitions[i][i] > 0 ?  '\n(' + transitions[i][i] + ')' : ''
-        emonodes.push({name:labels[i] + recurrent})
-      }
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
 
-      // Edges
-      emoedges = []
-      for(var i = 0; i < 4; i++) {
-        for(var j = 0; j < 4; j++) {
-          if(transitions[i][j] > 0 && i != j)
-            emoedges.push({source:i, target:j})
-        }
-      }
-      
-      // Data
-      var data = {
-        nodes: emonodes,
-        edges: emoedges
-      }
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
 
-      // Draw the graph
+	</head>
+	<body>
+		
+	<div class="fh5co-loader"></div>
+	
+	<div id="page">
+	<nav class="fh5co-nav" role="navigation">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-2">
+					<div id="fh5co-logo"><a href="index.html">SARA&MARIO</a></div>
+				</div>
+				<div class="col-xs-10 text-right menu-1">
+					<ul>
+						<li class="active"><a href="index.html">Home</a></li>
+						<li><a href="about.html">About</a></li>
+						
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+	</nav>
 
-      var w = 450;
-      var h = 350;
-      var linkDistance=150;
+	<header id="fh5co-header" class="fh5co-cover" role="banner" style="background-image:url(images/img_bg_1.jpg);">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1 text-center">
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+							<h1>Emotion patterns in music playlist</h1>
+							<h2>EURECOM Semester Project <a href="https://github.com/sgiammy/emotion-patterns-in-music-playlists" target="_blank">github.com</a></h2>
+							<p><a href="demo.html" class="btn btn-default">Start Demo</a></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	
+	<div class="container">
+		<div class="row">
+			
+		</div>
+	</div>
+	
+	
 
-      var colors = d3.scale.category10();
+	<footer id="fh5co-footer" role="contentinfo">
+		
 
-      var svg = d3.select('#graph-container').append("svg").attr({"width":w,"height":h});
+			<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small> 
+						<small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a></small>
+					</p>
+					
+				</div>
+			</div>
 
-      var force = d3.layout.force()
-          .nodes(data.nodes)
-          .links(data.edges)
-          .size([w,h])
-          .linkDistance([linkDistance])
-          .charge([-500])
-          .theta(0.1)
-          .gravity(0.05)
-          .start(); 
+		</div>
+	</footer>
+	</div>
 
-      var edges = svg.selectAll("line")
-        .data(data.edges)
-        .enter()
-        .append("line")
-        .attr("id",function(d,i) {return 'edge'+i})
-        .attr('marker-end','url(#arrowhead)')
-        .style("stroke","#ccc")
-        .style("pointer-events", "none");
-      
-      var nodes = svg.selectAll("circle")
-        .data(data.nodes)
-        .enter()
-        .append("circle")
-        .attr({"r":40})
-        .style("fill",function(d,i){return colors(i);})
-        .call(force.drag)
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+	</div>
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- countTo -->
+	<script src="js/jquery.countTo.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
 
-
-      var nodelabels = svg.selectAll(".nodelabel") 
-         .data(data.nodes)
-         .enter()
-         .append("text")
-         .attr({"x":function(d){return d.x;},
-                "y":function(d){return d.y;},
-                "class":"nodelabel",
-                "stroke":"black"})
-         .text(function(d){return d.name;});
-
-      var edgepaths = svg.selectAll(".edgepath")
-          .data(data.edges)
-          .enter()
-          .append('path')
-          .attr({'d': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
-                 'class':'edgepath',
-                 'fill-opacity':0,
-                 'stroke-opacity':0,
-                 'fill':'blue',
-                 'stroke':'red',
-                 'id':function(d,i) {return 'edgepath'+i}})
-          .style("pointer-events", "none");
-
-      var edgelabels = svg.selectAll(".edgelabel")
-          .data(data.edges)
-          .enter()
-          .append('text')
-          .style("pointer-events", "none")
-          .attr({'class':'edgelabel',
-                 'id':function(d,i){return 'edgelabel'+i},
-                 'dx':80,
-                 'dy':0,
-                 'font-size':18});
-
-      edgelabels.append('textPath')
-          .attr('xlink:href',function(d,i) {return '#edgepath'+i})
-          .style("pointer-events", "none")
-          .text(function(d,i){return transitions[d.source.index][d.target.index]});
-
-
-      svg.append('defs').append('marker')
-          .attr({'id':'arrowhead',
-                 'viewBox':'-0 -5 10 10',
-                 'refX':25,
-                 'refY':0,
-                 //'markerUnits':'strokeWidth',
-                 'orient':'auto',
-                 'markerWidth':10,
-                 'markerHeight':10,
-                 'xoverflow':'visible'})
-          .append('svg:path')
-              .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-              .attr('fill', '#ccc')
-              .attr('stroke','#ccc');
-
-          force.on("tick", function(){
-
-            edges.attr({"x1": function(d){return d.source.x;},
-                        "y1": function(d){return d.source.y;},
-                        "x2": function(d){return d.target.x;},
-                        "y2": function(d){return d.target.y;}
-            });
-
-            nodes.attr({"cx":function(d){return d.x;},
-                        "cy":function(d){return d.y;}
-            });
-
-            nodelabels.attr("x", function(d) { return d.x; }) 
-                      .attr("y", function(d) { return d.y; });
-
-            edgepaths.attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
-                                               return path});       
-
-            edgelabels.attr('transform',function(d,i){
-                if (d.target.x<d.source.x){
-                    bbox = this.getBBox();
-                    rx = bbox.x+bbox.width/2;
-                    ry = bbox.y+bbox.height/2;
-                    return 'rotate(180 '+rx+' '+ry+')';
-                    }
-                else {
-                    return 'rotate(0)';
-                    }
-            });
-        });
-    }
-
-    // Our "dataset"
-    dataset = [
-      new Song('Nirvana', 'Smells Like Teen Spirit'),
-      new Song('The Beatles', 'Yesterday'),
-      new Song('Oasis', 'Wonderwall'),
-      new Song('The Clash', 'Should I stay or Should I go'),
-      new Song('The Rolling Stones', '(I Can\'t Get No) Satisfaction'),
-      new Song('Queen', 'Don\'t Stop Me Now'),
-      new Song('Led Zeppelin', 'Stairway to Heaven'),
-    ]
-
-    labels = ['Angry',  'Happy', 'Relaxed', 'Sad']
-    emotion_img = ['static/img/angry.png', 'static/img/happy.png', 'static/img/relaxed.png', 'static/img/sad.png']
-  </script>
-</head>
-<body>
-  
-<div id='top-div'  class="container-fluid">
-  <h1>Emotion Patterns in Music Playlists</h1>
-
-  <p>
-  Music streaming services such as Spotify are revolutionizing the music world, enabling a transition from artist-created bundles of songs (CDs) to user-created playlists. Different logics may be applied in the generation of a playlist: they can contain songs of a similar genre (e.g. “Rock playlist”), fit to a particular occasion (e.g. “New year’s eve party”), to a particular context (e.g. “Gym”), to a particular mood (e.g. “Happy”) and so on.
-  </p>
-
-  <p>
-  The goal of the project is to unravel the emotion patterns underlying the sequences of songs in a playlist using automatic approaches of Emotion Detection on the lyrics. Emotion Detection is a novel and promising field of study of Natural Language Understanding, which is able to automatically infer what are the emotions expressed in a text.
-  </p>
-
-  <p>
-  In the context of this project we had to:
-  </p>
-
-  <ol>
-    <li>Select an appropriate playlist dataset among the ones available on the web</li>
-    <li>Collect the lyrics associated to each song through an automatic approach</li>
-    <li>Study the state-of-the-art in Emotion Detection</li>
-    <li>Extract the emotions present in each song using an Emotion Detection tool</li>
-    <li>Analyze the experimental results statistically to unravel emotion patterns in the playlists</li>
-  </ol>
-
-  <p>This web application was developed with the purpose of demoing the
-  semester project title "Emotion Patterns in Music Playlist", developed by Mario Guerriero
-  and Sara Giammusso in collaboration with professor Raphael Troncy and Pasquale Lisena at EURECOM.</p>
-
-  <button id='classify-btn'  type="button" class="btn btn-primary">Classify</button>
-  <button id='classify-playlist-btn'  type="button" class="btn btn-success">Classify Playlist</button>
-  <p id='prediction-result'></p>
-</div>
-
-<div id="emotion-table" class="container" style='display:none'>
-  <h2>Songs classification</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Author</th>
-        <th>Title</th>
-        <th>Angry Score</th>
-        <th>Happy Score</th>
-        <th>Relaxed Score</th>
-        <th>Sad Score</th>
-      </tr>
-    </thead>
-    <tbody id='emotion-table-rows'>
-    </tbody>
-  </table>
-</div>
-
-<div id='bottom-div' class='container'>
-  <div id='graph-container' class='col-sm-6'></div>
-  <div id='emoj-container' class='col-sm-6'>
-    <img id='emoj' style='display: none'>
-  </div>
-</div>
-
-<script>
-  // jQuery stuff goes here
-  $(document).ready(function(){
-    /**
-     * Songs classification
-     **/
-    $('#classify-btn').click(function(ev) {
-      // Clear table
-      $('#classify-btn').button('loading')
-      $('#emotion-table').css('display', 'block')
-      $('#emotion-table-rows tr').remove()
-      // Start classification of songs one by one
-      for(var i = 0; i < dataset.length; i++) {
-        var song = dataset[i]
-        // Perform classification in background
-        data = JSON.stringify({ artist: song.artist, title:song.title})
-        $.ajax({
-          type: "POST",
-          url: "classify-song",
-          contentType: 'application/json',
-          dataType: 'json',
-          data: JSON.stringify({
-            artist: song.artist,
-            title: song.title
-          }, null),
-          success: function(data) {
-            // POST was successful - do something with the response
-            // Build row
-            var row = '<tr><td>' + data.artist + '</td><td>' + data.title + '</td>'
-            var emo = data.emotion[0]
-            var maxIdx = argMax(emo)
-            for(var j = 0; j < emo.length; j++) {
-              var entry = parseFloat(emo[j]).toFixed(4)
-              if(j == maxIdx)
-                row += '<td><b>' + entry + '</b></td>'
-              else
-                row += '<td>'+entry+'</td>'
-            }
-            row += '</tr>'
-            $('#emotion-table-rows').append(row)
-            $('#emotion-table-rows tr:last').css('visibility', 'visible').hide().fadeIn()
-
-            // Reset button status
-            if($('#emotion-table  tr').length == dataset.length) {
-              $('#classify-btn').button('reset')
-            }
-         },
-          error: function(data) {
-            // Server error, e.g. 405, 500, error
-            alert(data.responseText);
-          }
-        }) 
-      }
-    })
-
-    /**
-     * Playlist classification
-     **/
-    $('#classify-playlist-btn').click(function(ev) {
-      predictions = buildPredictionMatrix() 
-
-      // Send request to the server
-      $.ajax({
-        type: "POST",
-        url: "classify-playlist",
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify({
-          predictions: predictions,
-        }, null),
-        success: function(data) {
-          // POST was successful - do something with the response
-          prediction = data.prediction 
-          outliers_count = data.outliers_count
-          outliers = data.outliers
-
-          markOutliers(outliers)
-          $('#emoj').css('display', 'block')
-          $('#emoj').attr('src', emotion_img[argMax(prediction)])
-
-          // Work on transitions
-          var transitions = [];
-          for(var i=0; i < 4; i++) {
-            transitions[i] = new Array(4)
-            for(var j=0; j < 4; j++) {
-              transitions[i][j] = 0
-            }
-          }
-          
-          predictions = buildPredictionMatrix()
-          for(var j=0; j < predictions.length-1; j++) {
-            p1 = predictions[j]
-            p2 = predictions[j+1]
-
-            x = argMax(p1)
-            y = argMax(p2)
-            transitions[x][y]++
-          }
-          buildTransitionGraph(transitions)
-       },
-        error: function(data) {
-          // Server error, e.g. 405, 500, error
-          alert(data.responseText);
-        }
-      }) 
-    })
-  })
-
-</script>
-
-</body>
+	</body>
 </html>
-
 

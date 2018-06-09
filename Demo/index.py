@@ -3,8 +3,9 @@ import playlist_classify as pclf
 
 import numpy as np
 
-from flask import Flask, json, request, redirect, render_template
-app = Flask(__name__)
+from flask import Flask, json, request, redirect, render_template,url_for
+app = Flask(__name__, static_url_path='')
+
 
 @app.route('/classify-song', methods=['POST'])
 def clf_song():
@@ -43,5 +44,6 @@ def clf_playlist():
 
 @app.route("/")
 def index():
-  return app.send_static_file('index.html')
+  return flask.render_template('index.html')
+
 

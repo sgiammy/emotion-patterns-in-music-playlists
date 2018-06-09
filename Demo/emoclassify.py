@@ -6,8 +6,8 @@ import tensorflow as tf
 import song_featurize as sf
 
 MODEL_PATH = 'models/ml4q_alone.h5'
-SCALER_PATH = 'models/emo_standard_scaler.pkl'
-ENCODER_PATH='models/emo_label_encoder.pkl'
+SCALER_PATH = 'models/ml4q_alone_scaler.pkl'
+ENCODER_PATH='models/ml4q_alone_encoder.pkl'
 
 # Load the pretrained model
 model = load_model(MODEL_PATH)

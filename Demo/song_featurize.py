@@ -9,10 +9,10 @@ from utils.progress import progress
 
 import numpy as np
 
-LYRICS_PATH = './datasets/silver_standard/lyrics'
+LYRICS_PATH = './lyrics'
 
 if not os.path.exists(LYRICS_PATH):
-    os.path.makedirs(LYRICS_PATH)
+    os.mkdir(LYRICS_PATH)
 
 LOG_FILE = '.'.join([sys.argv[0], 'log'])
 try:
@@ -42,7 +42,7 @@ def download_lyric(artist, title, output_path):
             sfile.write(lyric)
     except lyricwikia.LyricsNotFound:
         err('Unable to download {}, {}'.format(artist, title))
-        raise Exception('Could not download {}, {}'.format(artist, title))
+        #raise Exception('Could not download {}, {}'.format(artist, title))
 
 def feature_selection(feature_vector):
     '''
@@ -99,7 +99,7 @@ def featurize(sid, artist, title, lyric_content=None):
 
     # Obtain lyric content
     if lyric_content is None:
-        lyric_path_name = os.path.join(LYRICS_PATH, str(sid))
+        lyric_path_name = os.path.join(LYRICS_PATH, str(title))
 
         # If the lyric file does not exist, download it
         if not os.path.lexists(lyric_path_name):
