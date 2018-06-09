@@ -44,6 +44,4 @@ def clf_playlist():
 
 @app.route("/")
 def index():
-  return flask.render_template('index.html')
-
-
+  return app.send_static_file('index.html')
