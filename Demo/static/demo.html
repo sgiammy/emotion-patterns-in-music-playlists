@@ -89,6 +89,57 @@
 
       	return predictions
     }
+    
+    var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('#'),
+        sParameterName,
+        i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+          }
+        }
+    }; 
+
+    function getSpotifyPlaylist(uri) {
+      var token = window.location.hash.replace('&token_type=Bearer&expires_in=3600', '').replace('#access_token=', '')
+
+      user = uri.match(/user\/[^\/.]*\//)
+      if(!user) return null
+      user = user[0]
+      if(user) user = user.replace('user/', '').replace('/', '')
+      playlist = uri.match(/playlist\/[^\?.]*/)[0]
+      if(playlist) playlist = playlist.replace('playlist/', '')
+      var resp = $.ajax({
+          url: "https://api.spotify.com/v1/users/" + user  +  "/playlists/" + playlist,
+          type: 'GET',
+          async: false,
+          contentType: 'application/json',
+          dataType: 'json',
+          // Fetch the stored token from localStorage and set in the header
+          headers: {"Authorization": 'Bearer ' + token},
+          success: function(resp) {
+            data = []
+
+            songs = resp['tracks']['items']
+            for(var i = 0; i < songs.length; i++) {
+              var track = songs[i]['track']
+              var name = track['name']
+              var artist = track['artists'][0]['name']
+              data.push(new Song(artist, name))
+            }
+          },
+          error: function(err) {
+            alert(JSON.parse(err['responseText'])['error']['message'])
+          }
+      })
+      return data ? data : null
+    }
+
 
     function markOutliers(outliers) {
       idx = 0
@@ -261,7 +312,7 @@
 
 
     // Our "dataset"
-    dataset = [
+    defaultDataset = [
       /*
       new Song('Nirvana', 'Smells Like Teen Spirit'),
       new Song('The Beatles', 'Yesterday'),
@@ -346,8 +397,11 @@
 				<div class="col-feature-9">
 					<div class="col-md-12 fh5co-heading animate-box">
 						<h2>Playlist Classification</h2>
-						<p>BLABLA.</p>
-						<button id='classify-btn'  type="button" class="btn btn-primary">Classify Song</button>
+						<p>You can either insert a Spotify's playlist URI and let the system classify it or leave the input field empty and let the system showcase how it classifies a pre-selected playlist</p>
+					        <div class="form-group">
+					          <input type="text" class="form-control" id="spotify-url" placeholder="Spotify's playlist URL">
+					        </div>
+                                                <button id='classify-btn'  type="button" class="btn btn-primary">Classify Songs</button>
 					</div>	
 				</div>
 			</div>
@@ -430,10 +484,13 @@
 	<script src="js/main.js"></script>
 
 	<script>
-	 	$(document).ready(function(){
-		 	//
-		    // SONG CLASSIFICATION
-		    //
+	  $(document).ready(function(){
+		var spotify_uri = localStorage.spotify_uri
+                if(!spotify_uri)
+                  $('#spotify-url').val(spotify_uri)
+                //
+		// SONG CLASSIFICATION
+		//
 	    	$('#classify-btn').click(function(ev) {
 		      // Clear table
 		      	$('#classify-btn').button('loading')
@@ -441,7 +498,22 @@
 		      	$('#middle').css('display', 'block')
 		      	
 		      	$('#emotion-table-rows tr').remove()
-		      	var done = 0
+		      	
+                        // Which dataset are we classifying?
+                        url = $('#spotify-url').val()
+                        if(url != null && url.length > 0) {
+                          dataset = getSpotifyPlaylist(url)
+                          if(!dataset) {
+                            alert('Invalid input')
+                            $('#classify-btn').button('reset')
+                            return null
+                          }
+                        }
+                        else {
+                          dataset = defaultDataset
+                        }
+
+                        var done = 0
 		      	// Start classification of songs one by one
 		      	for(var i = 0; i < dataset.length; i++) {
 		        	var song = dataset[i]
@@ -474,11 +546,17 @@
 				            $('#emotion-table-rows tr:last').css('visibility', 'visible').hide().fadeIn()
 
 				            // Reset button status
-				            if($('#emotion-table  tr').length == dataset.length-1) {
+                                            $('#download-error-label').css('display', 'block')
+                                            text = $('#download-error-label').html()
+                                            if(text.length <= 0)
+                                              errCount = 0
+                                            else
+                                              errCount = Number(text.match(/\d+/).join(''))
+
+				            if($('#emotion-table  tr').length - 1 + errCount == dataset.length) {
 				              $('#classify-btn').button('reset')
 				              $('#down').css('display', 'block')
-		    	 			document.getElementById("classify-btn").disabled = true	
-				              			              
+		    	 			document.getElementById("classify-btn").disabled = true
 				            }
 
 			         	},
@@ -489,8 +567,15 @@
                                           if(text.length <= 0)
                                             errCount = 0
                                           else
-                                            errCount = text.match(/\d+/).join('')
+                                            errCount = Number(text.match(/\d+/).join(''))
                                           errCount++
+
+                                          if($('#emotion-table  tr').length - 1 + errCount == dataset.length) {
+				              $('#classify-btn').button('reset')
+				              $('#down').css('display', 'block')
+		    	 		      document.getElementById("classify-btn").disabled = true
+				          }
+
                                           $('#download-error-label').html('Unable to download <b>' + errCount + '</b> songs')
 			          	}
 		        	}) 

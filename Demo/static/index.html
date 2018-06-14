@@ -90,7 +90,7 @@
 						<div class="display-tc animate-box" data-animate-effect="fadeIn">
 							<h1>Emotion patterns in music playlist</h1>
 							<h2>EURECOM Semester Project <a href="https://github.com/sgiammy/emotion-patterns-in-music-playlists" target="_blank">github.com</a></h2>
-							<p><a href="demo.html" class="btn btn-default">Start Demo</a></p>
+							<p><a href="#" id='demo-btn' class="btn btn-default">Start Demo</a></p>
 						</div>
 					</div>
 				</div>
@@ -142,7 +142,22 @@
 	<script src="js/magnific-popup-options.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
-
+        
+        <script>
+          $(document).ready(function() {
+            $('#demo-btn').click(function(ev) {
+              ev.preventDefault()
+              var redirect_uri = 'http://localhost:5000/demo.html'
+              var scopes = 'playlist-read-private playlist-read-collaborative'
+              window.location.href = 'https://accounts.spotify.com/authorize?' +
+                'client_id=fc12ffdf382542c9b677c42969815898' +
+                '&redirect_uri=' + encodeURIComponent(redirect_uri) +
+                '&scope=' + encodeURIComponent(scopes) +
+                '&response_type=token' +
+                '&show_dialog=true'
+            })
+          })
+        </script>
 	</body>
 </html>
 
