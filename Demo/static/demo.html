@@ -356,6 +356,7 @@
 	
 	
 		<div class="container", id='middle' style='display:none'>
+                        <p id='download-error-label' style='display:none;margin:0;margin-top:1%'></p>
 			<div class="row animate-box">
 				<p id='prediction-result'></p>
 				<div id="emotion-table" style='display:none'>
@@ -482,8 +483,15 @@
 
 			         	},
 			          	error: function(data) {
-			           	 	// Server error, e.g. 405, 500, error
-			            	alert(data.responseText);
+			           	  // Server error, e.g. 405, 500, error
+			            	  $('#download-error-label').css('display', 'block')
+			            	  text = $('#download-error-label').html()
+                                          if(text.length <= 0)
+                                            errCount = 0
+                                          else
+                                            errCount = text.match(/\d+/).join('')
+                                          errCount++
+                                          $('#download-error-label').html('Unable to download <b>' + errCount + '</b> songs')
 			          	}
 		        	}) 
 		    	}
@@ -522,10 +530,10 @@
 				   
 		         
 		          $('#emotion-table-rows').append(row)
-		          outliers_count = data.outliers_count
-		          outliers = data.outliers
+		          //outliers_count = data.outliers_count
+		          //outliers = data.outliers
 
-		          markOutliers(outliers)
+		          //markOutliers(outliers)
 
 		          // Work on transitions
 		          var transitions = [];

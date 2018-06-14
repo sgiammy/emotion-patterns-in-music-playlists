@@ -54,3 +54,22 @@ def robust_classify(playlist_vect):
          if not upper_outliers[j] and not low_outliers[j]])
 
     return prediction, outliers_count, outliers
+
+def classify(playlist_vect):
+    '''
+    Given a playlist of emotions, return a vector  as described
+    in the report
+
+    Parameters
+    ----------
+    playlist_vect: numpy.ndarray
+                   A 2D vector with shape (num_tracks, 4) containing the emotional
+                   classification of each of the track of the playlist
+    '''
+    if len(playlist_vect) < 4 and len(playlist_vect) > 0:
+        # Avoid doing this classification if there are too few elements
+        return np.mean(playlist_vect, axis=0)
+    if len(playlist_vect) == 0:
+        return np.zeros(4)
+
+    return playlist_vect.mean(axis=0)
