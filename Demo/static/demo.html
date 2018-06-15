@@ -163,14 +163,6 @@
     }
 
     function buildTransitionGraph(transitions) {
-      var maxV = -1
-      for(var i = 0; i < transitions.length; i++) {
-        for(var j = 0; j < transitions[i].length; j++) {
-          if(transitions[i][j] > maxV)
-            maxV = transitions[i][j]
-        }
-      }
-      
       // Edges
       var zValues = transitions
 
@@ -181,8 +173,8 @@
 
 
       var colorscaleValue = [
-        [0, '#ffb3cc']
-	[1, '#cc0044'],
+        [0, '#99e699'],
+	[1, '#248f24']
       ];
 
       var data = [{
