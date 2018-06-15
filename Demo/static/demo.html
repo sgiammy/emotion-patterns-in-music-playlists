@@ -170,10 +170,9 @@
             maxV = transitions[i][j]
         }
       }
-
+      
       // Edges
       var zValues = transitions
-      console.log(zValues)
 
       // Draw the graph
       var xValues = labels
@@ -182,8 +181,8 @@
 
 
       var colorscaleValue = [
-	[0, '#1db954'],
-	[maxV, '#191414']
+        [0, '#ffb3cc']
+	[1, '#cc0044'],
       ];
 
       var data = [{
@@ -205,8 +204,8 @@
 	yaxis: {
 	  ticks: '',
 	  ticksuffix: ' ',
-	  width: 700,
-	  height: 700,
+	  width: 500,
+	  height: 500,
 	  autosize: false
 	}
       };
