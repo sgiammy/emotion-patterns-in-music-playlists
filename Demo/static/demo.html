@@ -59,7 +59,8 @@
 	<![endif]-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
- 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 	<script>
     function Song(artist, title) {
@@ -162,151 +163,83 @@
     }
 
     function buildTransitionGraph(transitions) {
-      // Nodes
-      emonodes = []
-      for(var i = 0; i < labels.length; i++) {
-        var recurrent =  transitions[i][i] > 0 ?  '\n(' + transitions[i][i] + ')' : ''
-        emonodes.push({name:labels[i][0] + recurrent})
+      var maxV = -1
+      for(var i = 0; i < transitions.length; i++) {
+        for(var j = 0; j < transitions[i].length; j++) {
+          if(transitions[i][j] > maxV)
+            maxV = transitions[i][j]
+        }
       }
 
       // Edges
-      emoedges = []
-      for(var i = 0; i < 4; i++) {
-        for(var j = 0; j < 4; j++) {
-          if(transitions[i][j] > 0 && i != j)
-            emoedges.push({source:i, target:j})
-        }
-      }
-      
-      // Data
-      var data = {
-        nodes: emonodes,
-        edges: emoedges
-      }
+      var zValues = transitions
+      console.log(zValues)
 
       // Draw the graph
+      var xValues = labels
 
-      var w = 450;
-      var h = 350;
-      var linkDistance=200;
-
-      var colors = d3.scale.category10();
-
-      var svg = d3.select('#graph-container').append("svg").attr({"width":w,"height":h});
-
-      var force = d3.layout.force()
-          .nodes(data.nodes)
-          .links(data.edges)
-          .size([w,h])
-          .linkDistance([linkDistance])
-          .charge([-300])
-          .theta(0.2)
-          .gravity(0.08)
-          .start(); 
-
-      var edges = svg.selectAll("line")
-        .data(data.edges)
-        .enter()
-        .append("line")
-        .attr("id",function(d,i) {return 'edge'+i})
-        .attr('marker-end','url(#arrowhead)')
-        .style("stroke","#ccc")
-        .style("pointer-events", "none");
-      
-      var nodes = svg.selectAll("circle")
-        .data(data.nodes)
-        .enter()
-        .append("circle")
-        .attr({"r":20})
-        .style("fill",'#00b33c')
-        .call(force.drag)
+      var yValues = labels
 
 
-      var nodelabels = svg.selectAll(".nodelabel") 
-         .data(data.nodes)
-         .enter()
-         .append("text")
-         .attr({"x":function(d){return d.x;},
-                "y":function(d){return d.y;},
-                "class":"nodelabel",
-                "stroke":"black"})
-         .text(function(d){return d.name;});
+      var colorscaleValue = [
+	[0, '#1db954'],
+	[maxV, '#191414']
+      ];
 
-      var edgepaths = svg.selectAll(".edgepath")
-          .data(data.edges)
-          .enter()
-          .append('path')
-          .attr({'d': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
-                 'class':'edgepath',
-                 'fill-opacity':0,
-                 'stroke-opacity':0,
-                 'fill':'blue',
-                 'stroke':'red',
-                 'id':function(d,i) {return 'edgepath'+i}})
-          .style("pointer-events", "none");
+      var data = [{
+	x: xValues,
+	y: yValues,
+	z: zValues,
+	type: 'heatmap',
+	colorscale: colorscaleValue,
+	showscale: false
+      }];
 
-      var edgelabels = svg.selectAll(".edgelabel")
-          .data(data.edges)
-          .enter()
-          .append('text')
-          .style("pointer-events", "none")
-          .attr({'class':'edgelabel',
-                 'id':function(d,i){return 'edgelabel'+i},
-                 'dx':150,
-                 'dy':0,
-                 'font-size':13});
+      var layout = {
+	title: 'Emotion Transitions in the Playlist',
+	annotations: [],
+	xaxis: {
+	  ticks: '',
+	  side: 'top'
+	},
+	yaxis: {
+	  ticks: '',
+	  ticksuffix: ' ',
+	  width: 700,
+	  height: 700,
+	  autosize: false
+	}
+      };
 
-      edgelabels.append('textPath')
-          .attr('xlink:href',function(d,i) {return '#edgepath'+i})
-          .style("pointer-events", "none")
-          .text(function(d,i){return transitions[d.source.index][d.target.index]});
-
-
-      svg.append('defs').append('marker')
-          .attr({'id':'arrowhead',
-                 'viewBox':'-0 -5 10 10',
-                 'refX':25,
-                 'refY':0,
-                 //'markerUnits':'strokeWidth',
-                 'orient':'auto',
-                 'markerWidth':10,
-                 'markerHeight':10,
-                 'xoverflow':'visible'})
-          .append('svg:path')
-              .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-              .attr('fill', '#ccc')
-              .attr('stroke','#ccc');
-
-          force.on("tick", function(){
-
-            edges.attr({"x1": function(d){return d.source.x;},
-                        "y1": function(d){return d.source.y;},
-                        "x2": function(d){return d.target.x;},
-                        "y2": function(d){return d.target.y;}
-            });
-
-            nodes.attr({"cx":function(d){return d.x;},
-                        "cy":function(d){return d.y;}
-            });
-
-            nodelabels.attr("x", function(d) { return d.x; }) 
-                      .attr("y", function(d) { return d.y; });
-
-            edgepaths.attr('d', function(d) { var path='M '+d.source.x+' '+d.source.y+' L '+ (d.target.x) +' '+(d.target.y);
-                                               return path});       
-            
-            edgelabels.attr('transform',function(d,i){
-                if (d.target.x<d.source.x){
-                    bbox = this.getBBox();
-                    rx = bbox.x+bbox.width/2;
-                    ry = bbox.y+bbox.height/2;
-                    return 'rotate(180 '+rx+' '+ry+')';
-                    }
-                else {
-                    return 'rotate(0)';
-                    }
-            });
-        });
+      for ( var i = 0; i < yValues.length; i++ ) {
+	for ( var j = 0; j < xValues.length; j++ ) {
+	  var currentValue = zValues[i][j];
+	  if (currentValue != 0.0) {
+	    var textColor = 'white';
+	  }else{
+	    var textColor = 'black';
+	  }
+	  var result = {
+	    xref: 'x1',
+	    yref: 'y1',
+	    x: xValues[j],
+	    y: yValues[i],
+	    text: zValues[i][j],
+	    font: {
+	      family: 'Arial',
+	      size: 12,
+	      color: 'rgb(50, 171, 96)'
+	    },
+	    showarrow: false,
+	    font: {
+	      color: textColor
+	    }
+	  };
+	  layout.annotations.push(result);
+	}
+      }
+      $('#graph-container').css('display', 'block')
+      Plotly.newPlot('graph-container', data, layout);
     }
 
 
@@ -436,18 +369,16 @@
 
 	
 
-	
 		<div class="container" id='down' style='display:none'>
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 					<button id='classify-playlist-btn'  type="button" class="btn btn-primary">Classify Playlist</button>
-					<div class='container'>
-						<div id='graph-container' class='col-sm-6'></div>
-					</div>
 				</div>
 			</div>
 		</div>
-	
+	        <div id='graph-container' class='col-sm-6' style='height:600px;margin-left:25%;display:none'>
+                </div>
+
 
 	<footer id="fh5co-footer" role="contentinfo">
 			<div class="row copyright">
@@ -628,7 +559,7 @@
 		              transitions[i][j] = 0
 		            }
 		          }
-		          
+		           
 		          predictions = buildPredictionMatrix()
 		          for(var j=0; j < predictions.length-1; j++) {
 		            p1 = predictions[j]
