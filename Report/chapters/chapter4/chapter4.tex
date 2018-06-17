@@ -189,7 +189,7 @@ We did not report entire lyrics nor the full POS tagger output in the interest o
 The first approaches to classify emotions we tried, were entirely based on converting
 MoodyLyrics entries into features. Specifically, since MoodyLyrics simply provides the
 artist and the title of its songs, we firstly downloaded the lyrics and then we built
-word embedding vectors for them by using SpaCy's built-in methods, based on Word2Vec.
+word embedding vectors for them by using SpaCy's built-in methods, based on GloVe.
 Those vectors we worked on are made of 300 dimensions.
 
 MoodyLyrics songs were annotated according to the arousal and valence dimension of their lyric,
@@ -286,7 +286,7 @@ we may be able to achieve even better results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Feature Engineering}
-In order to improve our model performances, we focused our attention on feature engineering. Specifically we tried to extract stylometric, structural, orientation and vocabulary based features\cite{features}. Apart from this we also generated a word embedding vector of the words contained in each song's lyric by using SpaCy's\cite{spacy} pre-trained language model based on Word2Vec\cite{word2vec}.\par
+In order to improve our model performances, we focused our attention on feature engineering. Specifically we tried to extract stylometric, structural, orientation and vocabulary based features\cite{features}. Apart from this we also generated a word embedding vector of the words contained in each song's lyric by using SpaCy's\cite{spacy} pre-trained language model based on GloVe\cite{glove}.\par
 
 Here is a comprehensive list of the features we extracted from our dataset, followed by a brief description:
 
