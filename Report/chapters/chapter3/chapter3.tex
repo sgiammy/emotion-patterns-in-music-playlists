@@ -133,4 +133,4 @@ Given the considerations expressed above, for our project we decided to use SpaC
 
 SpaCy was choosen among the other analyzed libraries for its efficiency and for its simplicity. 
 
-GloVe, instead, was choosen because we did not believe that we needed all the complications introduced in FastText. Specifically, the language model we used provides 685k unique 300-dimensional word embedding vectors, which were trained on natural language text coming from OntoNotes 5\cite{ontonotes5} and Common Crawl\cite{common-crawl}.
+Regarding the word embedding tool of choice, GloVe was firstly choosen because we did not believe that we needed all the complications introduced in FastText. However, we then decided to give FastText a try but we got worse results, confirming our intuition. Therefore we decided to stick with GloVe. Specifically, the language model we used provides 685k unique 300-dimensional word embedding vectors, which were trained on natural language text coming from OntoNotes 5\cite{ontonotes5} and Common Crawl\cite{common-crawl}.
