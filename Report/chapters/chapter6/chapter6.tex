@@ -37,39 +37,7 @@ However, we found out that we need all the songs in each playlist if we want to 
 To conclude, we explored the emotional patterns inside each playlist, meaning that we saw how the emotion
 classification vector evolved inside each playlist, transitioning from one emotion to another.
 
-In conclusion, the results we obtained are shown in Table \ref{tab:compar6} and Table \ref{tab:compar62}.
-
-\begin{table}[H]
-\centering
-\begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|  }
- \hline
- \multicolumn{5}{|c|}{10-fold Cross Validation Accuracy} \\
- \hline
- Dataset & ANN & LR &SVM & xgboost\\
- \hline
-MoodyLyrics  & 90.55\%    &- &  90\% & 86\%\\
-MoodyLyrics4Q  & 55.97\%    &57.87\% &  58.04\% & 56.89\%\\
-Both together &   68.41\%  & 69.42\%   &69.32\% &64.27\%\\
-\hline
-\end{tabular}
-\caption{Emotion detection accuracies} \label{tab:compar6}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{ |p{3cm}||p{1.5cm}|p{1.5cm}| }
- \hline
- \multicolumn{3}{|c|}{Playlist Classification Accuracy} \\
- \hline
-Dataset & With outliers & Without outliers\\
- \hline
-MoodyLyrics & 29\% & 29\%\\
-MoodyLyrics4Q  & 66\%    &66\%\\
-Both together &   50\%  & 47\%\\
-\hline
-\end{tabular}
-\caption{Playlist classification accuracies} \label{tab:compar62}
-\end{table}
+In conclusion, we proved that the best results we could get were those obtained by classifying lyrics using the Artificial Neural Network we described in the previous chapters. Indeed, despite the fact that it could be slightly outperformed by a linear regression classifier when considering just lyrics, it was the algorithm that provided us with the best accuracy results on playlists (which was our ultimate goal). In fact, we were able to obtain a 55.97\% classification accuracy on lyrics and a 66\% classification accuracy on playlists.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

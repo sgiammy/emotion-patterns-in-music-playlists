@@ -44,7 +44,7 @@ During the analysis of MoodyLyrics described in the previous section we detected
 
 This bug in the dataset was reported to MoodyLyrics creators. As a response to our bug report email, MoodyLyrics creators suggested to use MoodyLyrics4Q\cite{moodylyrics4q}, that, according to them is a more accuratelly labeled version of MoodyLyrics.\par
 
-This advice opened us three possibilities: continue using MoodyLyrics, start using MoodyLyrics4Q or create a new dataset as the concatenation of the previous two. We decided to start using all these three models, in order to understand which one, at the end, will give us a better playlists classification. The complete MoodyLyrics emotion classification analysis can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/1_ED_in_songs_lyrics.ipynb}{Notebook 1}, while the MoodyLyrics4Q and the emotion detection analysis in the merged datasets can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}{Notebook 2}.
+This advice opened us three possibilities: continue using MoodyLyrics, start using MoodyLyrics4Q or create a new dataset as the concatenation of the previous two. We decided to start using all these three models, in order to understand which one, at the end, will give us a better playlists classification. The complete MoodyLyrics emotion classification analysis can be found at Notebook 1\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/1_ED_in_songs_lyrics.ipynb}}, while the MoodyLyrics4Q and the emotion detection analysis in the merged datasets can be found at Notebook 2\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}}.
 
 
 \subsection{MoodyLyrics4Q}
@@ -58,7 +58,9 @@ MoodyLyrics4Q contains 2000 songs and has the same annotation schema as MoodyLyr
 \end{figure}
 
 MoodyLyrics4Q classes are much more balanced, however MoodyLyrics4Q contains less songs with respect to MoodyLyrics. \par
-We studied the qualitative difference between the two version comparing the classification given to the songs contained in both datasets to establish what version, according to us, is more correct. The intersection between the two versions contains 47 songs, and 21 over 47 have been classified differently. We noticed that in 15 over this 21 songs the two datasets confuses \textit{happy} with \textit{relaxed} and \textit{angry} with \textit{sad}. Indeed, only 6 of 21 songs are classified totally differently if we assume that we can merge happy and relaxed and angry and sad emotion. However, reading the lyrics of each of this 6 songs, we could not establish which version is the best one. A more detailed analysis can be fount at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/5_Final_steps.ipynb}{Notebook 5}. 
+We studied the qualitative difference between the two version comparing the classification given to the songs contained in both datasets to establish what version, according to us, is more correct. The intersection between the two versions contains 47 songs, and 21 over 47 have been classified differently. We noticed that in 15 over this 21 songs the two datasets confuses \textit{happy} with \textit{relaxed} and \textit{angry} with \textit{sad}. However, we must take into account that our datasets lyrics were classified by humans (Amazon Mechanical Turk\cite{amazon-turk} is based on real people doing tasks for the user) and confusing this two emotions is quite easy, especially if a song is classified just according to its lyrics without even listening to it.
+
+If we assume that we can merge happy and relaxed and angry and sad emotion, only 6 of 21 songs are classified totally differently. However, reading the lyrics of each of this 6 songs, we could not establish which version is the best one. A more detailed analysis can be fount at Notebook 5\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/5_Final_steps.ipynb}}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,7 +78,7 @@ we would expect to find in lyrics. In fact, the SpaCy's POS tagger implemented i
 model we are using is trained on OntoNotes 5\cite{ontonotes5} and on Common Crawl\cite{common-crawl},
 which are both made of pieces of text taken from news, conversational telephone speech, weblogs, 
 usenet newsgroups, broadcast and talk shows. Obviously, this type of natural language texts are 
-much different from a lyric and we just wanted to make sure that we were using an appropriate tool.
+much different from a lyrics and we just wanted to make sure that we were using an appropriate tool.
 
 Before going into the details of what we did, we must state that SpaCy's POS tagger provides two tags per words, which
 will both be considered in our analysis. Those two types of tag are:
@@ -92,7 +94,7 @@ vulgar words.
 
 The first song we considered was ``Polly'' from Nirvana.
 
-As a first approach we tried to tag the words considering one line of the lyric at the time. Here is an example of
+As a first approach we tried to tag the words considering one line of the lyrics at the time. Here is an example of
 what we obtained:
 
 \begin{lstlisting}
@@ -121,12 +123,12 @@ We omitted the entire tagging process output for brevity reasons.
 
 Our first experiment served to the purpose of arriving to a conclusion: SpaCy's POS tagger
 is a good tool for lyrics. However it did not solve our doubts about its ability of recognizing
-"weirder" words such as slang words or abbreviations. For this reason, we moved on 
+``weirder'' words such as slang words or abbreviations. For this reason, we moved on 
 analysing the lyrics of ``Kiss You Back'', from Underground Kiss.
 
-The first interesting thing we noticed was that the POS tagger properly recognized abbreviations such as "'ll".
+The first interesting thing we noticed was that the POS tagger properly recognized abbreviations such as ``'ll''.
 Moreover, another important feature we noticed was clearly visible while tagging this line: ``Yeah, we chocolate cross-over''.
-Indeed, here the word "chocolate" is used as a verb (even though chocolate is clearly not defined as a verb in 
+Indeed, here the word ``chocolate'' is used as a verb (even though chocolate is clearly not defined as a verb in 
 the dictionary) and the POS tagger was able to recognize this exception. 
 This is quite important because, in songs, those situations happen very often.
 
@@ -162,22 +164,31 @@ ayin = VERB VBG -> verb, gerund or present participle
 In fact it looks like our POS tagger is able to recognize verbs in their correct tense
 even if they are abbreviated in an unconventional way.
 
-One thing which really impressed us, was the word "man" being recognized to be an interjection from time to time. 
-"An interjection is a part of speech that shows the emotion or feeling of the author. These words or phrases can 
+One thing which really impressed us, was the word ``man'' being recognized to be an interjection from time to time. 
+``An interjection is a part of speech that shows the emotion or feeling of the author. These words or phrases can 
 stand alone or be placed before or after a sentence. Many times an interjection is followed 
-by a punctuation mark, often an exclamation point"\footnote{\url{http://examples.yourdictionary.com/examples-of-interjections.html}}. 
-This description perfectly fits with the usage of the word "man" in their contextes when it was recognized to be an interjection. 
+by a punctuation mark, often an exclamation point''\footnote{\url{http://examples.yourdictionary.com/examples-of-interjections.html}}. 
+This description perfectly fits with the usage of the word ``man'' in their contextes when it was recognized to be an interjection. 
 
 Those kind of things are not trivial to detect and this ability of our POS tagger convinced us even more
 of its impressive skills.
 
 The last thing we were left to analyze at this point was a vulgar song. For this purpose we considered 
-"The Ballad Of Chasey Lain", from Bloodhound Gang. 
+``The Ballad Of Chasey Lain'', from Bloodhound Gang. 
 
 In this case we have no special remarks to report. We can just say that everything was tagged and
 recognized in the exact way we expected.
 
-We did not report entire lyrics nor the full POS tagger output in the interest of brevity. However, those analysis are available on the public GitHub repository for this project, at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/3_POS_tagger_verification.ipynb}{Notebook 3}.
+To sum up, this is what we learned about our POS tagger:
+
+\begin{itemize}
+\item it can impressively detect all sorts of words, even abbreviations and slang words, in a proper way
+\item it is able to give the right grammatical meaning to words, even if they are not used as they are meant to (see verb ``chocolate'' example)
+\item some words are correctly recognized as interjections even if their primary meaning is different
+\item it is perfectly suited for our problem	
+\end{itemize}
+
+We did not report entire lyrics nor the full POS tagger output in the interest of brevity. However, those analysis are available on the public GitHub repository for this project, at Notebook 3\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/3_POS_tagger_verification.ipynb}}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -192,9 +203,9 @@ artist and the title of its songs, we firstly downloaded the lyrics and then we 
 word embedding vectors for them by using SpaCy's built-in methods, based on GloVe.
 Those vectors we worked on are made of 300 dimensions.
 
-MoodyLyrics songs were annotated according to the arousal and valence dimension of their lyric,
+MoodyLyrics songs were annotated according to the arousal and valence dimension of their lyrics,
 as explained above. Therefore we thought that, if we could be able to project the resulting
-word embedding vector of each lyric in a bi-dimensional space, we could have been able to 
+word embedding vector of each lyrics in a bi-dimensional space, we could have been able to 
 clearly see how they are separated.
 
 In order to visualize the mentioned idea, we applied Principal Component Analysis (PCA) on
@@ -252,7 +263,7 @@ Neural Network & 70\%  \\
 
 Moreover, performances obtained while building classifiers based on the songs title's word embedding vector only
 did not improve with respect to the previous case. Therefore we decided
-that, probably, we could have given a try at using both the title's and the lyric's word embedding information for each
+that, probably, we could have given a try at using both the title's and the lyrics word embedding information for each
 song. What we did was to use both lyrics vectors and title vectors norm. The results of this process are shown in table \ref{table:ml-simple-results-both}.
 
 \begin{table}[H]
@@ -263,7 +274,7 @@ song. What we did was to use both lyrics vectors and title vectors norm. The res
 Support Vector Machine & 91\%  \\
 Neural Network & 54.14\%  \\
 \end{tabular}
-\caption{Accuracy results for different classifiers on MoodyLyrics, using both the lyric's and the title's word embedding vectors}
+\caption{Accuracy results for different classifiers on MoodyLyrics, using both the lyrics and the title's word embedding vectors}
 \label{table:ml-simple-results-both}
 \end{table}
 
@@ -286,16 +297,16 @@ we may be able to achieve even better results.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Feature Engineering}
-In order to improve our model performances, we focused our attention on feature engineering. Specifically we tried to extract stylometric, structural, orientation and vocabulary based features\cite{features}. Apart from this we also generated a word embedding vector of the words contained in each song's lyric by using SpaCy's\cite{spacy} pre-trained language model based on GloVe\cite{glove}.\par
+In order to improve our model performances, we focused our attention on feature engineering. Specifically we tried to extract stylometric, structural, orientation and vocabulary based features\cite{features}. Apart from this we also generated a word embedding vector of the words contained in each song's lyrics by using SpaCy's\cite{spacy} pre-trained language model based on GloVe\cite{glove}.\par
 
 Here is a comprehensive list of the features we extracted from our dataset, followed by a brief description:
 
 \begin{description}
 \item \textbf{Title\_vector}: word embedding vector of the song's title
-\item \textbf{Lyric\_vector}: word embedding vector of the lyric content
+\item \textbf{Lyrics\_vector}: word embedding vector of the lyrics content
 \item \textbf{\%Rhymes}: defined as the percentage of the number of rhymes over the number of total lines. A rhyme is defined as a rhyme between two following lines
-\item \textbf{Line\_count}: number of lines in the lyric
-\item \textbf{Word\_count}: number of words in the lyric
+\item \textbf{Line\_count}: number of lines in the lyrics
+\item \textbf{Word\_count}: number of words in the lyrics
 \item \textbf{\%Past\_tense\_verbs}: defined as the the percentage of the number of past tense verbs over the total number of verbs
 \item \textbf{\%Present\_tense\_verbs}: defined as the the percentage of the number of present tense verbs over the total number of verbs
 \item \textbf{\%Future\_tense\_verbs}: defined as the the percentage of the number of future tense verbs over the total number of verbs, where future is just will + base form
@@ -312,8 +323,8 @@ Here is a comprehensive list of the features we extracted from our dataset, foll
 \item \textbf{\%VERB}: percentage of verbs over the total number of words
 \item \textbf{Selfish\_degree}: percentage of 'I' pronouns over the total number of pronouns
 \item \textbf{\%Echoism}: percentage of echoism over the total number of words, where an echoism is either a sequence of two subsequent repeated words or the repetition of a vowel in a word
-\item \textbf{\%Duplicate\_Lines}: number of lines duplicated across the lyric text
-\item \textbf{isTitleInLyric}: boolean, true if the title string is also a substring of the lyric
+\item \textbf{\%Duplicate\_Lines}: number of lines duplicated across the lyrics text
+\item \textbf{isTitleInLyrics}: boolean, true if the title string is also a substring of the lyrics
 \item \textbf{Sentiment}: sentiment between -1 and 1
 \item \textbf{Subjectivity\_degree}: degree of subjectivity of the text
 \end{description}
@@ -324,7 +335,7 @@ Since the word embedding vectors we generated had length 300, at the end we were
 
 Having to deal with 623 different features for discriminating songs among 4 classes is probably exaggerated and many features may be redundant or may not bring any useful information to our goal. Indeed, after running many experiments, we tried to keep our models as simple as possible by trying to select the fewer number of features possible.
 
-In the end, we obtained the best results just by using the following features: \textit{Lyric\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyric}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
+In the end, we obtained the best results just by using the following features: \textit{Lyrics\_vector}, \textit{\%Echoisms}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyrics}, \textit{\%Past\_tense\_verbs}, \textit{\%Present\_tense\_verbs}, \textit{\%Future\_tense\_verbs}, \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}. This process of feature selection left us with just 310 distinct features per song.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -340,13 +351,13 @@ which were much different from lyrics i.e. news items, blog posts, Facebook post
 In order to overcome this limitation we thought that, if we found a dataset whose items language is close enough
 to the common lyrics language, we would have had some performance improvements in our classifiers. This is the
 reason why we tried to combine our dataset together with EmoInt\cite{emoint}.
-A more detailed analysis of this work can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/4_EmoInt.ipynb}{Notebook 4}.
+A more detailed analysis of this work can be found at Notebook 4\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/4_EmoInt.ipynb}}.
 
 EmoInt provides several tweets annotated according to an emotion (anger, fear, joy, sadness) and to the degree 
 at which the emotion is expressed in text. As EmoInt provide intensity levels together with emotion labels, 
 we decided to take into account only those tweets for which the intensity was greater that 0.50 (50\%). 
 
-Our original dataset, MoodyLyrics, contains "happy", "sad", "angry" and "relaxed" as labels. 
+Our original dataset, MoodyLyrics, contains ``happy'', ``sad'', ``angry'' and ``relaxed'' as labels. 
 Therefore, in order to perform a sort of interjection with EmoInt, we used only the tweets corresponding to the anger, 
 joy and sadness emotions, discarding those belonging to the fear emotion as we would not have been able to map them into
 our original work.
@@ -356,7 +367,7 @@ an annotation scheme proved to obtain very reliable scores. Therefore, we choose
 like a realiable choice.
 
 As a single preprocessing technique, we dropped hashtags and removed the tag characters 
-(e.g. "Hey @MrTwitter how are you? \#cool" became "Hey MrTwitter how are you?") because 
+(e.g. ``Hey @MrTwitter how are you? \#cool'' became ``Hey MrTwitter how are you?'') because 
 we had to compare tweets with songs and songs do not have those kind of things. Also, 
 this sort of preprocessing should maximize the chances that everything is properly recognized by our POS tagger.
 
@@ -364,8 +375,8 @@ After having preprocessed EmoInt, we combined it to our lyrics based dataset (Mo
 modeling approaches to see if we could obtain any performance improvements.
 
 After having performed several different trials, we came to the conclusion that the best subset of features
-to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyric\_Vector}, \textit{Word\_Count}, 
-\textit{\%Echoisms}, \textit{Selfish\_degree}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyric}, 
+to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyrics\_Vector}, \textit{Word\_Count}, 
+\textit{\%Echoisms}, \textit{Selfish\_degree}, \textit{\%Duplicate\_Lines}, \textit{isTitleInLyrics}, 
 \textit{\%Present\_tense\_verbs}, \textit{\%Past\_tense\_verbs}, \textit{\%Future\_tense\_verbs},
 \textit{\%ADJ}, \textit{\%PUNCT}, \textit{Sentiment} and \textit{Subjectivity\_degree}.
 
@@ -408,7 +419,7 @@ In this section we present a summary of the result obtained while predicting one
 
 Here we omitted MoodyLyrics alone results because, after several experiments, we noticed that MoodyLyrics creators were right when saying that their first version of the dataset should be used as a ground truth dataset because it contains unappropriate labelings which could deteriorate performances in real world cases.
 
-All the implementation details can be found at \href{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}{Notebook 2}.
+All the implementation details can be found at Notebook 2\footnote{\url{https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Notebook/2_Advanced_Feature_Engineering.ipynb}}.
 
 \begin{table}[H]
 \centering

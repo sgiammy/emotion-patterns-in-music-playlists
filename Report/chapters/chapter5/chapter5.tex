@@ -4,7 +4,7 @@ Now we will move our focus from lyrics to playlists. Indeed, we will now demonst
 
 \section{Playlist classification}
 
-Once we have a model to classify song emotions, our next step it trying to classify playlists emotion which could be a really useful information for a Recommender System which want to perform playlist continuation.
+Once we have a model for classifying song emotions, our next step it trying to classify playlists emotion which could be a really useful information for a Recommender System which want to perform playlist continuation.
 
 For the emotion classification task we decided to use three artificial neural networks, with the same architecture, but trained with three different datasets: MoodyLyrics, MoodyLyrics4Q and the merged dataset. Figure \ref{fig:annacc} shows the different accuracies reached with each dataset.
 
@@ -95,7 +95,7 @@ Figures \ref{fig:subset-absolute} and \ref{fig:subset-percentage} shows the accu
 \label{fig:subset-percentage-robust}
 \end{figure}
 
-As we can see from those figures, in order to converge to a stable classification accuracy value, the algorithm always needs a huge number of songs. Therefore we believed that this experiment told us that, the best way to classify our playlists is still to consider all of the songs contained in them.
+As we can see from those figures, in order to converge to a stable classification accuracy value, the algorithm always needs at least 35 songs. Therefore we believed that this experiment told us that, the best way to classify our playlists is still to consider all of the songs contained in them.
 
 \subsection{Results}
 Table \ref{tab:comparison2} shows the different accuracies reached classifying the playlist emotions using the method previously explained. 
