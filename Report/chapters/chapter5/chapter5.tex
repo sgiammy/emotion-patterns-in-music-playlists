@@ -11,13 +11,11 @@ For the emotion classification task we decided to use three artificial neural ne
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{./chapters/chapter5/images/ANN_accuracies.png}
-\caption{5-fold ANN accuracies for each model}
+\caption{10-fold ANN accuracies for each model}
 \label{fig:annacc}
 \end{figure}
 
-Among the different classifiers we analyzed, we choose the neural network because we needed a probabilistic distribution as output of our classifier, and not just an hard assignment. This is the reason why we favoured neural networks over SVM and XGBoost algorithms, despite the fact that those gave better accuracy results.
-
-Logistic regression seemed to give us slightly better results. However, we still decided to use the neural network over logistic regression as we believed that this last model is too simplistic, and may not perform well in real world situations.
+Among the different classifiers we analyzed, we choose the neural network because we needed a probabilistic distribution as output of our classifier, and not just an hard assignment. This is the reason why we favoured neural networks over SVM and XGBoost algorithms, despite the fact that those gave better accuracy results. Moreover, neural network was choosen against logistic regression for the simple reason that it was giving us better performances.
 
 The method we chose to classify a playlist is the following: given a \texttt{song emotion array} = [ sad\%, angry\%, happy\%, relaxed\% ] where the sum of the emotion percentage for each song is equal to one, the playlist emotion is the emotion with the maximum percentage column sum over the rows. We found this approach very flexible, indeed, normalizing by the number of songs inside a playlist we obtain a probability of the emotion for that playlist. This would add 4 additional features which could be used by a Recommendation System.
 
