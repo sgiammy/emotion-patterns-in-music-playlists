@@ -215,6 +215,7 @@ optgroup {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  position:fixed;
 }
 
 td,
@@ -258,7 +259,9 @@ th {
   }
 
   thead {
-    display: table-header-group;
+    position:fixed;
+    /*display: table-header-group;*/
+
   }
 
   tr,
@@ -1764,6 +1767,7 @@ pre code {
 table {
   background-color: transparent;
 }
+
 
 caption {
   padding-top: 8px;
@@ -6253,5 +6257,8 @@ button.close {
     display: none !important;
   }
 }
+
+
+
 
 /*# sourceMappingURL=bootstrap.css.map */

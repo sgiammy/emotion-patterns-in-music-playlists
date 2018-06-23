@@ -173,8 +173,8 @@
 
 
       var colorscaleValue = [
-        [0, '#99e699'],
-	[1, '#248f24']
+        [0, '#ffffff'],
+	[1, '#1db954']
       ];
 
       var data = [{
@@ -321,9 +321,9 @@
 				<div class="col-feature-9">
 					<div class="col-md-12 fh5co-heading animate-box">
 						<h2>Playlist Classification</h2>
-						<p>You can either insert a Spotify's playlist URI and let the system classify it or leave the input field empty and let the system showcase how it classifies a pre-selected playlist</p>
+						<p>You can either insert a Spotify's playlist URL and let the system classify it or leave the input field empty and let the system showcase how it classifies a pre-selected playlist</p>
 					        <div class="form-group">
-					          <input type="text" class="form-control" id="spotify-url" placeholder="Spotify's playlist URL">
+					          <input type="text" class="form-control" id="spotify-url" placeholder="Spotify's playlist URL" style="color:white">
 					        </div>
                                                 <button id='classify-btn'  type="button" class="btn btn-primary">Classify Songs</button>
 					</div>	
@@ -335,6 +335,7 @@
 	
 		<div class="container", id='middle' style='display:none'>
                         <p id='download-error-label' style='display:none;margin:0;margin-top:1%'></p>
+                        <p id='download-total-songs'></p>
 			<div class="row animate-box">
 				<p id='prediction-result'></p>
 				<div id="emotion-table" style='display:none'>
@@ -343,10 +344,10 @@
 				      		<tr>
 					        <th>Author</th>
 					        <th>Title</th>
-					        <th>Angry Score</th>
-					        <th>Happy Score</th>
-					        <th>Relaxed Score</th>
-					        <th>Sad Score</th>
+					        <th>Angry</th>
+					        <th>Happy</th>
+					        <th>Relaxed</th>
+					        <th>Sad</th>
 				      		</tr>
 				    	</thead>
 				    	<tbody id='emotion-table-rows'>
@@ -417,6 +418,11 @@
 		      	$('#classify-btn').button('loading')
 		      	$('#emotion-table').css('display', 'block')
 		      	$('#middle').css('display', 'block')
+		      	$('#graph-container').css('display', 'none')
+
+		      	errCount = 0
+		      	$('#download-error-label').html('Unable to download <b>' + errCount + '</b> songs')
+
 		      	
 		      	$('#emotion-table-rows tr').remove()
 		      	
@@ -435,6 +441,7 @@
                         }
 
                         var done = 0
+                        $('#download-total-songs').html('Total songs <b>' + dataset.length + '</b>')
 		      	// Start classification of songs one by one
 		      	for(var i = 0; i < dataset.length; i++) {
 		        	var song = dataset[i]
@@ -452,6 +459,7 @@
 			          	success: function(data) {
 			            	// POST was successful -
 			            	// Build row
+
 				            var row = '<tr><td>' + data.artist + '</td><td>' + data.title + '</td>'
 				            var emo = data.emotion[0]
 				            var maxIdx = argMax(emo)
@@ -478,7 +486,9 @@
 				              $('#classify-btn').button('reset')
 				              $('#down').css('display', 'block')
 		    	 			document.getElementById("classify-btn").disabled = true
+		    	 			document.getElementById("classify-playlist-btn").disabled = false
 				            }
+				            works
 
 			         	},
 			          	error: function(data) {
@@ -498,6 +508,7 @@
 				          }
 
                                           $('#download-error-label').html('Unable to download <b>' + errCount + '</b> songs')
+                                          errCount = 0
 			          	}
 		        	}) 
 		    	}
