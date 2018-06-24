@@ -126,6 +126,12 @@
           success: function(resp) {
             data = []
 
+            
+            name = resp['name']
+            description = resp['description']
+            $('#playlist-title').html(name)
+            $('#playlist-description').html(description)
+
             songs = resp['tracks']['items']
             for(var i = 0; i < songs.length; i++) {
               var track = songs[i]['track']
@@ -332,13 +338,22 @@
 		</div>
 	</div>
 	
-	
-		<div class="container", id='middle' style='display:none'>
-                        <p id='download-error-label' style='display:none;margin:0;margin-top:1%'></p>
-                        <p id='download-total-songs'></p>
+	<div>
+		<div class="container", id='middle' style='display:none'>        
 			<div class="row animate-box">
-				<p id='prediction-result'></p>
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				
+					<h2 id='playlist-title' style='margin-top:6%'></h2>
+					<p id='playlist-description'></p>
+				</div>
+			</div>
+			
+						
+			
+			
 				<div id="emotion-table" style='display:none'>
+					<p id='download-total-songs'></p>
+                        <p id='download-error-label'></p>
 				  	<table class="table">
 				    	<thead>
 				      		<tr>
