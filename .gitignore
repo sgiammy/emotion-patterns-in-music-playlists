@@ -1,9 +1,9 @@
 # custom ignoring
 src/test/
-src/models/
 src/ml_lyrics/
 src/ml_lyrics_cleaned/
 src/*.swp
+src/models/wiki-news-300d-1M-subword.vec
 
 # LaTex
 Slides/**/*.log
@@ -163,5 +163,3 @@ Demo/models
 Demo/.git/
 Demo/.gitignore
 Demo/Procfile
-Demo/requirements.txt
-Demo/lyrics

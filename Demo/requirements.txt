@@ -1,0 +1,11 @@
+pandas
+lyricwikia
+Flask
+numpy
+lyricwikia
+keras
+tensorflow
+spacy
+sklearn
+pronouncing
+wiktionaryparser

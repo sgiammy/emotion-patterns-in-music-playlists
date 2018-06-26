@@ -1,18 +1,37 @@
 import regex as re
 
 import spacy
+from spacy.language import Language
+
 import pronouncing
 from wiktionaryparser import WiktionaryParser
 
 import time
 
-nlp = spacy.load('en_core_web_lg')
-nlp.vocab.add_flag(lambda s: s.lower() in spacy.lang.en.stop_words.STOP_WORDS, spacy.attrs.IS_STOP)
+import numpy as np
+
+# Use FastText
+vectors_loc = './models/wiki-news-300d-1M-subword.vec'
+
+nlp = Language()
+with open(vectors_loc, 'rb') as file_:
+    header = file_.readline()
+    nr_row, nr_dim = header.split()
+    nlp.vocab.reset_vectors(width=int(nr_dim))
+    for line in file_:
+        line = line.rstrip().decode('utf8')
+        pieces = line.rsplit(' ', int(nr_dim))
+        word = pieces[0]
+        vector = np.asarray([float(v) for v in pieces[1:]], dtype='f')
+        nlp.vocab.set_vector(word, vector)  # add the vectors to the vocab
+
+#nlp = spacy.load('en_core_web_lg')
+#nlp.vocab.add_flag(lambda s: s.lower() in spacy.lang.en.stop_words.STOP_WORDS, spacy.attrs.IS_STOP)
 
 parser = WiktionaryParser()
 
-tks = list(filter(lambda tk: not tk.is_stop, doc))
-spacy.tokens.Doc(nlp.vocab, words=[tk.text for tk in tks])
+#tks = list(filter(lambda tk: not tk.is_stop, doc))
+#spacy.tokens.Doc(nlp.vocab, words=[tk.text for tk in tks])
 
 def preprocess(doc):
   # Delete text between parentheses

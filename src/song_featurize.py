@@ -128,7 +128,7 @@ def featurize(sid, artist, title, lyric_content=None):
     sentiment = sa.analyse(content)
 
     # Return extracted features
-    return (
+    return [
             sid,
             artist, title,
             lyric_doc.vector, title_doc.vector,
@@ -142,4 +142,4 @@ def featurize(sid, artist, title, lyric_content=None):
             frequencies['PART'], frequencies['PRON'], frequencies['PROPN'], frequencies['PUNCT'], frequencies['SCONJ'],
             frequencies['SYM'], frequencies['VERB'], frequencies['X'], frequencies['SPACE'],
             sentiment[0], sentiment[1],
-    )
+    ]
