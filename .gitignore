@@ -13,22 +13,13 @@ Slides/**/*.out
 Slides/**/*.snm
 Slides/**/*.toc
 Slides/**/*.gz
-Report/*.log
-Report/*.aux
-Report/*.nav
-Report/*.out
-Report/*.snm
-Report/*.toc
-Report/*.gz
-Report/*.dvi
-Report/chapters/*.log
-Report/chapters/*.log
-Report/chapters/*/*.aux
-Report/chapters/*/*.nav
-Report/chapters/*/*.out
-Report/chapters/*/*.snm
-Report/chapters/*/*.toc
-Report/chapters/*/*.gz
+Report/**/*.log
+Report/**/*/*.aux
+Report/**/*/*.nav
+Report/**/*/*.out
+Report/**/*/*.snm
+Report/**/*/*.toc
+Report/**/*/*.gz
 Report/main.bbl
 Report/main.blg
 
@@ -156,7 +147,6 @@ Notebook/utils
 Notebook/ml_lyrics
 Notebook/*.pkl
 
-Demo/__pycache__
 Demo/dataset_parsers
 Demo/datasets
 Demo/.git/
