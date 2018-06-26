@@ -1,10 +1,7 @@
-import regex as re
-
-import spacy
 import pronouncing
+import regex as re
+import spacy
 from wiktionaryparser import WiktionaryParser
-
-import time
 
 nlp = spacy.load('en_core_web_lg')
 nlp.vocab.add_flag(lambda s: s.lower() in spacy.lang.en.stop_words.STOP_WORDS, spacy.attrs.IS_STOP)

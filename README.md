@@ -80,9 +80,10 @@ Map Spotify track URIs to LyricsWiki, and download the lyrics in a folder.
 
 ### Demo
 
-In order to run the demo web application you need to install Flask:
+In order to run the demo web application you need to install the dependencies:
 
-        pip install Flask
+        pip install -r requirements.txt
+        python -m spacy download en_core_web_lg
 
 
 After that, the web app server can be executed by running:

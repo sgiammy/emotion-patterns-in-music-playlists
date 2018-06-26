@@ -3,9 +3,11 @@ lyricwikia
 Flask
 numpy
 lyricwikia
-keras
-tensorflow
+keras==2.1.5
+tensorflow==1.7.0
 spacy
 sklearn
 pronouncing
-wiktionaryparser
+wiktionaryparser==0.0.5
+textblob
+
