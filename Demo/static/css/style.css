@@ -800,12 +800,12 @@ form label {
 
 .col-feature-9, .col-feature-3 {
   float: left;
-  padding: 6em 0;
+  padding: 0em 0;
 }
 
 .col-feature-9 {
-  width: 75%;
-  padding-right: 40px;
+  width: 100%;
+  padding-right: 0px;
 }
 @media screen and (max-width: 992px) {
   .col-feature-9 {
@@ -814,8 +814,8 @@ form label {
 }
 @media screen and (max-width: 768px) {
   .col-feature-9 {
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 

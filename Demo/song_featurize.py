@@ -99,7 +99,8 @@ def featurize(sid, artist, title, lyric_content=None):
 
     # Obtain lyric content
     if lyric_content is None:
-        lyric_path_name = os.path.join(LYRICS_PATH, str(title))
+        filename = str(artist)+'-'+str(title)
+        lyric_path_name = os.path.join(LYRICS_PATH, filename)
 
         # If the lyric file does not exist, download it
         if not os.path.lexists(lyric_path_name):
