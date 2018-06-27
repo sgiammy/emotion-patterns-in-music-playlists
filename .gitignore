@@ -13,7 +13,14 @@ Slides/**/*.out
 Slides/**/*.snm
 Slides/**/*.toc
 Slides/**/*.gz
-Report/**/*.log
+Report/*.log
+Report/*.dvi
+Report/*.aux
+Report/*.nav
+Report/*.out
+Report/*.snm
+Report/*.toc
+Report/*.gz
 Report/**/*/*.aux
 Report/**/*/*.nav
 Report/**/*/*.out
