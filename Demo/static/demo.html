@@ -237,60 +237,6 @@
       Plotly.newPlot('graph-container', data, layout);
     }
 
-
-
-    // Our "dataset"
-    defaultDataset = [
-      /*
-      new Song('Nirvana', 'Smells Like Teen Spirit'),
-      new Song('The Beatles', 'Yesterday'),
-      new Song('Oasis', 'Wonderwall'),
-      new Song('The Clash', 'Should I stay or Should I go'),
-      new Song('The Rolling Stones', '(I Can\'t Get No) Satisfaction'),
-      new Song('Queen', 'Don\'t Stop Me Now'),
-      new Song('Led Zeppelin', 'Stairway to Heaven'),
-      new Song('Queen', 'Bohemian Rhapsody'),
-      new Song('Queen','We are the champions'),
-      new Song('Maroon 5','She Will Be Loved'),
-      new Song('Coldplay','Paradise'),
-      new Song('Coldplay','The Scientist'),
-      new Song('Coldplay','Fix You'), */
-      // SPOTIFY: Happy Hits! + Estate: i Classici del Passato
-      new Song('Camila Cabello','She Loves Control'),
-      new Song('Duke Dumont','Inhale'),
-      new Song('Cardi B','I Like it'),
-      
-      new Song('Calvin Harris','One Kiss'),
-      new Song('Drake','Nice For What'),
-      new Song('Felix Jaehn','Cool'),
-  	  new Song('5 Seconds of Summer','Want You Back'),
-  	  new Song('Ariana Grande','No Tears Left To Cry'),
-  	  new Song('Charlie Puth','Done For Me'),
-  	  new Song('David Guetta, Sia','Flames'),
-  	  new Song('Imagine Dragons','Next To Me'),
-  	  new Song('Janelle Monae','Make Me Feel'),
-  	  new Song('Sean Paul, David Guetta','Mad Love'),
-  	  new Song('Shawn Mendes','In My Blood'),
-  	  new Song('The Black Eyed Peas','I Gotta Feeling'),
-  	  new Song('Daft Punk','Get Lucky - Radio Edit'),
-  	  new Song('Calvin Harris','Summer'),
-  	  new Song('Ed Sheeran','Shape of you'),
-  	  new Song('Justin Bieber','What Do You Mean?'),
-  	  new Song('Rihanna','Umbrella'),
-  	  new Song('Maroon 5','Moves Like Jagger'),
-  	  new Song('Pitbull','I Know You Want Me'),
-  	  new Song('MIKA','Grace Kelly'),
-  	  new Song('Lady Gaga','Poker Face'),
-  	  new Song('DJ Snake','Let Me Love You'),
-  	  new Song('Katy Perry','California Gurls'),
-  	  new Song('Jennifer Lopez','Ain\'t Your Mama'),
-  	  new Song('Pharrell Williams','Happy'),
-  	  new Song('Sheppard','Geronimo'),
-
-
-      
-    ]
-
     labels = ['Angry',  'Happy', 'Relaxed', 'Sad']
     
 
@@ -330,7 +276,7 @@
                             input field empty and let the system showcase how it classifies a pre-selected playlist</p>
                         <div class="form-group">
                             <input type="text" class="form-control" id="spotify-url"
-                                   placeholder="Spotify's playlist URL" style="color:white">
+                                   placeholder="Spotify's playlist URL" value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX6xOPeSOGone?si=cJHBNEWXTPmKkuKu7I-0pg" style="color:white">
                         </div>
                         <button id='classify-btn' type="button" class="btn btn-primary">Classify Songs</button>
                     </div>
@@ -420,9 +366,6 @@
 
 <script>
 	  $(document).ready(function(){
-		var spotify_uri = localStorage.spotify_uri
-                if(!spotify_uri)
-                  $('#spotify-url').val(spotify_uri)
                 //
 		// SONG CLASSIFICATION
 		//
@@ -449,9 +392,7 @@
                             return null
                           }
                         }
-                        else {
-                          dataset = defaultDataset
-                        }
+                        
 
                         var done = 0
                         $('#download-total-songs').html('Total songs <b>' + dataset.length + '</b>')
