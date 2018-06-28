@@ -275,8 +275,23 @@
                         <p>You can either insert a Spotify's playlist URL and let the system classify it or leave the
                             input field empty and let the system showcase how it classifies a pre-selected playlist</p>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="spotify-url"
-                                   placeholder="Spotify's playlist URL" value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX6xOPeSOGone?si=cJHBNEWXTPmKkuKu7I-0pg" style="color:white">
+                             <input type="text" class="form-control" id="spotify-url"
+                                   placeholder="Spotify's playlist URL" style="color:white" list="playlists" />
+                                   <datalist id="playlists">
+                                    <option value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWX83CujKHHOn?si=vozgrXMQSFaas-zgcGRf8g">Alone Again</option>
+                                    <option value="https://open.spotify.com/user/imarco_95/playlist/4dpFC7KSCUDCYQHTpZpk96?si=l8II-D8XRyms-rc5wnZpIg">Enjoint</option>
+                                    <option value="https://open.spotify.com/user/aminylove/playlist/5iL9NYIEfckRxTJEJ93p2T?si=jvTkRVq0QTWxcmgDnrgtag">Sleeping Music</option>
+                                    <option value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX6xOPeSOGone?si=cJHBNEWXTPmKkuKu7I-0pg">Soft Rock</option>
+                                     <option value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DWZg863fGtALu?si=X7F7k1roQKCp5FnOdqfhrw">Summer Throwbacks</option>
+                                    <option value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX1clOuib1KtQ?si=q77mA2EMTm6qWJusM_SrsA">This is Eminem</option>
+                                    <option value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX893Xy4cp22W?si=Jsx-3OeqSjC89EOWUR_N3Q">This is XXXTENTACION</option>
+                                    <option value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX7F6T2n2fegs?si=gpU9g1K7QCuniWk6aSccHA">Throwback Party</option>
+
+                                   
+                                    
+                                  </datalist>
+                            <!--input type="text" class="form-control" id="spotify-url"
+                                   placeholder="Spotify's playlist URL" value="https://open.spotify.com/user/spotify/playlist/37i9dQZF1DX6xOPeSOGone?si=cJHBNEWXTPmKkuKu7I-0pg" style="color:white"-->
                         </div>
                         <button id='classify-btn' type="button" class="btn btn-primary">Classify Songs</button>
                     </div>
@@ -442,7 +457,7 @@
 		    	 			document.getElementById("classify-btn").disabled = true
 		    	 			document.getElementById("classify-playlist-btn").disabled = false
 				            }
-				            works
+				            
 
 			         	},
 			          	error: function(data) {
@@ -459,6 +474,7 @@
 				              $('#classify-btn').button('reset')
 				              $('#down').css('display', 'block')
 		    	 		      document.getElementById("classify-btn").disabled = true
+                    document.getElementById("classify-playlist-btn").disabled = false
 				          }
 
                                           $('#download-error-label').html('Unable to download <b>' + errCount + '</b> songs')
