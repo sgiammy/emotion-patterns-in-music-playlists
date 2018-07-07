@@ -228,6 +228,7 @@ MoodyLyrics was manually annotated, we can explain the anomaly in our plot as a 
 
 After this preliminary data analysis, we moved on producing models to actually classify our dataset.
 The result of these process are visible in table \ref{table:ml-simple-results} where the reported accuracy values were obtain after a 10-fold cross validation.
+
 \begin{table}[H]
 \centering
 \begin{tabular}{@{}lll@{}}
@@ -307,9 +308,9 @@ Here is a comprehensive list of the features we extracted from our dataset, foll
 \item \textbf{\%Rhymes}: defined as the percentage of the number of rhymes over the number of total lines. A rhyme is defined as a rhyme between two following lines
 \item \textbf{Line\_count}: number of lines in the lyrics
 \item \textbf{Word\_count}: number of words in the lyrics
-\item \textbf{\%Past\_tense\_verbs}: defined as the the percentage of the number of past tense verbs over the total number of verbs
-\item \textbf{\%Present\_tense\_verbs}: defined as the the percentage of the number of present tense verbs over the total number of verbs
-\item \textbf{\%Future\_tense\_verbs}: defined as the the percentage of the number of future tense verbs over the total number of verbs, where future is just will + base form
+\item \textbf{\%Past\_tense\_verbs}: defined as the percentage of the number of past tense verbs over the total number of verbs
+\item \textbf{\%Present\_tense\_verbs}: defined as the percentage of the number of present tense verbs over the total number of verbs
+\item \textbf{\%Future\_tense\_verbs}: defined as the percentage of the number of future tense verbs over the total number of verbs, where future is just will + base form
 \item \textbf{\%ADJ}: percentage of adjectives over the total number of words
 \item \textbf{\%ADP}: percentage of adpositions (e.g. in, to, during) over the total number of words
 \item \textbf{\%ADV}: percentage of adverbs (e.g. very, tomorrow, down, where, there) over the total number of words
@@ -319,7 +320,7 @@ Here is a comprehensive list of the features we extracted from our dataset, foll
 \item \textbf{\%NUM}: percentage of numerals over the total number of words
 \item \textbf{\%PRON}: percentage of pronouns (e.g. I, you, he, she, myself, themselves, somebody,...) over the total number of words
 \item \textbf{\%PROPN}: percentage of proper nouns (e.g. Mary, John) over the total number of words
-\item \textbf{\%PUNCT}: percentage of puntuctuation (e.g. ., (, ), ?) over the total number of words
+\item \textbf{\%PUNCT}: percentage of punctuation (e.g. ., (, ), ?) over the total number of words
 \item \textbf{\%VERB}: percentage of verbs over the total number of words
 \item \textbf{Selfish\_degree}: percentage of 'I' pronouns over the total number of pronouns
 \item \textbf{\%Echoism}: percentage of echoism over the total number of words, where an echoism is either a sequence of two subsequent repeated words or the repetition of a vowel in a word
@@ -384,7 +385,7 @@ to use for our new dataset (MoodyLyrics + EmoInt) was the following: \textit{Lyr
 \centering
 \begin{tabular}{@{}lll@{}}
 \toprule
-\textbf{Classifier} & \textbf{Accuracy})   \\ \midrule
+\textbf{Classifier} & \textbf{Accuracy}   \\ \midrule
 k-Nearest Neighbour & 46\%  \\
 Support Vector Machine & 48\%  \\
 Gradient Boost & 46\%  \\
@@ -436,7 +437,7 @@ Both together &   68.41\%  & 69.42\%   &69.32\% &64.27\%\\
 \caption{Emotion classification accuracies} \label{tab:comparison}
 \end{table}
 
-Figure \ref{fig:ann}, \ref{fig:lr} and \ref{fig:svm} represents the confusion matrix obtained while training each model on the 90\% of the toal dataset and testing it on the randomly sampled remaining 10\%.
+Figure \ref{fig:ann}, \ref{fig:lr} and \ref{fig:svm} represents the confusion matrix obtained while training each model on the 90\% of the entire dataset and testing it on the randomly sampled remaining 10\%.
 
 \begin{figure}[H]
   \centering
