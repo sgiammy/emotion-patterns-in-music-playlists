@@ -1,12 +1,14 @@
+import os
+
 from sklearn.externals import joblib
 
 from keras.models import load_model
 
 import song_featurize as sf
 
-MODEL_PATH = 'models/ml4q_alone.h5'
-SCALER_PATH = 'models/emo_standard_scaler.pkl'
-ENCODER_PATH='models/emo_label_encoder.pkl'
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'models/ml4q_alone.h5')
+SCALER_PATH = os.path.join(os.path.dirname(__file__), 'models/emo_standard_scaler.pkl')
+ENCODER_PATH = os.path.join(os.path.dirname(__file__), 'models/emo_label_encoder.pkl')
 
 # Load the pretrained model
 model = load_model(MODEL_PATH)

@@ -28,6 +28,9 @@ def err(msg):
 
 COPYRIGTH_ERROR = 'Unfortunately, we are not licensed to display the full lyrics for this song at the moment. Hopefully we will be able to in the future. Until then... how about a random page?'
 
+def set_lyrics_path(path):
+    LYRICS_PATH = path
+
 def download_lyric(artist, title, output_path):
     '''
     Download the lyric given artist and title
