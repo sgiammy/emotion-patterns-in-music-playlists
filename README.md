@@ -1,8 +1,10 @@
 # Emotion Patterns in Music Playlists
-Try our demo: www.data.doremus.org/emotion.
+Try our demo: http://data.doremus.org/emotion.
 
 For more details read our [Report](https://github.com/sgiammy/emotion-patterns-in-music-playlists/blob/master/Report/main.pdf)
 or our project [slides](https://docs.google.com/presentation/d/1VAzrx6vk8bfaJd52HmsFNS-aGEILxU37emuX5xJd6RQ/edit?usp=sharing).
+
+----
 
 Music streaming services such as Spotify are revolutionizing the music world, enabling a
 transition from artist-created bundles of songs (CDs) to user-created playlists. Different
